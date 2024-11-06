@@ -1,4 +1,4 @@
-import { inter } from "@/fonts";
+import { inter } from "./_font/fonts";
 import "./globals.css";
 
 export default function RootLayout({

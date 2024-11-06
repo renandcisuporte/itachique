@@ -5,7 +5,7 @@ import Link from "next/link";
 import Api from "@/services/index";
 import { cn, slug } from "@/libs/utils";
 import { Nav } from "./nav-client";
-import { helveticaNeue } from "@/fonts";
+import { helveticaNeue } from "../_font/fonts";
 
 interface Props
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}

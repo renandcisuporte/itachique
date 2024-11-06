@@ -18,7 +18,7 @@
       }
     ],
     "paths": {
-      "@/fonts": ["./app/fonts.ts"],
+      "@/fonts": ["app/_font/fonts.ts"],
       "@/components/*": ["./app/_components/*"],
       "@/services/*": ["./app/_services/*"],
       "@/libs/*": ["./app/_lib/*"],

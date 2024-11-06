@@ -1,4 +1,4 @@
-import { helveticaNeue } from "@/fonts";
+import { helveticaNeue } from "../../_font/fonts";
 import { cn } from "@/libs/utils";
 import { DetailedHTMLProps, HTMLAttributes } from "react";
 

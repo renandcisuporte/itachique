@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 
 const inter = Inter({ subsets: ["latin"] });
 const helveticaNeue = localFont({
-  src: "../public/HelveticaNeue-MediumCond.woff2",
+  src: "./HelveticaNeue-MediumCond.woff2",
   display: "swap",
 });
 
