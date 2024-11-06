@@ -1,0 +1,55 @@
+services:
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: itachique-api
+  #   volumes:
+  #     - .:/var/www
+  #   depends_on:
+  #     - db
+
+  # nginx:
+  #   image: nginx:alpine
+  #   ports:
+  #       - "80:80"
+  #   volumes:
+  #       - ./:/var/www
+  #       - ./.docker/nginx/:/etc/nginx/conf.d/
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: itachiqu_db
+    volumes:
+      - ./.docker/db:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8004:80
+    environment:
+      - PMA_ARBITRARY=1
+      - PMA_HOST=host.docker.internal
+      - PMA_USER=root
+      - PMA_PASSWORD=root
+      - PMA_PORT=3306
+    depends_on:
+      - db
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8005:8025
+
+  # redis:
+  #   image: bitnami/redis:latest
+  #   ports:
+  #     - 6379:6379
+  #   environment:
+  #     - ALLOW_EMPTY_PASSWORD=yes
