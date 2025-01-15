@@ -38,7 +38,7 @@ export function PageClient() {
       <div className={commonClassName}>
         <Label htmlFor="password">Senha de Acesso</Label>
         <Input type="password" id="password" name="password" />
-        {state?.errors?.email && (
+        {state?.errors?.password && (
           <small>{state?.errors?.password?.pop()}</small>
         )}
       </div>
