@@ -1,62 +1,73 @@
-import { DetailedHTMLProps, HTMLAttributes, Suspense } from "react";
-import { Container } from "./common/container";
-import type { Metadata } from "../_services/fetch-metadata";
-import Link from "next/link";
-import Image from "next/image";
-import { Advertisements } from "./advertisement";
+import { DetailedHTMLProps, HTMLAttributes } from 'react'
+import { Container } from './common/container'
+import Link from 'next/link'
+import Image from 'next/image'
+import { Input } from './ui/input'
 
 interface CommonProps {
-  info: Metadata;
+  info: any
 }
 
 interface RootProps
-  extends DetailedHTMLProps<HTMLAttributes<HTMLHeadElement>, HTMLHeadElement> {}
+  extends DetailedHTMLProps<
+    HTMLAttributes<HTMLHeadingElement>,
+    HTMLHeadingElement
+  > {}
 
 function Root({ ...rest }: RootProps) {
-  return <header {...rest} />;
+  return <header {...rest} />
 }
 
-function Info({ info }: CommonProps) {
-  const { phones, emails } = info;
+function Info() {
   return (
-    <div className="bg-[#e7f13d] py-1 text-[7px] md:text-xs">
+    <div className="py-1 text-[7px] md:text-xs">
       <Container className="text-center font-semibold uppercase">
-        contato equipe itachique {phones[0].phone} | email: {emails[0]}
+        {/* contato equipe itachique {phones[0].phone} | email: {emails[0]} */}
       </Container>
     </div>
-  );
+  )
 }
 
-function Logo({ info }: CommonProps) {
-  const { logo, title } = info;
+function Logo() {
   return (
     <Link
-      href="/"
       className="relative h-[85px] w-full max-w-[300px] md:h-[105px]"
+      href="/"
     >
-      <Image src={`${logo}`} alt={title} fill className="object-contain" />
+      <Image
+        src="/logo.png"
+        alt="Logo"
+        className="object-contain"
+        width={300}
+        height={105}
+      />
     </Link>
-  );
+  )
 }
 
-function Content({ info }: CommonProps) {
+function Seach() {
   return (
-    <Container className="flex flex-nowrap items-center justify-center py-4 text-white md:justify-between">
-      <Logo info={info} />
-      <Advertisements.root className="hidden flex-1 pl-4 md:block">
-        <Suspense fallback={<Advertisements.loading />}>
-          <Advertisements.inLogo />
-        </Suspense>
-      </Advertisements.root>
+    <form className="flex flex-1 items-center justify-end" action="/search">
+      <Input name="q" placeholder="Buscar" />
+      <button type="submit">asdf</button>
+    </form>
+  )
+}
+
+function Content({ children }: { children: React.ReactNode }) {
+  return (
+    <Container className="flex flex-nowrap items-center py-4 text-white md:flex-row md:justify-between">
+      {children}
     </Container>
-  );
+  )
 }
 
 const Header = {
   root: Root,
   info: Info,
   logo: Logo,
-  content: Content,
-};
+  search: Seach,
+  content: Content
+}
 
-export default Header;
+export default Header

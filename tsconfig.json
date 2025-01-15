@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,12 +19,13 @@
       }
     ],
     "paths": {
-      "@/fonts": ["app/_font/fonts.ts"],
+      "@/core/*": ["./@core/*"],
+      "@/fonts": ["./app/_font/fonts.ts"],
       "@/components/*": ["./app/_components/*"],
-      "@/services/*": ["./app/_services/*"],
-      "@/libs/*": ["./app/_lib/*"],
-    }
+      "@/lib/*": ["./app/_lib/*"],
+    },
+    "typeRoots": ["./node_modules/@types"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

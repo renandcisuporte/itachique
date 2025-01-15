@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  experimental: {
+    serverActions: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -9,7 +13,7 @@ const nextConfig = {
         pathname: '/storage/**',
       }
     ]
-  }
+  },
 };
 
 export default nextConfig;

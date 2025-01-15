@@ -1,14 +1,14 @@
-import { inter } from "./_font/fonts";
-import "./globals.css";
+import { helveticaNeue } from './_font/fonts'
+import './globals.css'
 
 export default function RootLayout({
-  children,
+  children
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
-    <html lang="pt-BR">
-      <body className={inter.className}>{children}</body>
+    <html lang="pt-br">
+      <body className={helveticaNeue.className}>{children}</body>
     </html>
-  );
+  )
 }
