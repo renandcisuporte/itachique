@@ -1,5 +1,6 @@
 {
 
+
   "prettier.semi": false,
   "prettier.trailingComma": "none",
   "prettier.singleQuote": true,
@@ -8,6 +9,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
     "source.addMissingImports.ts": "explicit",
+    "source.organizeImports": "explicit"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -18,4 +20,7 @@
   "editor.quickSuggestions": {
     "strings": "on"
   },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

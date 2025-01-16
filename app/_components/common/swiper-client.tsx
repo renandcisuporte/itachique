@@ -1,14 +1,14 @@
-"use client";
+'use client'
 
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay, EffectFade } from "swiper/modules";
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, EffectFade } from 'swiper/modules'
 
-import "swiper/css";
-import "swiper/css/effect-fade";
-import { Advertisement } from "@/services/fetch-advertisements";
-import Image from "next/image";
+import 'swiper/css'
+import 'swiper/css/effect-fade'
 
-export function SwiperClient({ data }: { data: Advertisement[] }) {
+import Image from 'next/image'
+
+export function SwiperClient({ data }: { data: any[] }) {
   return (
     <Swiper
       autoplay={{ delay: 5500 }}
@@ -18,7 +18,7 @@ export function SwiperClient({ data }: { data: Advertisement[] }) {
       modules={[EffectFade, Autoplay]}
     >
       {data.map((rws) =>
-        rws.cover_image.map((item) => (
+        rws.cover_image.map((item: any) => (
           <SwiperSlide key={item} className="relative">
             <Image
               src={item}
@@ -27,8 +27,8 @@ export function SwiperClient({ data }: { data: Advertisement[] }) {
               className="object-contain"
             />
           </SwiperSlide>
-        )),
+        ))
       )}
     </Swiper>
-  );
+  )
 }

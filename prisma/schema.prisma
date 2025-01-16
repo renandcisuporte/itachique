@@ -14,15 +14,13 @@ datasource db {
   relationMode = "prisma"
 }
 
-
-
 model User {
   id         String    @id @db.Char(36)
   name       String
   email      String    @unique
   password   String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime
+  updated_at DateTime
   deleted_at DateTime?
 
   @@map("users")
@@ -32,8 +30,8 @@ model Category {
   id         String         @id @db.Char(36)
   name       String
   position   Int            @default(0)
-  created_at DateTime       @default(now())
-  updated_at DateTime       @updatedAt
+  created_at DateTime
+  updated_at DateTime
   deleted_at DateTime?
   categories CategoryPost[]
 
@@ -43,8 +41,8 @@ model Category {
 model Locale {
   id         String    @id @db.Char(36)
   name       String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime
+  updated_at DateTime
   deleted_at DateTime?
 
   posts Post[]
@@ -55,8 +53,8 @@ model Locale {
 model City {
   id         String    @id @db.Char(36)
   city       String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime
+  updated_at DateTime
   deleted_at DateTime?
   posts      Post[]
 
@@ -64,21 +62,20 @@ model City {
 }
 
 model Post {
-  id            String    @id @db.Char(36)
-  locale_id     String?
-  title         String
-  date          DateTime?
-  locale_text   String?   @db.Text
-  city_id       String?
-  cover_image   String?
-  image_gallery String?   @db.Text
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
-  deleted_at    DateTime?
+  id          String    @id @db.Char(36)
+  locale_id   String?   @db.Char(36)
+  title       String
+  date        DateTime? @db.Date
+  locale_text String?   @db.Text
+  city_id     String?   @db.Char(36)
+  cover_image String?
+  created_at  DateTime
+  updated_at  DateTime
+  deleted_at  DateTime?
 
-  locale Locale? @relation(fields: [locale_id], references: [id], map: "locale_id", onDelete: Cascade, onUpdate: Cascade)
-  city   City?   @relation(fields: [city_id], references: [id], map: "city_id", onDelete: Cascade, onUpdate: Cascade)
-
+  locale     Locale?        @relation(fields: [locale_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  city       City?          @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  images     Image[]
   categories CategoryPost[]
 
   @@index([city_id])
@@ -86,13 +83,24 @@ model Post {
   @@map("posts")
 }
 
-model CategoryPost {
-  id          String @id @db.Char(36)
-  category_id String
-  post_id     String
+model Image {
+  id      String  @id @db.Char(36)
+  url     String
+  alt     String?
+  post_id String? @db.Char(36)
+  post    Post?   @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
-  post     Post?     @relation(fields: [post_id], references: [id], map: "post_id", onDelete: Cascade, onUpdate: Cascade)
-  category Category? @relation(fields: [category_id], references: [id], map: "category_id", onDelete: Cascade, onUpdate: Cascade)
+  @@index([post_id])
+  @@map("images")
+}
+
+model CategoryPost {
+  id          String  @id @db.Char(36)
+  category_id String?
+  post_id     String?
+
+  post     Post?     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  category Category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([category_id])
   @@index([post_id])
@@ -103,8 +111,8 @@ model Advertisement {
   id         String    @id @db.Char(36)
   title      String
   image      String
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  created_at DateTime
+  updated_at DateTime
   deleted_at DateTime?
 
   @@map("advertisements")

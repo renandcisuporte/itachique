@@ -13,18 +13,13 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
     "paths": {
-      "@/core/*": ["./@core/*"],
       "@/fonts": ["./app/_font/fonts.ts"],
+      "@/core/*": ["./app/_core/*"],
       "@/components/*": ["./app/_components/*"],
-      "@/lib/*": ["./app/_lib/*"],
-    },
-    "typeRoots": ["./node_modules/@types"]
+      "@/lib/*": ["./app/_lib/*"]
+    }
   },
   "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
