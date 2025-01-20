@@ -63,11 +63,11 @@ model City {
 
 model Post {
   id          String    @id @db.Char(36)
+  city_id     String?   @db.Char(36)
   locale_id   String?   @db.Char(36)
   title       String
   date        DateTime? @db.Date
   locale_text String?   @db.Text
-  city_id     String?   @db.Char(36)
   cover_image String?
   created_at  DateTime
   updated_at  DateTime
@@ -75,7 +75,7 @@ model Post {
 
   locale     Locale?        @relation(fields: [locale_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
   city       City?          @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  images     Image[]
+  gallery    Gallery[]
   categories CategoryPost[]
 
   @@index([city_id])
@@ -83,15 +83,15 @@ model Post {
   @@map("posts")
 }
 
-model Image {
+model Gallery {
   id      String  @id @db.Char(36)
   url     String
-  alt     String?
+  image   String?
   post_id String? @db.Char(36)
   post    Post?   @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([post_id])
-  @@map("images")
+  @@map("galleries")
 }
 
 model CategoryPost {

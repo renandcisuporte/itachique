@@ -4,7 +4,7 @@ import { Link } from './nav-link'
 const Content = ({
   ...rest
 }: DetailedHTMLProps<HTMLAttributes<HTMLUListElement>, HTMLUListElement>) => (
-  <ul className="flex flex-col gap-4 p-4" {...rest} />
+  <ul className="sticky top-0 flex flex-col gap-4 p-4" {...rest} />
 )
 
 const Item = ({

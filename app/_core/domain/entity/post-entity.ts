@@ -1,6 +1,6 @@
-import { randomUUID } from 'crypto'
-import { PostProps, PostSchema } from '@/core/domain/schemas/post-schema'
 import { ValidationError } from '@/core/app/errors/validation-error'
+import { PostProps, PostSchema } from '@/core/domain/schemas/post-schema'
+import { randomUUID } from 'crypto'
 
 export class Post {
   private constructor(private readonly props: PostProps) {
@@ -50,11 +50,15 @@ export class Post {
   }
 
   get date() {
-    return new Intl.DateTimeFormat('pt-BR', {
+    return new Intl.DateTimeFormat('UTC', {
       year: 'numeric',
       day: '2-digit',
       month: '2-digit'
     }).format(new Date(this.props.date))
+  }
+
+  get dateISO() {
+    return new Date(this.props.date).toISOString().split('T')[0]
   }
 
   get localeText() {
@@ -65,12 +69,20 @@ export class Post {
     return this.props.localeId
   }
 
+  get cityText() {
+    return this.props.cityText
+  }
+
   get cityId() {
     return this.props.cityId
   }
 
   get coverImage() {
     return this.props.coverImage
+  }
+
+  get galleryImage() {
+    return this.props.galleryImage
   }
 
   get createdAt() {

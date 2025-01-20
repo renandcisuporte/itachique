@@ -3,7 +3,7 @@ import { LocaleGateway } from '@/core/domain/gateway/locale-gateway'
 import { PrismaClient } from '@prisma/client'
 
 export class LocaleRepositoryPrisma implements LocaleGateway {
-  private constructor(private readonly prisma: PrismaClient) {}
+  constructor(private readonly prisma: PrismaClient) {}
 
   async all(): Promise<Locale[]> {
     const result = await this.prisma.locale.findMany({

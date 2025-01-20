@@ -1,29 +1,57 @@
+import { NotFoundError } from '@/core/app/errors/not-found-error'
 import { Post } from '@/core/domain/entity/post-entity'
+import { GalleryGateway } from '@/core/domain/gateway/gallery-gateway'
 import { PostGateway } from '@/core/domain/gateway/post-gateway'
 import { PostProps } from '@/core/domain/schemas/post-schema'
-import { NotFoundError } from '@/core/app/errors/not-found-error'
 
 export class FindPostUseCase {
-  constructor(private readonly repository: PostGateway) {}
+  constructor(
+    private readonly gatewayPost: PostGateway,
+    private readonly gatewayGallery: GalleryGateway
+  ) {}
 
   async execute(input: Input): Promise<Output> {
-    const result = await this.repository.findById(input.id)
-    if (!result) throw new NotFoundError()
+    const post = await this.gatewayPost.findById(input.id)
+    if (!post) throw new NotFoundError()
 
-    return { data: this.present(result) }
+    const images = await this.gatewayGallery.all(input.id)
+
+    const postWithGallery = Post.with({
+      id: post.id,
+      title: post.title,
+      date: post.dateISO,
+      cityId: post.cityId || null,
+      cityText: post.cityText || '',
+      localeId: post.localeId || null,
+      localeText: post.localeText || '',
+      coverImage: post.coverImage,
+      createdAt: post.createdAt,
+      updatedAt: post.updatedAt,
+      galleryImage: images.map((image) => ({
+        id: image.id,
+        image: image.image,
+        url: image.url
+      }))
+    })
+
+    return {
+      data: this.present(postWithGallery)
+    }
   }
 
   private present(post: Post): PostProps {
     return {
       id: post.id,
       title: post.title,
-      date: post.date,
+      date: post.dateISO,
       cityId: post.cityId,
+      cityText: post.cityText,
       localeId: post.localeId,
       localeText: post.localeText,
       coverImage: post.coverImage,
       createdAt: post.createdAt,
-      updatedAt: post.updatedAt
+      updatedAt: post.updatedAt,
+      galleryImage: post.galleryImage
     }
   }
 }

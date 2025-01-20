@@ -93,4 +93,8 @@
     background-color: #000;
     color: #fff;    
   }
+  
+  .bg-white {
+    color: #404040;
+  }
 }

@@ -1,19 +1,15 @@
-// export async function generateMetadata(): Promise<Metadata> {
-//   // const data = await Api.fetchMetadata();
-
+import Image from 'next/image'
 import { Suspense } from 'react'
+import { Container } from './_components/common/container'
 import Header from './_components/header'
 import { NavHeader } from './_components/nav-header'
 
-//   // const meta: Metadata = {
-//   //   title: data.title,
-//   //   applicationName: data.title,
-//   //   keywords: data.keywords,
-//   //   description: data.description,
-//   // };
-
-//   return meta;
-// }
+// const meta: Metadata = {
+//   title: data.title,
+//   applicationName: data.title,
+//   keywords: data.keywords,
+//   description: data.description,
+// };
 
 export default async function Home() {
   return (
@@ -36,12 +32,24 @@ export default async function Home() {
         </Suspense>
       </NavHeader.root>
 
-      {/* 
-      <div className="space-y-8 bg-[#dbdcdf] py-8">
+      <div className="bg-white py-12">
         <Container>
-          <Title text="Próximos Eventos" />
+          <small className="uppercase">publicidade</small>
+          <Image src="/merdinha.jpg" alt="banner" width={1200} height={200} />
         </Container>
-      </div> */}
+      </div>
+
+      <div className="space-y-8 py-8">
+        <Container>
+          <Image
+            src="/last-events.png"
+            alt="Próximos Eventos"
+            width={300}
+            height={100}
+            className="mx-auto"
+          />
+        </Container>
+      </div>
     </>
   )
 }

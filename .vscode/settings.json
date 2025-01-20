@@ -6,20 +6,24 @@
   "prettier.singleQuote": true,
   "prettier.printWidth": 80,
   "prettier.arrowParens": "always",
+
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit",
-    "source.addMissingImports.ts": "explicit",
     "source.organizeImports": "explicit"
   },
+
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
   "editor.quickSuggestions": {
     "strings": "on"
   },
+
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   }

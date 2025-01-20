@@ -6,8 +6,8 @@ export default function DashboardRoot({
   children: React.ReactNode
 }>) {
   return (
-    <main className="relative flex h-screen flex-row">
-      <nav className="sticky top-0 w-full max-w-[220px]">
+    <main className="relative flex h-full min-h-screen flex-row">
+      <nav className="w-full max-w-[220px]">
         <Nav.content>
           <Nav.item>
             <Nav.link href="/dashboard">Dashboard</Nav.link>
@@ -21,7 +21,7 @@ export default function DashboardRoot({
           </Nav.item>
         </Nav.content>
       </nav>
-      <section className="flex-1 bg-[#1b1a1a] p-8">{children}</section>
+      <section className="flex-1 bg-[#4b4949] p-8">{children}</section>
     </main>
   )
 }
