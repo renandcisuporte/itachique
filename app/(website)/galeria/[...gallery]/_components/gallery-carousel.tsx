@@ -1,7 +1,7 @@
 import { webSiteAction } from '@/core/main/config/dependencies'
 import { GalleryCarousselClient } from './gallery-carousel-client'
 
-export async function GalleryCarousel({
+export default async function GalleryCarousel({
   categoryName
 }: {
   categoryName: string

@@ -50,15 +50,18 @@ export class UploadImageProviderImpl implements UploadImageProvider {
   }
 
   async uploadSingle(file: File): Promise<Output> {
-    const fileName = `${randomUUID().toString()}-${file.name}`
-    const filePath = path.join(this.UPLOAD_DIR, fileName)
-
-    // Salva o arquivo no servidor
-    const buffer = await file.arrayBuffer()
-    await fs.writeFile(filePath, Buffer.from(buffer))
-
-    const urlPath = ['', this.UPLOAD_URL, fileName].join('/')
-    return { image: file.name, url: urlPath }
+    try {
+      const fileBuffer = Buffer.from(await file.arrayBuffer())
+      const fileName = `${randomUUID().toString()}-${file.name}`
+      const filePath = path.join(this.UPLOAD_DIR, fileName)
+      // Salva o arquivo no servidor
+      await fs.writeFile(filePath, fileBuffer)
+      const urlPath = ['', this.UPLOAD_URL, fileName].join('/')
+      return { image: file.name, url: urlPath }
+    } catch (error) {
+      console.log(error)
+      return { image: file.name, url: path.join(this.UPLOAD_DIR, file.name) }
+    }
   }
 }
 

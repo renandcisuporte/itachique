@@ -1,14 +1,36 @@
 import { CardEvent } from '@/components/common/card'
+import { applicationName, description, keywords, title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { Container } from '../_components/common/container'
 
-// const meta: Metadata = {
-//   title: data.title,
-//   applicationName: data.title,
-//   keywords: data.keywords,
-//   description: data.description,
-// };
+export const metadata: Metadata = {
+  title,
+  applicationName,
+  keywords,
+  description,
+  metadataBase: new URL(process.env.NEXT_BASE_URL),
+  icons: {
+    icon: `${process.env.NEXT_BASE_URL}/favicon.ico`,
+    shortcut: `${process.env.NEXT_BASE_URL}/favicon-16x16.png`,
+    apple: `${process.env.NEXT_BASE_URL}/apple-touch-icon.png`
+  },
+  openGraph: {
+    title,
+    description,
+    url: process.env.NEXT_BASE_URL,
+    siteName: applicationName,
+    images: [
+      {
+        url: `${process.env.NEXT_BASE_URL}/logo.png`,
+        width: 1200,
+        height: 630,
+        alt: title
+      }
+    ]
+  }
+}
 
 export default async function Home() {
   const posts = await webSiteAction.list({ page: 1, limit: 8 })
@@ -17,7 +39,7 @@ export default async function Home() {
     <>
       <div className="bg-white py-12">
         <Container>
-          <small className="text-xs uppercase md:text-lg">publicidade</small>
+          <small className="text-[10px] uppercase">publicidade</small>
           <Image src="/banner.jpg" alt="banner" width={1200} height={200} />
         </Container>
       </div>

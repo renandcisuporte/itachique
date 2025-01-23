@@ -1,17 +1,12 @@
 import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { Pagination } from '@/components/pagination'
+import { description, title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
 import { slug, slugNormalized } from '@/lib/utils'
+import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-
-export async function generateStaticParams() {
-  const posts = await webSiteAction.list({})
-  return posts.data.map((item) => {
-    return { events: slug(item.categoryName) }
-  })
-}
 
 type Props = {
   params: {
@@ -24,9 +19,44 @@ type Props = {
   }
 }
 
+export async function generateMetadata({
+  params,
+  searchParams
+}: Props): Promise<Metadata> {
+  // read route params
+  const { events } = params
+  const { q = '' } = searchParams
+
+  let input = {
+    categoryName: slugNormalized(events),
+    postTitle: ''
+  }
+
+  if (events === 'search') {
+    input.postTitle = q
+    input.categoryName = ''
+  }
+
+  const posts = await webSiteAction.list(input)
+  return {
+    title: `${
+      posts.data.length > 0 ? `${posts.data[0].categoryName}: ` : ''
+    } ${title}`,
+    description
+  }
+}
+
+export async function generateStaticParams() {
+  const posts = await webSiteAction.list({ limit: 500 })
+  return posts.data.map((item) => {
+    return { events: slug(item.categoryName) }
+  })
+}
+
 export default async function Page({ params, searchParams }: Props) {
   const { events } = params
   const { page = 1, limit = 12, q = '' } = searchParams
+  if (events === undefined) return notFound()
 
   let input = {
     page,
@@ -35,15 +65,12 @@ export default async function Page({ params, searchParams }: Props) {
     postTitle: ''
   }
 
-  if (events === undefined) return notFound()
-
   if (events === 'search') {
     input.postTitle = q
     input.categoryName = ''
   }
 
   const posts = await webSiteAction.list(input)
-
   if (!posts.data.length) return notFound()
 
   return (

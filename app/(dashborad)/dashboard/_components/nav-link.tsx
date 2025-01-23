@@ -13,7 +13,7 @@ export const Link = ({
 }) => {
   const path = usePathname()
   const url = href.toString()
-  const active = path.startsWith(url)
+  const active = path.includes(url)
 
   const className = cn('text-white', active && '!underline')
 

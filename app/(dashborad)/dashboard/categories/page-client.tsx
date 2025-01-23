@@ -20,18 +20,19 @@ import {
   // @ts-ignore
   experimental_useFormState as useFormState
 } from 'react-dom'
-import { deleteCityAction, saveCityAction } from './actions'
+import { deleteCategoryAction, saveCategoryAction } from './actions'
 
 type Form = {
   data: {
     id?: string
-    city?: string
+    name?: string
+    position?: number
   }
 }
 
 export function PageClientForm({ data }: Form) {
   const { back } = useRouter()
-  const [state, formAction] = useFormState(saveCityAction, {})
+  const [state, formAction] = useFormState(saveCategoryAction, {})
 
   useEffect(() => {
     if (state.success) back()
@@ -61,17 +62,17 @@ export function PageClientForm({ data }: Form) {
           <div
             className={cn(
               'mb-4 w-full [&>input]:text-black',
-              state?.errors?.city && errorClass
+              state?.errors?.name && errorClass
             )}
           >
-            <Label htmlFor="city">Cidade/UF</Label>
+            <Label htmlFor="name">Categoria</Label>
             <Input
-              id="city"
+              id="name"
               type="text"
-              name="city"
-              defaultValue={data?.city}
+              name="name"
+              defaultValue={data?.name}
             />
-            {state?.errors?.city && <small>{state?.errors?.city?.[0]}</small>}
+            {state?.errors?.name && <small>{state?.errors?.name?.[0]}</small>}
           </div>
           <div className="flex justify-end gap-2">
             <SubmitButton>Salvar</SubmitButton>
@@ -84,7 +85,7 @@ export function PageClientForm({ data }: Form) {
 
 export function PageClientDelete({ data }: Form) {
   const { back } = useRouter()
-  const [state, formAction] = useFormState(deleteCityAction, {})
+  const [state, formAction] = useFormState(deleteCategoryAction, {})
 
   useEffect(() => {
     if (state.success) back()
@@ -105,7 +106,7 @@ export function PageClientDelete({ data }: Form) {
         <DialogHeader className="mb-1">
           <DialogTitle>Deseja realmente remover</DialogTitle>
           <DialogDescription>
-            Após a remoção, não será possível recuperar {data.city}.
+            Após a remoção, não será possível recuperar {data.name}.
           </DialogDescription>
         </DialogHeader>
         <form

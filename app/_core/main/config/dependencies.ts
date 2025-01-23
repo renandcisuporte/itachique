@@ -1,10 +1,19 @@
 import { CreateCategoryPostUseCase } from '@/core/app/use-cases/category-post/create-category-post-use-case'
 import { AllCategoryUseCase } from '@/core/app/use-cases/category/all-category-use-case'
+import { CreateCategoryUseCase } from '@/core/app/use-cases/category/create-category-use-case'
+import { DeleteCategoryUseCase } from '@/core/app/use-cases/category/delete-category-use-case'
+import { UpdateCategoryUseCase } from '@/core/app/use-cases/category/update-category-use-case'
 import { AllCityUseCase } from '@/core/app/use-cases/city/all-city-use-case'
+import { CreateCityUseCase } from '@/core/app/use-cases/city/create-city-use-case'
+import { DeleteCityUseCase } from '@/core/app/use-cases/city/delete-city-use-case'
+import { UpdateCityUseCase } from '@/core/app/use-cases/city/update-city-use-case'
 import { CreateGalleryUseCase } from '@/core/app/use-cases/gallery/create-gallery-use-case'
 import { DeleteGalleryUseCase } from '@/core/app/use-cases/gallery/delete-gallery-use-case'
 import { ListGalleryUseCase } from '@/core/app/use-cases/gallery/list-gallery-use-case'
 import { AllLocaleUseCase } from '@/core/app/use-cases/locale/all-locale-use-case'
+import { CreateLocaleUseCase } from '@/core/app/use-cases/locale/create-city-use-case'
+import { DeleteLocaleUseCase } from '@/core/app/use-cases/locale/delete-city-use-case'
+import { UpdateLocaleUseCase } from '@/core/app/use-cases/locale/update-city-use-case'
 import { CreatePostUseCase } from '@/core/app/use-cases/post/create-post-use-case'
 import { DeletePostUseCase } from '@/core/app/use-cases/post/delete-post-use-case'
 import { FindPostUseCase } from '@/core/app/use-cases/post/find-post-use-case'
@@ -48,13 +57,24 @@ export const postAction = new PostActionImpl(
 )
 
 export const localeAction = new LocaleActionImpl(
-  new AllLocaleUseCase(localeRepository)
+  new AllLocaleUseCase(localeRepository),
+  new CreateLocaleUseCase(localeRepository),
+  new UpdateLocaleUseCase(localeRepository),
+  new DeleteLocaleUseCase(localeRepository)
 )
 
 export const categoryAction = new CategoryActionImpl(
-  new AllCategoryUseCase(categoryRepository)
+  new AllCategoryUseCase(categoryRepository),
+  new CreateCategoryUseCase(categoryRepository),
+  new UpdateCategoryUseCase(categoryRepository),
+  new DeleteCategoryUseCase(categoryRepository)
 )
-export const cityAction = new CityActionImpl(new AllCityUseCase(cityRepository))
+export const cityAction = new CityActionImpl(
+  new AllCityUseCase(cityRepository),
+  new CreateCityUseCase(cityRepository),
+  new UpdateCityUseCase(cityRepository),
+  new DeleteCityUseCase(cityRepository)
+)
 
 export const galleryAction = new GalleryActionImpl(
   new ListGalleryUseCase(repositoryGallery),

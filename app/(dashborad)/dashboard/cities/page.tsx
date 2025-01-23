@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import {
   Table,
   TableBody,
@@ -7,10 +8,10 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { cityAction } from '@/core/main/config/dependencies'
-import { Edit, Trash } from 'lucide-react'
+import { Edit, Newspaper, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Link from 'next/link'
-import { PageClientDelete } from './page-client'
+import { PageClientDelete, PageClientForm } from './page-client'
 
 export const metadata: Metadata = {
   title: 'Cidades - Itachique'
@@ -26,14 +27,38 @@ type Props = {
 }
 
 export default async function Page({ searchParams }: Props) {
-  const { modal_delete = 'false', city_id = '' } = searchParams
+  const { modal_delete = 'false', modal_form = 'false', id = '' } = searchParams
   const cities = await cityAction.list()
 
   return (
     <>
-      {modal_delete === 'open' && <PageClientDelete isOpen={true} />}
+      {modal_delete === 'open' && (
+        <PageClientDelete
+          data={cities?.data?.find((item) => item.id === id)!}
+        />
+      )}
+
+      {modal_form === 'open' && (
+        <PageClientForm
+          data={
+            cities?.data?.find((item) => item.id === id) || {
+              city: '',
+              id: ''
+            }
+          }
+        />
+      )}
+
       <div className="mb-4 flex items-center justify-between space-x-2">
         <h1 className="text-2xl">Cidades</h1>
+        <Button asChild type="button">
+          <Link
+            href="/dashboard/cities/?modal_form=open"
+            className="flex items-center gap-2"
+          >
+            <Newspaper className="h-4 w-4" /> <span>Cadastrar</span>
+          </Link>
+        </Button>
       </div>
       <hr />
       <Table>
@@ -54,7 +79,7 @@ export default async function Page({ searchParams }: Props) {
                     <Edit className="h-5 w-5" />
                   </Link>
                   <Link
-                    href={`/dashboard/cities/?modal_delete=open&post_id=${item.id}`}
+                    href={`/dashboard/cities/?modal_delete=open&id=${item.id}`}
                   >
                     <Trash className="h-5 w-5" />
                   </Link>

@@ -1,51 +1,54 @@
+import { ValidationError } from '@/core/app/errors/validation-error'
 import { AllCategoryUseCase } from '@/core/app/use-cases/category/all-category-use-case'
+import { CreateCategoryUseCase } from '@/core/app/use-cases/category/create-category-use-case'
+import { DeleteCategoryUseCase } from '@/core/app/use-cases/category/delete-category-use-case'
+import { UpdateCategoryUseCase } from '@/core/app/use-cases/category/update-category-use-case'
 import { CategoryProps } from '@/core/domain/schemas/category-schema'
 
 export class CategoryActionImpl {
-  constructor(private readonly listUseCase: AllCategoryUseCase) {}
+  constructor(
+    private readonly listUseCase: AllCategoryUseCase,
+    private readonly createUseCase: CreateCategoryUseCase,
+    private readonly updateUseCase: UpdateCategoryUseCase,
+    private readonly deleteUseCase: DeleteCategoryUseCase
+  ) {}
 
-  async list(): Promise<OutputArray> {
-    return await this.listUseCase.execute()
+  async delete(id: string): Promise<void> {
+    await this.deleteUseCase.execute(id)
   }
 
-  async save(input: Input): Promise<OutputSingle> {
-    return {
-      message: ['Post criado com sucesso!']
+  async save(input: Input): Promise<Outhers & { data?: CategoryProps }> {
+    try {
+      if (input.id) {
+        const result = await this.updateUseCase.execute(input)
+        return {
+          message: ['Atualizado com sucesso!'],
+          data: { ...result.data }
+        }
+      }
+      const result = await this.createUseCase.execute(input)
+      return {
+        message: ['Atualizado com sucesso!'],
+        data: { ...result.data }
+      }
+    } catch (err: unknown) {
+      console.log('[ERROR CATEGORY ACTION]', JSON.stringify(err, null, 2))
+      if (err instanceof ValidationError) {
+        const errors = err.errors
+        return { errors } as Outhers
+      }
+      return { message: ['Erro ao criar categoria'] }
     }
-    // try {
-    //   if (input.id) {
-    //     await this.updateUseCase.execute(input)
-    //     return {
-    //       message: ['Post atualizado com sucesso!'],
-    //       data: { id: input.id }
-    //     }
-    //   }
-    //   await this.createUseCase.execute(input)
-    //   return {
-    //     message: ['Post criado com sucesso!'],
-    //     data: { id: input.id }
-    //   }
-    // } catch (err: unknown) {
-    //   console.log('[ERROR POST ACTION]', JSON.stringify(err, null, 2))
-    //   if (err instanceof ValidationError) {
-    //     const errors = err.errors
-    //     return { errors } as Output
-    //   }
-    //   return { message: ['Erro ao criar post'] }
-    // }
+  }
+
+  async list(): Promise<{ data: CategoryProps[] }> {
+    return await this.listUseCase.execute()
   }
 }
 
 type Input = CategoryProps
+
 type Outhers = {
   message?: string[]
   errors?: Record<string, string[]>
 }
-
-type OutputSingle = {
-  data?: CategoryProps[]
-} & Outhers
-
-type OutputArray = {
-  data?: CategoryProps[]
-} & Outhers

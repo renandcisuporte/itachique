@@ -24,7 +24,6 @@ function Loading() {
 
 export const Advertisements = {
   root: Root,
-  inLogo: InLogo,
   loading: Loading,
   random: Random
 }

@@ -19,4 +19,11 @@ const ico = {
   height: 32
 }
 
-export { ico, lg, md, sm, xs }
+const title = 'Itachique - O maior portal de Baladas da região.'
+const applicationName = 'Itachique'
+const keywords =
+  'ita fotos, ita aniversários, itachique, ita balada, ita notícias, ita videos, ita anuncie...'
+const description =
+  'Bem vindo ao Itachique, fique por dentro de eventos realizados e próximos eventos as serem realizados.'
+
+export { applicationName, description, ico, keywords, lg, md, sm, title, xs }

@@ -11,7 +11,19 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
   }
 
   async countWebSite(input: Record<string, any>): Promise<number> {
-    let where = { post: { deleted_at: null }, category: { deleted_at: null } }
+    let where = {
+      post: {
+        deleted_at: null,
+        gallery: {
+          some: {
+            image: {
+              not: null
+            }
+          }
+        }
+      },
+      category: { deleted_at: null }
+    }
     if (input && input.categoryName) {
       Object.assign(where, {
         category: {
@@ -41,7 +53,20 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
     const limit = input.limit || 10
     const page = input.page || 1
 
-    let where = { post: { deleted_at: null }, category: { deleted_at: null } }
+    let where = {
+      post: {
+        deleted_at: null,
+        gallery: {
+          some: {
+            image: {
+              not: null
+            }
+          }
+        }
+      },
+      category: { deleted_at: null }
+    }
+
     if (input && input.categoryName) {
       Object.assign(where, {
         category: {

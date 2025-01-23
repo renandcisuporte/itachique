@@ -1,25 +1,61 @@
 import { Container } from '@/components/common/container'
+import { title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/lib/utils'
+import { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Gallery } from './_components/gallery'
-import { GalleryCarousel } from './_components/gallery-carousel'
+
+const GalleryCarouselSSR = dynamic(
+  () => import('./_components/gallery-carousel'),
+  { ssr: false }
+)
+
+type Props = {
+  params: { gallery: string[] }
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const [slug, id, page, photo] = params.gallery
+  if (params.gallery.length !== 4) return notFound()
+
+  const posts = await webSiteAction.find(id)
+  if (!posts.data?.galleryImage.length) return notFound()
+
+  return {
+    title: `${posts.data.postTitle} - ${title}`,
+    description: posts.data.postTitle,
+    keywords: `${posts.data.categoryName}, ${title}`,
+    url: `${process.env.NEXT_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
+    metadataBase: new URL(process.env.NEXT_BASE_URL),
+    openGraph: {
+      title: `${posts.data.postTitle} - ${title}`,
+      description: posts.data.postTitle,
+      keywords: `${posts.data.categoryName}, ${title}`,
+      images: [
+        {
+          url: `${process.env.NEXT_BASE_URL}${posts.data.postCoverImage}`,
+          width: 1200,
+          height: 630,
+          alt: posts.data.postTitle
+        }
+      ]
+    }
+  } as Metadata
+}
 
 export async function generateStaticParams() {
-  const posts = await webSiteAction.list({})
+  const posts = await webSiteAction.list({ limit: 500 })
   return posts.data.map((item) => {
     return { gallery: [slug(item.postTitle), item.id, '0', '0'] }
   })
 }
 
-export default async function Page({
-  params
-}: {
-  params: { gallery: string[] }
-}) {
+export default async function Page({ params }: Props) {
   const [slug, id, page, photo] = params.gallery
   if (params.gallery.length !== 4) return notFound()
 
@@ -53,15 +89,13 @@ export default async function Page({
           {posts.data?.postCity && (
             <p className="p-0">Cidade: {posts.data?.postCity}</p>
           )}
-          {posts.data?.postCoverImage && (
-            <Gallery
-              id={id}
-              postTitle={slug}
-              galleryImage={posts.data.galleryImage}
-              page={+page}
-              photo={+photo}
-            />
-          )}
+          <Gallery
+            id={id}
+            postTitle={slug}
+            galleryImage={posts.data.galleryImage}
+            page={+page}
+            photo={+photo}
+          />
         </Container>
       </div>
 
@@ -85,7 +119,7 @@ export default async function Page({
         </Container>
         <Container className="space-y-4">
           <Suspense fallback={<p>Carregando...</p>}>
-            <GalleryCarousel categoryName={posts.data?.categoryName} />
+            <GalleryCarouselSSR categoryName={posts.data?.categoryName} />
           </Suspense>
         </Container>
       </div>

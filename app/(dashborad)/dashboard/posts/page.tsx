@@ -49,7 +49,7 @@ export default async function Page({ searchParams }: Props) {
     <>
       {modal_delete === 'open' && <PageClientDelete isOpen={true} />}
       <div className="mb-4 flex items-center justify-between space-x-2">
-        <h1 className="text-2xl">Postagem/Eventos</h1>
+        <h1 className="text-2xl">Fotos/Eventos</h1>
         <FormSearch />
       </div>
       <hr />

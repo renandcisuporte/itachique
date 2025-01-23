@@ -1,7 +1,6 @@
 'use client'
 
 import { Container } from '@/components/common/container'
-import { lg } from '@/config/index'
 import { WebSiteGalleryProps } from '@/core/domain/entity/website-entity'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
@@ -26,14 +25,15 @@ export function Gallery({ galleryImage, postTitle, id, page, photo }: Props) {
 
   return (
     <>
-      <Image
-        src={chunkedArray?.[page]?.[photo]?.url}
-        alt={chunkedArray?.[page]?.[photo]?.image}
-        loading="lazy"
-        width={lg.width}
-        height={lg.height}
-      />
-
+      <div className="relative mx-auto h-[332px] w-full max-w-[800px] bg-black md:h-[532px]">
+        <Image
+          src={chunkedArray?.[page]?.[photo]?.url}
+          alt={chunkedArray?.[page]?.[photo]?.image}
+          loading="lazy"
+          fill
+          className="object-contain"
+        />
+      </div>
       {chunkedArray?.[page] && (
         <div className="flex flex-row items-center justify-center gap-2 overflow-x-auto">
           {chunkedArray?.[page]?.map((item) => {
@@ -44,14 +44,17 @@ export function Gallery({ galleryImage, postTitle, id, page, photo }: Props) {
                 key={item.id}
                 href={`/galeria/${postTitle}/${id}/${page}/${chunkedArray?.[page]?.indexOf(item)}`}
                 scroll={false}
-                className={cn('shrink-0 opacity-50', isActive)}
+                className={cn(
+                  'relative h-16 w-16 shrink-0 opacity-50',
+                  isActive
+                )}
               >
                 <Image
                   src={item.url}
                   alt={item.image}
-                  width={75}
-                  height={75}
+                  fill
                   loading="lazy"
+                  className="object-cover"
                 />
               </Link>
             )

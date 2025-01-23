@@ -19,7 +19,7 @@ export class UpdatePostUseCase {
     if (file.size > 0) {
       const result = await this.imageProvider.uploadSingle(file)
       data = {
-        ...data,
+        ...restInput,
         coverImage: result.url
       }
     }
@@ -38,6 +38,8 @@ export class UpdatePostUseCase {
       localeId: post.localeId,
       cityText: post.cityText,
       cityId: post.cityId,
+      categoryName: post.categoryName,
+      categoryId: post.categoryId,
       coverImage: post.coverImage,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt
