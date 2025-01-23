@@ -27,45 +27,36 @@ export async function POST(req: NextRequest) {
     await fs.mkdir(UPLOAD_DIR, { recursive: true })
 
     const formData = await req.formData()
-    // Obtém os arquivos enviados
-    const files = formData.getAll('files') as File[]
-    const postId = formData.get('postId')!.toString()
+    const file = formData.get('image') as File
+    const postId = formData.get('postId')?.toString() || ''
 
-    if (!files || files.length === 0) {
+    if (!file) {
       return NextResponse.json(
         { message: 'Nenhum arquivo enviado.' },
         { status: 400 }
       )
     }
 
-    const uploadedFiles = []
-    for (let i = 0; i < files.length; i += BATCH_SIZE) {
-      // Processa os arquivos em lotes
-      const batch = files.slice(i, i + BATCH_SIZE)
-      for (const file of batch) {
-        const fileName = `${randomUUID().toString()}-${file.name}`
-        const filePath = path.join(UPLOAD_DIR, fileName)
+    // Salva o arquivo no diretório local
+    const fileBuffer = Buffer.from(await file.arrayBuffer())
+    const fileName = `${randomUUID().toString()}-${file.name}`
+    const filePath = path.join(UPLOAD_DIR, fileName)
 
-        // Salva o arquivo no servidor
-        const buffer = await file.arrayBuffer()
-        await fs.writeFile(filePath, Buffer.from(buffer))
+    await fs.writeFile(filePath, fileBuffer)
 
-        await new Promise((resolve) => setTimeout(resolve, 1000))
-        // Adiciona o arquivo ao array de arquivos enviados
-
-        const urlPath = ['', UPLOAD_URL, fileName].join('/')
-        uploadedFiles.push({ name: file.name, path: urlPath })
-        await galleryAction.save({
-          postId,
-          image: fileName,
-          url: urlPath
-        })
-      }
-    }
+    const urlPath = ['', UPLOAD_URL, fileName].join('/')
+    await galleryAction.save({
+      postId,
+      image: fileName,
+      url: urlPath
+    })
 
     return NextResponse.json({
       message: 'Upload realizado com sucesso!',
-      data: uploadedFiles
+      data: {
+        url: urlPath,
+        name: file.name
+      }
     })
   } catch (err) {
     console.log('[ERRO NO UPLOAD]:', JSON.stringify(err))

@@ -18,7 +18,8 @@
       "@/fonts": ["./app/_font/fonts.ts"],
       "@/core/*": ["./app/_core/*"],
       "@/components/*": ["./app/_components/*"],
-      "@/lib/*": ["./app/_lib/*"]
+      "@/lib/*": ["./app/_lib/*"],
+      "@/config/*": ["./app/_config/*"],
     }
   },
   "include": ["next-env.d.ts", "env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

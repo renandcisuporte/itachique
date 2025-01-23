@@ -19,12 +19,11 @@ export class GalleryActionImpl {
     await this.deleteUseCase.execute({ id: input.id! })
   }
 
-  async save(input: InputUpload[]): Promise<Output> {
+  async save(input: InputUpload): Promise<Output> {
     try {
       await this.saveUseCase.execute(input)
       return {
         message: ['Galeria criada com sucesso!']
-        // data: result.data
       }
     } catch (err: unknown) {
       console.log('[ERROR POST IMAGE]', JSON.stringify(err, null, 2))
@@ -38,7 +37,8 @@ export class GalleryActionImpl {
 }
 
 type InputUpload = {
-  file: File
+  url: string
+  image: string
   postId: string
 }
 

@@ -1,12 +1,8 @@
+import Image from 'next/image'
+import Link from 'next/link'
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { Container } from './common/container'
-import Link from 'next/link'
-import Image from 'next/image'
 import { Input } from './ui/input'
-
-interface CommonProps {
-  info: any
-}
 
 interface RootProps
   extends DetailedHTMLProps<
@@ -31,32 +27,31 @@ function Info() {
 function Logo() {
   return (
     <Link
-      className="relative h-[85px] w-full max-w-[300px] md:h-[105px]"
+      className="relative mx-auto block h-[75px] w-[175px] md:h-[175px] md:w-[300px]"
       href="/"
     >
-      <Image
-        src="/logo.png"
-        alt="Logo"
-        className="object-contain"
-        width={300}
-        height={105}
-      />
+      <Image src="/logo.png" alt="Logo" fill className="object-contain" />
     </Link>
   )
 }
 
 function Seach() {
   return (
-    <form className="flex flex-1 items-center justify-end" action="/search">
+    <form
+      className="relative flex flex-1 items-center justify-end text-neutral-900"
+      action="/search"
+    >
       <Input name="q" placeholder="Buscar" />
-      <button type="submit">asdf</button>
+      <button type="submit" className="absolute right-0 top-0 h-full w-8">
+        <Image src="/search.png" width={20} height={20} alt="Search" />
+      </button>
     </form>
   )
 }
 
 function Content({ children }: { children: React.ReactNode }) {
   return (
-    <Container className="flex flex-nowrap items-center py-4 text-white md:flex-row md:justify-between">
+    <Container className="flex flex-col items-center space-y-2 py-4 text-white md:flex-row md:justify-between md:space-y-0">
       {children}
     </Container>
   )

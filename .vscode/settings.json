@@ -1,15 +1,13 @@
 {
-
-
+  
   "prettier.semi": false,
   "prettier.trailingComma": "none",
   "prettier.singleQuote": true,
   "prettier.printWidth": 80,
   "prettier.arrowParens": "always",
-
   "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
     "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
   },
 
   "[typescript]": {
@@ -24,6 +22,9 @@
     "strings": "on"
   },
 
+  "[tailwindcss]": {
+    "editor.defaultFormatter": "bradlc.vscode-tailwindcss"
+  },
   "[prisma]": {
     "editor.defaultFormatter": "Prisma.prisma"
   }

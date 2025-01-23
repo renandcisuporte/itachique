@@ -1,10 +1,11 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { Container } from './common/container'
 
-import Link from 'next/link'
-import { cn, slug } from '@/lib/utils'
-import { Nav } from './nav-client'
+import { categoryAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
+import { cn, slug } from '@/lib/utils'
+import Link from 'next/link'
+import { Nav } from './nav-client'
 
 interface Props
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
@@ -16,23 +17,18 @@ function Root({ ...rest }: Props) {
 }
 
 async function Links() {
-  const data: any[] = [
-    { category: 'Eventos' },
-    { category: 'Aniversarios' },
-    { category: 'Festas' },
-    { category: 'Na Balada Joven Pan' }
-  ]
+  const categories = await categoryAction.list()
 
-  return data.map((item) => (
+  return categories?.data?.map((item) => (
     <Link
-      href={`${slug(item.category)}`}
+      href={`/${slug(item.name)}`}
       key={item.id}
       className={cn(
         'flex h-12 items-center px-4 italic text-white',
         mrEavesXLModOTBold.className
       )}
     >
-      <span>{item.category}</span>
+      <span>{item.name}</span>
     </Link>
   ))
 }

@@ -77,6 +77,14 @@ export class Post {
     return this.props.cityId
   }
 
+  get categoryId() {
+    return this.props.categoryId
+  }
+
+  get categoryName() {
+    return this.props.categoryName
+  }
+
   get coverImage() {
     return this.props.coverImage
   }

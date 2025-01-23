@@ -9,7 +9,12 @@ export class PostRepositoryPrisma implements PostGateway {
     const result = await this.prisma.post.findFirst({
       include: {
         city: { select: { city: true } },
-        locale: { select: { name: true } }
+        locale: { select: { name: true } },
+        categories: {
+          select: {
+            category: { select: { name: true, id: true } }
+          }
+        }
       },
       where: { id, deleted_at: null }
     })
@@ -22,24 +27,43 @@ export class PostRepositoryPrisma implements PostGateway {
       cityText: result?.city?.city!,
       localeId: result?.locale_id!,
       localeText: result?.locale_text! || result?.locale?.name!,
+      categoryId: result?.categories[0]?.category?.id!,
+      categoryName: result?.categories[0]?.category?.name!,
       coverImage: result?.cover_image!,
       createdAt: result?.created_at!,
       updatedAt: result?.updated_at!
     })
   }
 
+  async findCount(q: string): Promise<number> {
+    const result = await this.prisma.post.count({
+      where: { deleted_at: null, title: { contains: q } }
+    })
+    return result
+  }
+
   async findAll(
     q: string,
+    order: string,
     page: number = 1,
     limit: number = 15
   ): Promise<Post[]> {
+    let orderBy = {}
+    if (order.includes('asc')) orderBy = { date: 'asc' }
+    if (order.includes('desc')) orderBy = { date: 'desc' }
+
     const result = await this.prisma.post.findMany({
       include: {
         city: { select: { city: true } },
-        locale: { select: { name: true } }
+        locale: { select: { name: true } },
+        categories: {
+          select: {
+            category: { select: { name: true, id: true } }
+          }
+        }
       },
       where: { deleted_at: null, title: { contains: q } },
-      orderBy: { created_at: 'desc' },
+      orderBy,
       skip: (page - 1) * limit,
       take: limit
     })
@@ -53,6 +77,8 @@ export class PostRepositoryPrisma implements PostGateway {
         cityText: item.city?.city!,
         localeId: item.locale_id!,
         localeText: item.locale_text! || item.locale?.name!,
+        categoryId: item.categories[0]?.category?.id!,
+        categoryName: item.categories[0]?.category?.name!,
         coverImage: item.cover_image!,
         createdAt: item.created_at!,
         updatedAt: item.updated_at!
@@ -113,7 +139,12 @@ export class PostRepositoryPrisma implements PostGateway {
       data,
       include: {
         city: { select: { city: true } },
-        locale: { select: { name: true } }
+        locale: { select: { name: true } },
+        categories: {
+          select: {
+            category: { select: { name: true, id: true } }
+          }
+        }
       }
     })
 
@@ -125,6 +156,8 @@ export class PostRepositoryPrisma implements PostGateway {
       cityText: result.city?.city!,
       localeId: result.locale_id!,
       localeText: result.locale_text! || result.locale?.name!,
+      categoryId: result.categories[0]?.category?.id!,
+      categoryName: result.categories[0]?.category?.name!,
       coverImage: result.cover_image!,
       createdAt: result.created_at,
       updatedAt: result.updated_at

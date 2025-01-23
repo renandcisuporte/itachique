@@ -1,4 +1,5 @@
 import {
+  categoryAction,
   cityAction,
   localeAction,
   postAction
@@ -17,10 +18,11 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-  const [post, locale, city] = await Promise.all([
+  const [post, locale, city, category] = await Promise.all([
     postAction.find(params.form),
     localeAction.list(),
-    cityAction.list()
+    cityAction.list(),
+    categoryAction.list()
   ])
 
   return (
@@ -28,6 +30,7 @@ export default async function Page({ params }: Props) {
       post={post.data}
       locales={locale?.data as []}
       cities={city.data as []}
+      categories={category?.data as []}
     />
   )
 }

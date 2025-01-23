@@ -1,30 +1,14 @@
 import { Gallery, GalleryProps } from '@/core/domain/entity/gallery-entity'
 import { GalleryGateway } from '@/core/domain/gateway/gallery-gateway'
-import { UploadImageProvider } from '@/core/infra/provider/upload-image'
 
 export class CreateGalleryUseCase {
-  constructor(
-    private readonly createRepository: GalleryGateway,
-    private readonly imageProvider: UploadImageProvider
-  ) {}
+  constructor(private readonly createRepository: GalleryGateway) {}
 
-  async execute(input: Input[]): Promise<Output> {
-    const images = await this.imageProvider.uploadMultiple(
-      input.map((i) => i.file!)
-    )
-
-    for (const image of images) {
-      const gallery = Gallery.create({
-        image: image.image,
-        url: image.url,
-        postId: input[0].postId
-      })
-
-      await this.createRepository.save(gallery)
-    }
-
+  async execute(input: Input): Promise<Output> {
+    const inputGallery = Gallery.create(input)
+    await this.createRepository.save(inputGallery)
     return {
-      data: []
+      data: this.present(inputGallery)
     }
   }
 
@@ -39,10 +23,11 @@ export class CreateGalleryUseCase {
 }
 
 type Input = {
-  file: File
+  url: string
+  image: string
   postId: string
 }
 
 type Output = {
-  data: []
+  data: GalleryProps
 }

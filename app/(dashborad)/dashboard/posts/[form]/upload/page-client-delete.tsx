@@ -56,7 +56,7 @@ export function PageClientDelete({ isOpen }: Props) {
           className="flex flex-row items-center justify-end space-x-2"
         >
           <input type="hidden" name="id" value={imageId!} />
-          <Button variant={'outline'} type="button">
+          <Button variant={'outline'} type="button" onClick={() => back()}>
             Cancela
           </Button>
           <SubmitButton type="submit" variant={'destructive'} isConfirm>

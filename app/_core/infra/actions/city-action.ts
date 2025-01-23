@@ -4,7 +4,9 @@ import { CityProps } from '@/core/domain/schemas/city-schema'
 export class CityActionImpl {
   constructor(private readonly listUseCase: AllCityUseCase) {}
 
-  async list(): Promise<Output> {
+  async list(): Promise<{
+    data: CityProps[]
+  }> {
     return await this.listUseCase.execute()
   }
 

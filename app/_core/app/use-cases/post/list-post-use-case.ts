@@ -5,12 +5,12 @@ import { PostProps } from '@/core/domain/schemas/post-schema'
 export class ListPostUseCase {
   constructor(private readonly repository: PostGateway) {}
 
-  async execute(input: Input): Promise<Output> {
-    const { q = '', page = 1, limit = '15' } = input
+  async execute(input: Input): Promise<Output & { total: number }> {
+    const { q = '', order = '', page = 1, limit = '15' } = input
+    const total = await this.repository.findCount(q)
+    const result = await this.repository.findAll(q, order, +page, +limit)
 
-    const result = await this.repository.findAll(q, +page, +limit)
-
-    return { data: result.map(this.present) }
+    return { data: result.map(this.present), total }
   }
 
   private present(post: Post): PostProps {
@@ -21,6 +21,9 @@ export class ListPostUseCase {
       cityId: post.cityId,
       localeId: post.localeId,
       localeText: post.localeText,
+      cityText: post.cityText,
+      categoryId: post.categoryId,
+      categoryName: post.categoryName,
       coverImage: post.coverImage,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt
@@ -30,6 +33,7 @@ export class ListPostUseCase {
 
 type Input = {
   q?: string
+  order?: string
   page?: number
   limit?: number
 }

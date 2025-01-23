@@ -10,11 +10,22 @@ export class CreatePostUseCase {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    const post = Post.create(input)
-    const coverImage = input?.coverImage as unknown as File
-    const image = await this.imageProvider.uploadSingle(coverImage)
-    console.log('image', image)
-    const result = await this.repository.create(post)
+    const { coverImage, ...restInput } = input
+
+    let data = {} as PostProps
+    data = { ...restInput }
+
+    const file = coverImage as unknown as File
+    if (file.size > 0) {
+      const result = await this.imageProvider.uploadSingle(file)
+      data = {
+        ...data,
+        coverImage: result.url
+      }
+    }
+
+    const output = Post.create(data)
+    const result = await this.repository.create(output)
 
     return { data: this.present(result) }
   }

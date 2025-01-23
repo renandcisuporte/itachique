@@ -1,11 +1,59 @@
 import { PrismaClient } from '@prisma/client'
 import { genSaltSync, hashSync } from 'bcryptjs'
 import { randomUUID } from 'crypto'
+// import { randomUUID } from 'crypto'
+import fs from 'fs'
+import path from 'path'
+
+function getImagesFromFolderRecursive(folderPath: string): string[] {
+  const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp']
+  const images: string[] = []
+
+  function readDirectory(directory: string) {
+    const filesAndFolders = fs.readdirSync(directory)
+
+    for (const item of filesAndFolders) {
+      const fullPath = path.join(directory, item)
+      const stats = fs.statSync(fullPath)
+
+      if (stats.isDirectory()) {
+        // Se for uma subpasta, chama a função novamente
+        readDirectory(fullPath)
+      } else if (
+        stats.isFile() &&
+        imageExtensions.includes(path.extname(item).toLowerCase())
+      ) {
+        // Se for um arquivo de imagem, adiciona à lista
+        images.push(fullPath)
+      }
+    }
+  }
+
+  readDirectory(folderPath)
+  return images
+}
 
 const prisma = new PrismaClient()
 async function main() {
   const salt = genSaltSync(10)
   const password = hashSync('dci@6913', salt)
+
+  const folderPath = './public/uploads'
+  const images = getImagesFromFolderRecursive(folderPath)
+  for (const item of images) {
+    const [, dir, id, image] = item.split('\\')
+    if (image) {
+      await prisma.gallery.create({
+        data: {
+          id: randomUUID(),
+          post_id: id,
+          url: [dir, id, image].join('/'),
+          image: image
+        }
+      })
+    }
+  }
+  // console.log(images, 'images')
 
   // const id = randomUUID()
   // await prisma.user.upsert({
@@ -96,31 +144,64 @@ async function main() {
   //   ]
   // })
 
-  await prisma.city.createMany({
-    data: [
-      {
-        id: randomUUID(),
-        city: 'Itápolis/SP',
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null
-      },
-      {
-        id: randomUUID(),
-        city: 'São José do Rio Preto/SP',
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null
-      },
-      {
-        id: randomUUID(),
-        city: 'São Paulo/SP',
-        created_at: new Date(),
-        updated_at: new Date(),
-        deleted_at: null
-      }
-    ]
-  })
+  // await prisma.city.createMany({
+  //   data: [
+  //     {
+  //       id: randomUUID(),
+  //       city: 'Itápolis/SP',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     },
+  //     {
+  //       id: randomUUID(),
+  //       city: 'São José do Rio Preto/SP',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     },
+  //     {
+  //       id: randomUUID(),
+  //       city: 'São Paulo/SP',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     }
+  //   ]
+  // })
+
+  // await prisma.category.createMany({
+  //   data: [
+  //     {
+  //       id: randomUUID(),
+  //       name: 'Fotos',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     },
+  //     {
+  //       id: randomUUID(),
+  //       name: 'Próximos Eventos',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     },
+  //     {
+  //       id: randomUUID(),
+  //       name: 'Ofertas de Emprego',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     },
+  //     {
+  //       id: randomUUID(),
+  //       name: 'Fones e Endereços',
+  //       created_at: new Date(),
+  //       updated_at: new Date(),
+  //       deleted_at: null
+  //     }
+  //   ]
+  // })
 }
 
 main()
