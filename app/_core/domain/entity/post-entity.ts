@@ -53,7 +53,8 @@ export class Post {
     return new Intl.DateTimeFormat('UTC', {
       year: 'numeric',
       day: '2-digit',
-      month: '2-digit'
+      month: '2-digit',
+      timeZone: 'UTC'
     }).format(new Date(this.props.date))
   }
 

@@ -123,7 +123,6 @@ export function PageClient({ post }: { post: PostProps }) {
           onChange={handleFileChange}
           accept="image/*"
           multiple
-          placeholder="Selecione os arquivos para upload..."
         />
         <Button variant="outline" className="text-black" asChild>
           <Link href={`/dashboard/posts/${post.id}/edit`}>

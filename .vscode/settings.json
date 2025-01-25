@@ -5,6 +5,7 @@
   "prettier.singleQuote": true,
   "prettier.printWidth": 80,
   "prettier.arrowParens": "always",
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit",
     "source.fixAll.eslint": "explicit",

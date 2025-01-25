@@ -1,19 +1,17 @@
+import { AdvertisementClient } from '@/components/advertisement-client'
 import { Container } from '@/components/common/container'
 import { title } from '@/config'
-import { webSiteAction } from '@/core/main/config/dependencies'
+import {
+  advertisementAction,
+  webSiteAction
+} from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/lib/utils'
 import { Metadata } from 'next'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Gallery } from './_components/gallery'
-
-const GalleryCarouselSSR = dynamic(
-  () => import('./_components/gallery-carousel'),
-  { ssr: false }
-)
+import GalleryCarousel from './_components/gallery-carousel'
 
 type Props = {
   params: { gallery: string[] }
@@ -23,25 +21,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [slug, id, page, photo] = params.gallery
   if (params.gallery.length !== 4) return notFound()
 
-  const posts = await webSiteAction.find(id)
-  if (!posts.data?.galleryImage.length) return notFound()
+  const { data: posts } = await webSiteAction.find(id)
+  if (!posts?.galleryImage?.length) return notFound()
 
   return {
-    title: `${posts.data.postTitle} - ${title}`,
-    description: posts.data.postTitle,
-    keywords: `${posts.data.categoryName}, ${title}`,
+    title: `${posts?.postTitle} - ${title}`,
+    description: posts?.postTitle,
+    keywords: `${posts?.categoryName}, ${title}`,
     url: `${process.env.NEXT_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
     metadataBase: new URL(process.env.NEXT_BASE_URL),
     openGraph: {
-      title: `${posts.data.postTitle} - ${title}`,
-      description: posts.data.postTitle,
-      keywords: `${posts.data.categoryName}, ${title}`,
+      title: `${posts?.postTitle} - ${title}`,
+      description: posts?.postTitle,
+      keywords: `${posts?.categoryName}, ${title}`,
       images: [
         {
-          url: `${process.env.NEXT_BASE_URL}${posts.data.postCoverImage}`,
+          url: `${process.env.NEXT_BASE_URL}${posts?.postCoverImage}`,
           width: 1200,
           height: 630,
-          alt: posts.data.postTitle
+          alt: posts?.postTitle
         }
       ]
     }
@@ -49,8 +47,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const posts = await webSiteAction.list({ limit: 500 })
-  return posts.data.map((item) => {
+  const { data: posts } = await webSiteAction.list({ limit: 500 })
+  return posts.map((item) => {
     return { gallery: [slug(item.postTitle), item.id, '0', '0'] }
   })
 }
@@ -59,50 +57,62 @@ export default async function Page({ params }: Props) {
   const [slug, id, page, photo] = params.gallery
   if (params.gallery.length !== 4) return notFound()
 
-  const posts = await webSiteAction.find(id)
-  if (!posts.data?.galleryImage.length) return notFound()
+  const [{ data: posts }, { data: advertisements }] = await Promise.all([
+    webSiteAction.find(id),
+    advertisementAction.list()
+  ])
+  if (!posts?.galleryImage?.length) return notFound()
+
+  // Garantir que as propagandas sejam embaralhadas
+  const shuffleAdsHeader = advertisements.sort(() => Math.random() - 0.5)?.[0]
+  const shuffleAdsFooter = advertisements.sort(() => Math.random() - 0.5)?.[1]
 
   return (
     <>
-      <div className="bg-white py-12">
+      <div className="bg-white py-4">
         <Container>
-          <small className="text-xs uppercase md:text-lg">publicidade</small>
-          <Image src="/banner.jpg" alt="banner" width={1200} height={200} />
+          <small className="text-[10px] uppercase tracking-widest">
+            publicidade
+          </small>
+          <AdvertisementClient
+            images={shuffleAdsHeader.galleryImagesJson!}
+            link={shuffleAdsHeader.link!}
+          />
         </Container>
       </div>
 
       <div className="bg-neutral-900 py-16">
         <Container className="flex flex-col space-y-4">
-          {/* <div className="flex flex-col justify-between space-y-2"> */}
           <h1
             className={cn(
               'uppercase text-[#e4e439] md:text-4xl',
               mrEavesXLModOTBold.className
             )}
           >
-            {posts.data?.postTitle}
+            {posts?.postTitle}
           </h1>
-          <p className="p-0">Data: {posts.data?.postDate}</p>
-          {posts.data?.postLocale && (
-            <p className="p-0">Local: {posts.data?.postLocale}</p>
+          <p className="p-0">Data: {posts?.postDate}</p>
+          {posts?.postLocale && (
+            <p className="p-0">Local: {posts?.postLocale}</p>
           )}
-          {posts.data?.postCity && (
-            <p className="p-0">Cidade: {posts.data?.postCity}</p>
-          )}
+          {posts?.postCity && <p className="p-0">Cidade: {posts?.postCity}</p>}
           <Gallery
             id={id}
             postTitle={slug}
-            galleryImage={posts.data.galleryImage}
+            galleryImage={posts?.galleryImage}
             page={+page}
             photo={+photo}
           />
         </Container>
       </div>
 
-      <div className="bg-white py-12">
+      <div className="bg-white py-4">
         <Container>
-          <small className="text-xs uppercase md:text-lg">publicidade</small>
-          <Image src="/banner.jpg" alt="banner" width={1200} height={200} />
+          <small className="text-[10px] uppercase">publicidade</small>
+          <AdvertisementClient
+            images={shuffleAdsFooter.galleryImagesJson!}
+            link={shuffleAdsFooter.link!}
+          />
         </Container>
       </div>
 
@@ -119,7 +129,7 @@ export default async function Page({ params }: Props) {
         </Container>
         <Container className="space-y-4">
           <Suspense fallback={<p>Carregando...</p>}>
-            <GalleryCarouselSSR categoryName={posts.data?.categoryName} />
+            <GalleryCarousel categoryName={posts?.categoryName} />
           </Suspense>
         </Container>
       </div>

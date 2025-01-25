@@ -108,12 +108,32 @@ model CategoryPost {
 }
 
 model Advertisement {
-  id         String    @id @db.Char(36)
-  title      String
-  image      String
-  created_at DateTime
-  updated_at DateTime
-  deleted_at DateTime?
+  id             String    @id @db.Char(36)
+  title          String
+  gallery_images String    @db.Text
+  description    String
+  link           String
+  position       Int       @default(0)
+  is_active      Boolean   @default(false)
+  validated_at   DateTime?
+  created_at     DateTime
+  updated_at     DateTime
+  deleted_at     DateTime?
 
   @@map("advertisements")
+}
+
+model UpcomingEvent {
+  id             String    @id @db.Char(36)
+  title          String
+  gallery_images String    @db.Text
+  date           DateTime? @db.Date
+  locale         String
+  description    String?   @db.Text
+  created_at     DateTime
+  updated_at     DateTime
+  deleted_at     DateTime?
+
+  // upcoming-event
+  @@map("upcoming_events")
 }

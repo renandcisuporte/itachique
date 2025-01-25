@@ -17,7 +17,7 @@ import {
   // @ts-ignore
   experimental_useFormState as useFormState
 } from 'react-dom'
-import { postActionRemove } from '../../actions'
+import { postActionRemove } from '../actions'
 
 type Props = {
   isOpen: boolean

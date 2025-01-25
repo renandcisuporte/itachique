@@ -10,21 +10,7 @@ export class UpdatePostUseCase {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    const { coverImage, ...restInput } = input
-
-    let data = {} as PostProps
-    data = { ...restInput }
-
-    const file = coverImage as unknown as File
-    if (file.size > 0) {
-      const result = await this.imageProvider.uploadSingle(file)
-      data = {
-        ...restInput,
-        coverImage: result.url
-      }
-    }
-
-    const output = Post.with(data)
+    const output = Post.with(input)
     const result = await this.repository.update(output.id!, output)
     return { data: this.present(result) }
   }

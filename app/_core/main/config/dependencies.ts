@@ -1,3 +1,6 @@
+import { AllAdvertisementUseCase } from '@/core/app/use-cases/advertisement/all-advertisement-use-case'
+import { CreateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/create-advertisement-use-case'
+import { UpdateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/update-advertisement-use-case'
 import { CreateCategoryPostUseCase } from '@/core/app/use-cases/category-post/create-category-post-use-case'
 import { AllCategoryUseCase } from '@/core/app/use-cases/category/all-category-use-case'
 import { CreateCategoryUseCase } from '@/core/app/use-cases/category/create-category-use-case'
@@ -19,34 +22,37 @@ import { DeletePostUseCase } from '@/core/app/use-cases/post/delete-post-use-cas
 import { FindPostUseCase } from '@/core/app/use-cases/post/find-post-use-case'
 import { ListPostUseCase } from '@/core/app/use-cases/post/list-post-use-case'
 import { UpdatePostUseCase } from '@/core/app/use-cases/post/update-post-use-case'
+import { AllUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-upcoming-event-use-case'
+import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
+import { UpdateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/update-upcoming-event-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/app/use-cases/website/find-website-use-case'
+import { AdvertisementActionImpl } from '@/core/infra/actions/advertisement-action'
 import { CategoryActionImpl } from '@/core/infra/actions/category-action'
 import { CityActionImpl } from '@/core/infra/actions/city-action'
 import { GalleryActionImpl } from '@/core/infra/actions/gallery-action'
 import { LocaleActionImpl } from '@/core/infra/actions/locale-action'
 import { PostActionImpl } from '@/core/infra/actions/post-action'
+import { UpcomingEventActionImpl } from '@/core/infra/actions/upcoming-event-action'
 import { WebSiteActionImpl } from '@/core/infra/actions/website-action'
 import { UploadImageProviderImpl } from '@/core/infra/provider/upload-image'
+import { AdvertisementRepositoryPrisma } from '@/core/infra/repositories/advertisement-repository'
 import { CategoryPostRepositoryPrisma } from '@/core/infra/repositories/category-post-repository'
 import { CategoryRepositoryPrisma } from '@/core/infra/repositories/category-repository'
 import { CityRepositoryPrisma } from '@/core/infra/repositories/city-repository'
 import { GalleryRepositoryPrisma } from '@/core/infra/repositories/gallery-repository'
 import { LocaleRepositoryPrisma } from '@/core/infra/repositories/locale-repository'
 import { PostRepositoryPrisma } from '@/core/infra/repositories/post-repository'
+import { UpcomingEventRepositoryPrisma } from '@/core/infra/repositories/upcoming-event-repository'
 import { WebSiteRepositoryPrisma } from '@/core/infra/repositories/website-repository'
 import { prisma } from '@/core/package/prisma'
 
-const repositoryPost = new PostRepositoryPrisma(prisma)
-const repositoryGallery = new GalleryRepositoryPrisma(prisma)
-const localeRepository = new LocaleRepositoryPrisma(prisma)
-const cityRepository = new CityRepositoryPrisma(prisma)
-const categoryRepository = new CategoryRepositoryPrisma(prisma)
-const categoryPostRepository = new CategoryPostRepositoryPrisma(prisma)
-
 const uploadImageProvider = new UploadImageProviderImpl()
 
+const repositoryPost = new PostRepositoryPrisma(prisma)
+const repositoryGallery = new GalleryRepositoryPrisma(prisma)
+const categoryPostRepository = new CategoryPostRepositoryPrisma(prisma)
 export const postAction = new PostActionImpl(
   new ListPostUseCase(repositoryPost),
   new FindPostUseCase(repositoryPost, repositoryGallery),
@@ -56,6 +62,7 @@ export const postAction = new PostActionImpl(
   new CreateCategoryPostUseCase(categoryPostRepository)
 )
 
+const localeRepository = new LocaleRepositoryPrisma(prisma)
 export const localeAction = new LocaleActionImpl(
   new AllLocaleUseCase(localeRepository),
   new CreateLocaleUseCase(localeRepository),
@@ -63,12 +70,15 @@ export const localeAction = new LocaleActionImpl(
   new DeleteLocaleUseCase(localeRepository)
 )
 
+const categoryRepository = new CategoryRepositoryPrisma(prisma)
 export const categoryAction = new CategoryActionImpl(
   new AllCategoryUseCase(categoryRepository),
   new CreateCategoryUseCase(categoryRepository),
   new UpdateCategoryUseCase(categoryRepository),
   new DeleteCategoryUseCase(categoryRepository)
 )
+
+const cityRepository = new CityRepositoryPrisma(prisma)
 export const cityAction = new CityActionImpl(
   new AllCityUseCase(cityRepository),
   new CreateCityUseCase(cityRepository),
@@ -88,4 +98,18 @@ export const webSiteAction = new WebSiteActionImpl(
   new AllWebSiteUseCase(repositoryWebSite),
   new FindWebSiteUseCase(repositoryWebSite),
   new FindByTagsSiteUseCase(repositoryWebSite)
+)
+
+const repositoryAdvertisement = new AdvertisementRepositoryPrisma(prisma)
+export const advertisementAction = new AdvertisementActionImpl(
+  new AllAdvertisementUseCase(repositoryAdvertisement),
+  new CreateAdvertisementUseCase(repositoryAdvertisement),
+  new UpdateAdvertisementUseCase(repositoryAdvertisement)
+)
+
+const repositoryUpcomingEvent = new UpcomingEventRepositoryPrisma(prisma)
+export const upcomingEventAction = new UpcomingEventActionImpl(
+  new AllUpcomingEventUseCase(repositoryUpcomingEvent),
+  new CreateUpcomingEventUseCase(repositoryUpcomingEvent),
+  new UpdateUpcomingEventUseCase(repositoryUpcomingEvent)
 )

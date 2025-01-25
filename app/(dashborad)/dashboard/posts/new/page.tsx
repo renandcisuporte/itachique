@@ -4,7 +4,7 @@ import {
   localeAction
 } from '@/core/main/config/dependencies'
 import { Metadata } from 'next'
-import { PageClient } from '../[form]/_components/page-client'
+import { PageClient } from '../_components/page-client'
 
 export const metadata: Metadata = {
   title: 'Postagem/Eventos - Itachique'

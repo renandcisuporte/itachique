@@ -12,7 +12,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 
 // install Swiper modules
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y])
-export function GalleryCarousselClient({ posts }: { posts: any[] }) {
+export default function GalleryCarouselClient({ posts }: { posts: any[] }) {
   return (
     <Swiper
       spaceBetween={12}
@@ -30,13 +30,10 @@ export function GalleryCarousselClient({ posts }: { posts: any[] }) {
       {posts
         .sort(() => Math.random() - 0.5)
         .map((item) => (
-          <SwiperSlide
-            key={item.id}
-            className="flex w-52 shrink-0 flex-col items-center space-y-2 bg-black"
-          >
+          <SwiperSlide key={item.id}>
             <Link
               href={`/galeria/${slug(item.postTitle)}/${item.id}/0/0`}
-              className="bg-black pb-6"
+              className="block min-h-72 bg-black pb-6"
             >
               <Image
                 src={item.postCoverImage}

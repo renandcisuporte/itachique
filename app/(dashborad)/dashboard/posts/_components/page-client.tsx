@@ -20,7 +20,7 @@ import {
   // @ts-ignore
   experimental_useFormState as useFormState
 } from 'react-dom'
-import { savePostAction } from '../../actions'
+import { savePostAction } from '../actions'
 
 type PageClientProps = {
   post?: PostProps

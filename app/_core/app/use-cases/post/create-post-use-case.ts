@@ -10,9 +10,8 @@ export class CreatePostUseCase {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    const { coverImage, ...restInput } = input
-
     let data = {} as PostProps
+    const { coverImage, ...restInput } = input
     data = { ...restInput }
 
     const file = coverImage as unknown as File

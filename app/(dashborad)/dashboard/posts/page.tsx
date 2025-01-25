@@ -13,8 +13,8 @@ import { Edit, Image as ImageLucide, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
-import { PageClientDelete } from './[form]/_components/page-client-delete'
 import { FormSearch } from './_components/form-search'
+import { PageClientDelete } from './_components/page-client-delete'
 
 export const metadata: Metadata = {
   title: 'Postagem/Eventos - Itachique'
@@ -38,7 +38,7 @@ export default async function Page({ searchParams }: Props) {
     modal_delete = 'false',
     post_id = ''
   } = searchParams
-  const posts = await postAction.list({
+  const { data: posts, total } = await postAction.list({
     page: page.toString(),
     order: order.toString(),
     limit: limit.toString(),
@@ -55,12 +55,13 @@ export default async function Page({ searchParams }: Props) {
       <hr />
       <Table>
         <TableCaption>
-          {posts.total > 0 && (
+          {total > 0 && (
             <Pagination
               q={q.toString()}
               order={order.toString()}
               pathname={'/dashboard/posts'}
-              total={posts.total}
+              totalPage={total}
+              perPage={+limit}
               page={+page}
             />
           )}
@@ -73,7 +74,7 @@ export default async function Page({ searchParams }: Props) {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {posts?.data?.map((item) => (
+          {posts?.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="w-[1%]">
                 <Image

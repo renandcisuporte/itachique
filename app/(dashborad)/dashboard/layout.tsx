@@ -15,6 +15,9 @@ export default function DashboardRoot({
             <Nav.link href="/dashboard/locales">Locais</Nav.link>
             <Nav.link href="/dashboard/cities">Cidades</Nav.link>
             <Nav.link href="/dashboard/posts">Fotos</Nav.link>
+            <Nav.link href="/dashboard/upcoming-events">
+              Próximos Eventos
+            </Nav.link>
           </Nav.item>
           <Nav.item>
             <Nav.link href="/dashboard/advertisements">Propagandas</Nav.link>

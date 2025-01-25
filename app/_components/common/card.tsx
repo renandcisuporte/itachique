@@ -6,7 +6,7 @@ import { ReactNode } from 'react'
 
 function Card({ children }: { children: ReactNode }) {
   return (
-    <div className="grid grid-cols-1 justify-between gap-10 text-center md:grid-cols-2">
+    <div className="grid grid-cols-1 justify-between gap-10 md:grid-cols-2">
       {children}
     </div>
   )
@@ -49,7 +49,7 @@ function CardTitle({ ...rest }) {
   return (
     <h3
       className={cn(
-        'p-3 uppercase text-[#e4e439]',
+        'p-4 text-lg font-extrabold uppercase text-[#e4e439] md:text-2xl',
         mrEavesXLModOTBold.className
       )}
       {...rest}
@@ -58,7 +58,7 @@ function CardTitle({ ...rest }) {
 }
 
 function CardDescription({ ...rest }) {
-  return <p className="p-0" {...rest} />
+  return <p className="px-4 text-sm font-light" {...rest} />
 }
 
 export const CardEvent = {
