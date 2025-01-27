@@ -51,7 +51,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
-  const posts = await webSiteAction.list({ limit: 25 })
+  const posts = await webSiteAction.list({ limit: 250 })
   return posts.data.map((item) => {
     return { events: slug(item.categoryName) }
   })
