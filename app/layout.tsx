@@ -1,3 +1,4 @@
+import '../polyfills'
 import { helveticaNeue } from './_font/fonts'
 import './globals.css'
 

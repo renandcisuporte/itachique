@@ -26,6 +26,7 @@
     "blueimp-file-upload": "^10.32.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "formdata-node": "^5.0.1",
     "iron-session": "^8.0.4",
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^12.3.2",

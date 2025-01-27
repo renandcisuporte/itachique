@@ -1,12 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  // output: 'standalone',
   swcMinify: true,
   reactStrictMode: true,
   experimental: {
     serverActions: true,
   },
-  
   images: {
     remotePatterns: [
       {
