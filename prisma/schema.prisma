@@ -1,0 +1,139 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "foreignKeys"
+}
+
+model User {
+  id         String    @id @db.Char(36)
+  name       String
+  email      String    @unique
+  password   String
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime?
+
+  @@map("users")
+}
+
+model Category {
+  id         String         @id @db.Char(36)
+  name       String
+  position   Int            @default(0)
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime?
+  categories CategoryPost[]
+
+  @@map("categories")
+}
+
+model Locale {
+  id         String    @id @db.Char(36)
+  name       String
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime?
+
+  posts Post[]
+
+  @@map("locales")
+}
+
+model City {
+  id         String    @id @db.Char(36)
+  city       String
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime?
+  posts      Post[]
+
+  @@map("cities")
+}
+
+model Post {
+  id          String    @id @db.Char(36)
+  city_id     String?   @db.Char(36)
+  locale_id   String?   @db.Char(36)
+  title       String
+  date        DateTime? @db.Date
+  locale_text String?   @db.Text
+  cover_image String?
+  created_at  DateTime
+  updated_at  DateTime
+  deleted_at  DateTime?
+
+  locale     Locale?        @relation(fields: [locale_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  city       City?          @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  gallery    Gallery[]
+  categories CategoryPost[]
+
+  @@index([city_id])
+  @@index([locale_id])
+  @@map("posts")
+}
+
+model Gallery {
+  id      String  @id @db.Char(36)
+  url     String
+  image   String?
+  post_id String? @db.Char(36)
+  post    Post?   @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([post_id])
+  @@map("galleries")
+}
+
+model CategoryPost {
+  id          String  @id @db.Char(36)
+  category_id String?
+  post_id     String?
+
+  post     Post?     @relation(fields: [post_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  category Category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([category_id])
+  @@index([post_id])
+  @@map("categories_posts")
+}
+
+model Advertisement {
+  id             String    @id @db.Char(36)
+  title          String
+  gallery_images String    @db.Text
+  description    String
+  link           String
+  position       Int       @default(0)
+  is_active      Boolean   @default(false)
+  validated_at   DateTime?
+  created_at     DateTime
+  updated_at     DateTime
+  deleted_at     DateTime?
+
+  @@map("advertisements")
+}
+
+model UpcomingEvent {
+  id             String    @id @db.Char(36)
+  title          String
+  gallery_images String    @db.Text
+  date           DateTime? @db.Date
+  locale         String
+  description    String?   @db.Text
+  created_at     DateTime
+  updated_at     DateTime
+  deleted_at     DateTime?
+
+  // upcoming-event
+  @@map("upcoming_events")
+}

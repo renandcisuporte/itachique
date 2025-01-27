@@ -9,13 +9,12 @@ services:
   #   depends_on:
   #     - db
 
-  # nginx:
-  #   image: nginx:alpine
-  #   ports:
-  #       - "80:80"
-  #   volumes:
-  #       - ./:/var/www
-  #       - ./.docker/nginx/:/etc/nginx/conf.d/
+  nginx:
+    image: nginx:1.25-alpine
+    volumes:
+      - ./.docker/nginx:/etc/nginx/conf.d
+    ports:
+      - 80:80
 
   db:
     image: mysql:5.7
@@ -38,6 +37,7 @@ services:
       - PMA_USER=root
       - PMA_PASSWORD=root
       - PMA_PORT=3306
+      - UPLOAD_LIMIT=512M
     depends_on:
       - db
 
@@ -47,9 +47,17 @@ services:
       - 1025:1025
       - 8005:8025
 
-  # redis:
-  #   image: bitnami/redis:latest
-  #   ports:
-  #     - 6379:6379
-  #   environment:
-  #     - ALLOW_EMPTY_PASSWORD=yes
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - network
+
+volumes:
+  volume:
+    driver: local
+
+networks:
+  network:
+    driver: bridge

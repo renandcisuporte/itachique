@@ -1,20 +1,33 @@
 {
-
+  
   "prettier.semi": false,
   "prettier.trailingComma": "none",
-  "prettier.singleQuote": false,
+  "prettier.singleQuote": true,
   "prettier.printWidth": 80,
   "prettier.arrowParens": "always",
+  
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
   },
+
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+
   "editor.quickSuggestions": {
     "strings": "on"
   },
+
+  "[tailwindcss]": {
+    "editor.defaultFormatter": "bradlc.vscode-tailwindcss"
+  },
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

@@ -1,15 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // output: 'standalone',
+  swcMinify: true,
+  reactStrictMode: true,
+  experimental: {
+    serverActions: true,
+  },
   images: {
     remotePatterns: [
       {
+        protocol: 'https',
+        hostname: 'cdn.worldweatheronline.com',
         port: '',
-        protocol: 'http',
-        hostname: 'localhost',
-        pathname: '/storage/**',
-      }
+        pathname: '/**',
+      },
     ]
   }
-};
+ };
 
 export default nextConfig;

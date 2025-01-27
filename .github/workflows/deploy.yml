@@ -1,0 +1,53 @@
+name: 🚀 DEPLOY SITE ITACHIQUE
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_work:
+    name: Build Project in Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 📂 Sync files
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.ITACHIQUE_HOST }}
+          username: ${{ secrets.ITACHIQUE_USERNAME }}
+          password: ${{ secrets.ITACHIQUE_PASSWORD }}
+          server-dir: ./site.itachique.com.br/
+          exclude: |
+            **/Dockerfile*
+            **/docker-*
+            **/.vscode*
+            **/.vscode*/**
+            **/.husky*
+            **/.husky*/**
+            **/.next*
+            **/.next*/**
+            **/.git*
+            **/.git*/**
+            README.md
+            **/node_modules/**
+
+  script_work:
+    needs: build_work
+    name: Work in Server
+    runs-on: ubuntu-latest
+    steps:
+      - name: Work Deploy in Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ITACHIQUE_HOST }}
+          username: ${{ secrets.ITACHIQUE_USER }}
+          password: ${{ secrets.ITACHIQUE_PASS }}
+          port: 22022
+          script: |
+            cd /home/itachiqu/site.itachique.com.br
+            chmod +x ./deploy.sh
+            ./deploy.sh
