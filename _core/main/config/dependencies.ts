@@ -2,6 +2,7 @@ import 'server-only'
 
 import { AllAdvertisementUseCase } from '@/core/app/use-cases/advertisement/all-advertisement-use-case'
 import { CreateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/create-advertisement-use-case'
+import { DeleteAdvertisementUseCase } from '@/core/app/use-cases/advertisement/delete-advertisement-use-case'
 import { UpdateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/update-advertisement-use-case'
 import { CreateCategoryPostUseCase } from '@/core/app/use-cases/category-post/create-category-post-use-case'
 import { AllCategoryUseCase } from '@/core/app/use-cases/category/all-category-use-case'
@@ -27,6 +28,7 @@ import { UpdatePostUseCase } from '@/core/app/use-cases/post/update-post-use-cas
 import { AllUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-upcoming-event-use-case'
 import { AllValidatedUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
 import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
+import { DeleteUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/delete-upcoming-event-use-case'
 import { UpdateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/update-upcoming-event-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
@@ -107,7 +109,8 @@ const repositoryAdvertisement = new AdvertisementRepositoryPrisma(prisma)
 export const advertisementAction = new AdvertisementActionImpl(
   new AllAdvertisementUseCase(repositoryAdvertisement),
   new CreateAdvertisementUseCase(repositoryAdvertisement),
-  new UpdateAdvertisementUseCase(repositoryAdvertisement)
+  new UpdateAdvertisementUseCase(repositoryAdvertisement),
+  new DeleteAdvertisementUseCase(repositoryAdvertisement)
 )
 
 const repositoryUpcomingEvent = new UpcomingEventRepositoryPrisma(prisma)
@@ -115,5 +118,6 @@ export const upcomingEventAction = new UpcomingEventActionImpl(
   new AllUpcomingEventUseCase(repositoryUpcomingEvent),
   new AllValidatedUpcomingEventUseCase(repositoryUpcomingEvent),
   new CreateUpcomingEventUseCase(repositoryUpcomingEvent),
-  new UpdateUpcomingEventUseCase(repositoryUpcomingEvent)
+  new UpdateUpcomingEventUseCase(repositoryUpcomingEvent),
+  new DeleteUpcomingEventUseCase(repositoryUpcomingEvent)
 )

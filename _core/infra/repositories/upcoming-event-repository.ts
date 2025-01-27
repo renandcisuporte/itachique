@@ -12,6 +12,27 @@ export class UpcomingEventRepositoryPrisma implements UpcomingEventGateway {
     })
   }
 
+  async find(id: string): Promise<UpcomingEvent | null> {
+    const result = await this.prisma.upcomingEvent.update({
+      where: { id },
+      data: { deleted_at: new Date() }
+    })
+
+    if (!result) return null
+
+    return UpcomingEvent.with({
+      id: result.id,
+      title: result.title,
+      description: result.description!,
+      locale: result.locale,
+      date: result.date,
+      galleryImages: result.gallery_images,
+      createdAt: result.created_at,
+      updatedAt: result.updated_at,
+      deletedAt: result.deleted_at
+    })
+  }
+
   async update(id: string, input: UpcomingEvent): Promise<UpcomingEvent> {
     const data = {
       title: input.title,

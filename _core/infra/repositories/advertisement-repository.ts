@@ -12,6 +12,26 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
     })
   }
 
+  async find(id: string): Promise<Advertisement | null> {
+    const result = await this.prisma.advertisement.findFirst({
+      where: { id }
+    })
+
+    if (!result) return null
+
+    return Advertisement.with({
+      id: result.id,
+      title: result.title,
+      position: result.position,
+      isActive: result.is_active,
+      validatedAt: result.validated_at,
+      galleryImages: result.gallery_images,
+      createdAt: result.created_at,
+      updatedAt: result.updated_at,
+      deletedAt: result.deleted_at
+    })
+  }
+
   async update(id: string, input: Advertisement): Promise<Advertisement> {
     const data = {
       title: input.title,
