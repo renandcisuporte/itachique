@@ -15,6 +15,7 @@ export class DeletePostUseCase {
         data: []
       }
     }
+
     const galleryImage = await this.galleryRepository.all(id)
     if (galleryImage) {
       await Promise.all(

@@ -1,6 +1,7 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
 import { AllAdvertisementUseCase } from '@/core/app/use-cases/advertisement/all-advertisement-use-case'
 import { CreateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/create-advertisement-use-case'
+import { DeleteAdvertisementUseCase } from '@/core/app/use-cases/advertisement/delete-advertisement-use-case'
 import { UpdateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/update-advertisement-use-case'
 import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
 
@@ -8,12 +9,12 @@ export class AdvertisementActionImpl {
   constructor(
     private readonly allUseCase: AllAdvertisementUseCase,
     private readonly createUseCase: CreateAdvertisementUseCase,
-    private readonly updateUseCase: UpdateAdvertisementUseCase
-    // private readonly deleteUseCase: DeleteAdvertisementUseCase
+    private readonly updateUseCase: UpdateAdvertisementUseCase,
+    private readonly deleteUseCase: DeleteAdvertisementUseCase
   ) {}
 
   async delete(id: string): Promise<void> {
-    // await this.deleteUseCase.execute(id)
+    await this.deleteUseCase.execute(id)
   }
 
   async save(input: Input): Promise<Outhers & { data?: AdvertisementProps }> {
