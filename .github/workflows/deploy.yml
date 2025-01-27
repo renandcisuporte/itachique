@@ -20,7 +20,7 @@ jobs:
           server: ${{ secrets.ITACHIQUE_HOST }}
           username: ${{ secrets.ITACHIQUE_USERNAME }}
           password: ${{ secrets.ITACHIQUE_PASSWORD }}
-          server-dir: ./public_html/
+          server-dir: ./site.itachique.com.br/
           exclude: |
             **/Dockerfile*
             **/docker-*
