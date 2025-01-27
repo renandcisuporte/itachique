@@ -1,40 +1,40 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
-import { LocaleProps, LocaleSchema } from '@/core/domain/schemas/locale-schema'
 import { randomUUID } from 'crypto'
+import { CityProps, CitySchema } from '../schemas/city-schema'
 
-export class Locale {
-  private constructor(private readonly props: LocaleProps) {
+export class City {
+  private constructor(private readonly props: CityProps) {
     this.validate()
   }
 
   private validate() {
-    const result = LocaleSchema.safeParse(this.props)
+    const result = CitySchema.safeParse(this.props)
     if (!result.success) {
       const error = result.error.flatten()
       throw new ValidationError(error.fieldErrors)
     }
   }
 
-  static create({ name }: LocaleProps) {
-    return new Locale({
+  static create({ city }: CityProps) {
+    return new City({
       id: randomUUID(),
-      name,
+      city,
       createdAt: new Date(),
       updatedAt: new Date(),
       deletedAt: null
     })
   }
 
-  static with(props: LocaleProps) {
-    return new Locale(props)
+  static with(props: CityProps) {
+    return new City(props)
   }
 
   get id() {
     return this.props.id
   }
 
-  get name() {
-    return this.props.name
+  get city() {
+    return this.props.city
   }
 
   get createdAt() {

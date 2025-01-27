@@ -1,4 +1,4 @@
-'server-only'
+import 'server-only'
 
 import { getIronSession } from 'iron-session'
 import { decode } from 'jsonwebtoken'

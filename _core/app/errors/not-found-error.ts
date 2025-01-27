@@ -1,4 +1,4 @@
-import { CommonError } from '@/core/app/errors/common-error'
+import { CommonError } from './common-error'
 
 export class NotFoundError extends CommonError {
   constructor(message: string | object = 'Registro não encontrado') {

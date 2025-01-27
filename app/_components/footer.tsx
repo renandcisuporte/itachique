@@ -13,7 +13,7 @@ function Root({ ...rest }: RootProps) {
 
 function Content({ children }: { children: React.ReactNode }) {
   return (
-    <Container className="flex flex-row items-center justify-between py-4 uppercase">
+    <Container className="flex flex-col items-center justify-between py-4 uppercase md:flex-row">
       {children}
     </Container>
   )
@@ -21,8 +21,8 @@ function Content({ children }: { children: React.ReactNode }) {
 
 function Info() {
   return (
-    <div className="flex basis-1/3 flex-col space-y-2 text-center text-[7px] md:text-xs">
-      <h2 className="text-2xl text-[#e4e439]">Institucional</h2>
+    <div className="flex basis-1/3 flex-col space-y-2 text-center text-[10px] md:text-xs">
+      <h2 className="text-lg text-[#e4e439] md:text-2xl">Institucional</h2>
       <Link href="/">Quem Somos</Link>
       <Link href="/">Anuncie Aqui</Link>
       <Link href="/">Contato</Link>
@@ -32,7 +32,10 @@ function Info() {
 
 function Logo() {
   return (
-    <Link className="relative h-[85px] w-full basis-1/3 md:h-[105px]" href="/">
+    <Link
+      className="relative -order-1 h-[85px] w-full basis-1/3 md:h-[105px]"
+      href="/"
+    >
       <Image
         src="/logo.png"
         alt="Logo"
@@ -46,8 +49,10 @@ function Logo() {
 
 function Social() {
   return (
-    <div className="basis-1/3 space-y-2 text-center text-[7px] md:text-xs">
-      <h2 className="text-2xl text-[#e4e439]">siga nossas redes sociais</h2>
+    <div className="basis-1/3 space-y-2 text-center text-[10px] md:text-xs">
+      <h2 className="text-lg text-[#e4e439] md:text-2xl">
+        siga nossas redes sociais
+      </h2>
       <p>fique por dentro de novidades e eventos</p>
       <div className="flex items-center justify-center space-x-2">
         <Link href="/">

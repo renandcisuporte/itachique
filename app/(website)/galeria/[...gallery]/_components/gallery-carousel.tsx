@@ -1,5 +1,5 @@
-import { webSiteAction } from '@/core/main/config/dependencies'
 import dynamic from 'next/dynamic'
+import { webSiteAction } from '../../../../../_core/main/config/dependencies'
 // import { GalleryCarouselClient } from './gallery-carousel-client'
 
 const GalleryCarouselClient = dynamic(

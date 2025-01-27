@@ -1,5 +1,5 @@
 import { Category } from '@/core/domain/entity/category-entity'
-import { WebSite } from '../entity/website-entity'
+import { WebSite } from '@/core/domain/entity/website-entity'
 
 export interface WebSiteGateway {
   allCategory(): Promise<Category[]>

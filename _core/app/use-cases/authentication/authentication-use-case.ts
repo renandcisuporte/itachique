@@ -1,8 +1,8 @@
-import { UserGateway } from '@/core/domain/gateway/user-gateway'
-import { ValidationError } from '@/core/app/errors/validation-error'
 import { Authentication } from '@/core/domain/entity/authentication-entity'
+import { UserGateway } from '@/core/domain/gateway/user-gateway'
 import { compareSync } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
+import { ValidationError } from '../../errors/validation-error'
 
 export class AuthenticationUseCase {
   constructor(private readonly authRepository: UserGateway) {}

@@ -4,7 +4,7 @@
   "private": true,
   "author": "renan@dcisuporte.com.br",
   "engines": {
-    "node": "<=16.20.2"
+    "node": "<=16.x"
   },
   "scripts": {
     "dev": "next dev",

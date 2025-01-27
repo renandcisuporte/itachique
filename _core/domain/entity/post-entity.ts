@@ -1,6 +1,6 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
-import { PostProps, PostSchema } from '@/core/domain/schemas/post-schema'
 import { randomUUID } from 'crypto'
+import { PostProps, PostSchema } from '../schemas/post-schema'
 
 export class Post {
   private constructor(private readonly props: PostProps) {

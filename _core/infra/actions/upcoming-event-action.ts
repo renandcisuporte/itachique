@@ -1,12 +1,14 @@
-import { ValidationError } from '@/core/app/errors/validation-error'
-import { AllUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-upcoming-event-use-case'
-import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
-import { UpdateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/update-upcoming-event-use-case'
-import { UpcomingEventProps } from '@/core/domain/entity/upcoming-event-entity'
+import { AllValidatedUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
+import { ValidationError } from '../../app/errors/validation-error'
+import { AllUpcomingEventUseCase } from '../../app/use-cases/upcoming-event/all-upcoming-event-use-case'
+import { CreateUpcomingEventUseCase } from '../../app/use-cases/upcoming-event/create-upcoming-event-use-case'
+import { UpdateUpcomingEventUseCase } from '../../app/use-cases/upcoming-event/update-upcoming-event-use-case'
+import { UpcomingEventProps } from '../../domain/entity/upcoming-event-entity'
 
 export class UpcomingEventActionImpl {
   constructor(
     private readonly allUseCase: AllUpcomingEventUseCase,
+    private readonly allValidatedUseCase: AllValidatedUpcomingEventUseCase,
     private readonly createUseCase: CreateUpcomingEventUseCase,
     private readonly updateUseCase: UpdateUpcomingEventUseCase
     // private readonly deleteUseCase: DeleteUpcomingEventUseCase
@@ -42,6 +44,14 @@ export class UpcomingEventActionImpl {
 
   async list(): Promise<{ data: UpcomingEventProps[] }> {
     const result = await this.allUseCase.execute()
+
+    return {
+      ...result
+    }
+  }
+
+  async listValidated(): Promise<{ data: UpcomingEventProps[] }> {
+    const result = await this.allValidatedUseCase.execute()
 
     return {
       ...result

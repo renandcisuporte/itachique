@@ -5,4 +5,5 @@ export interface UpcomingEventGateway {
   update(id: string, input: UpcomingEvent): Promise<UpcomingEvent>
   create(input: UpcomingEvent): Promise<UpcomingEvent>
   allUpcomingEvent(): Promise<UpcomingEvent[]>
+  allUpcomingEventValidated(): Promise<UpcomingEvent[]>
 }

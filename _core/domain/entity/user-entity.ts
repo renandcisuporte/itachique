@@ -1,5 +1,5 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
-import { UserProps, UserSchema } from '@/core/domain/schemas/user-schema'
+import { UserProps, UserSchema } from '../schemas/user-schema'
 
 export class User {
   private constructor(private readonly props: UserProps) {}

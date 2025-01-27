@@ -90,4 +90,32 @@ export class UpcomingEventRepositoryPrisma implements UpcomingEventGateway {
       })
     })
   }
+
+  async allUpcomingEventValidated(): Promise<UpcomingEvent[]> {
+    const result = await this.prisma.upcomingEvent.findMany({
+      orderBy: {
+        date: 'asc'
+      },
+      where: {
+        deleted_at: null,
+        date: {
+          gte: new Date()
+        }
+      }
+    })
+
+    return result.map((item) => {
+      return UpcomingEvent.with({
+        id: item.id,
+        title: item.title,
+        date: item.date,
+        galleryImages: item.gallery_images,
+        description: item.description!,
+        locale: item.locale,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        deletedAt: item.deleted_at
+      })
+    })
+  }
 }

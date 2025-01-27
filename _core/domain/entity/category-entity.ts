@@ -1,9 +1,6 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
-import {
-  CategoryProps,
-  CategorySchema
-} from '@/core/domain/schemas/category-schema'
 import { randomUUID } from 'crypto'
+import { CategoryProps, CategorySchema } from '../schemas/category-schema'
 
 export class Category {
   private constructor(private readonly props: CategoryProps) {

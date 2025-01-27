@@ -43,7 +43,7 @@ export default async function Home() {
     await Promise.all([
       webSiteAction.list({ page: 1, limit: 12 }),
       advertisementAction.list(),
-      upcomingEventAction.list()
+      upcomingEventAction.listValidated()
     ])
 
   // Garantir que as propagandas sejam embaralhadas

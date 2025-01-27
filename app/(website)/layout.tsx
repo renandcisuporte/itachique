@@ -1,6 +1,7 @@
 import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { NavHeader } from '@/components/nav-header'
+import { WeatherForecast } from '@/components/weather-forecast'
 import { Suspense } from 'react'
 
 export default function RootLayout({
@@ -10,6 +11,7 @@ export default function RootLayout({
 }>) {
   return (
     <>
+      <WeatherForecast />
       <Header.root>
         <Header.content>
           <div className="basis-full md:basis-1/3" />

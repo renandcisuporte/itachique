@@ -1,10 +1,10 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { Container } from './common/container'
 
-import { categoryAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/lib/utils'
 import Link from 'next/link'
+import { categoryAction } from '../../_core/main/config/dependencies'
 import { Nav } from './nav-client'
 
 interface Props

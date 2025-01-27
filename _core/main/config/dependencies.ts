@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { AllAdvertisementUseCase } from '@/core/app/use-cases/advertisement/all-advertisement-use-case'
 import { CreateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/create-advertisement-use-case'
 import { UpdateAdvertisementUseCase } from '@/core/app/use-cases/advertisement/update-advertisement-use-case'
@@ -23,6 +25,7 @@ import { FindPostUseCase } from '@/core/app/use-cases/post/find-post-use-case'
 import { ListPostUseCase } from '@/core/app/use-cases/post/list-post-use-case'
 import { UpdatePostUseCase } from '@/core/app/use-cases/post/update-post-use-case'
 import { AllUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-upcoming-event-use-case'
+import { AllValidatedUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
 import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
 import { UpdateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/update-upcoming-event-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
@@ -110,6 +113,7 @@ export const advertisementAction = new AdvertisementActionImpl(
 const repositoryUpcomingEvent = new UpcomingEventRepositoryPrisma(prisma)
 export const upcomingEventAction = new UpcomingEventActionImpl(
   new AllUpcomingEventUseCase(repositoryUpcomingEvent),
+  new AllValidatedUpcomingEventUseCase(repositoryUpcomingEvent),
   new CreateUpcomingEventUseCase(repositoryUpcomingEvent),
   new UpdateUpcomingEventUseCase(repositoryUpcomingEvent)
 )
