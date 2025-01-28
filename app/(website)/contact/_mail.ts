@@ -48,7 +48,7 @@ export const mail = ({ name, email, message, subject, city }: Props) => `
         </div>
         <div style="background-color: #f3f4f6; padding: 20px; text-align: center; font-size: 14px; color: #6b7280;">
           <p style="margin: 0;">
-            © 2025 Itachique.com.br. Todos os direitos reservados.
+            © Itachique.com.br. Todos os direitos reservados.
           </p>
         </div>
       </div>
