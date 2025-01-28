@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: posts?.postTitle,
     keywords: `${posts?.categoryName}, ${title}`,
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
-    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
     openGraph: {
       title: `${posts?.postTitle} - ${title}`,
       description: posts?.postTitle,

@@ -33,7 +33,7 @@ export class AuthenticationUseCase {
         iat: Math.floor(Date.now() / 1000),
         sub: data
       },
-      process.env.NEXT_SECRET_SESSION!
+      process.env.NEXT_PUBLIC_SECRET_SESSION!
     )
   }
 

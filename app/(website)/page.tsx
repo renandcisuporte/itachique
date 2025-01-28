@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   applicationName,
   keywords,
   description,
-  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
   icons: {
     icon: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`,
     shortcut: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon-16x16.png`,
