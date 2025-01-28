@@ -60,6 +60,7 @@ export async function generateMetadata({
 export default async function Page({ params, searchParams }: Props) {
   const { events } = params
   const { page = 1, limit = 16, q = '' } = searchParams
+
   if (events === undefined) return notFound()
 
   let input = {
@@ -136,6 +137,7 @@ export default async function Page({ params, searchParams }: Props) {
 
       {total > 0 && (
         <Pagination
+          q={q}
           page={+page}
           totalPage={total}
           perPage={16}
