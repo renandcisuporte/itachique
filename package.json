@@ -33,6 +33,7 @@
     "lint-staged": "^12.3.2",
     "lucide-react": "^0.402.0",
     "next": "13.5.8",
+    "nodemailer": "^6.10.0",
     "react": "^18",
     "react-dom": "^18",
     "sharp": "^0.32.6",
@@ -42,11 +43,12 @@
     "zod": "^3.24.1"
   },
   "devDependencies": {
-    "@types/dotenv": "^8.2.3",
     "@types/bcryptjs": "^2.4.6",
+    "@types/dotenv": "^8.2.3",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^20",
+    "@types/nodemailer": "^6.4.17",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
