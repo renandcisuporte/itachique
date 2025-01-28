@@ -55,18 +55,34 @@ function Social() {
       </h2>
       <p>fique por dentro de novidades e eventos</p>
       <div className="flex items-center justify-center space-x-2">
-        <Link href="/">
+        <a
+          href="https://www.facebook.com/itachique/?locale=pt_BR"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Icons.facebook className="h-10 w-10 rounded-full bg-[#e4e439] p-2" />
-        </Link>
-        <Link href="/">
+        </a>
+        <a
+          href="https://api.whatsapp.com/send?phone=5516997166880"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Icons.whatsapp className="h-10 w-10 rounded-full bg-[#e4e439] p-2" />
-        </Link>
-        <Link href="/">
+        </a>
+        <a
+          href="https://www.instagram.com/itachique/"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Icons.instagram className="h-10 w-10 rounded-full bg-[#e4e439] p-2" />
-        </Link>
-        <Link href="/">
+        </a>
+        <a
+          href="https://www.youtube.com/channel/UC0jlc29wIlEYwfS0_Pwg3vg"
+          target="_blank"
+          rel="noreferrer"
+        >
           <Icons.youtube className="h-10 w-10 rounded-full bg-[#e4e439] p-2" />
-        </Link>
+        </a>
       </div>
     </div>
   )
