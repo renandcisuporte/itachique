@@ -71,7 +71,11 @@ export function WeatherForecast() {
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_WEATHERSTACK_URL}?access_key=${process.env.NEXT_PUBLIC_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
-            { cache: 'force-cache', next: { revalidate: 86200 } }
+            {
+              cache: 'force-cache',
+              // deve revalidar a cada 12 horas
+              next: { revalidate: 43200 }
+            }
           )
           if (!response.ok) {
             throw new Error('Erro ao buscar os dados do tempo.')
