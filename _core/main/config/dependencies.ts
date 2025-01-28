@@ -13,6 +13,7 @@ import { AllCityUseCase } from '@/core/app/use-cases/city/all-city-use-case'
 import { CreateCityUseCase } from '@/core/app/use-cases/city/create-city-use-case'
 import { DeleteCityUseCase } from '@/core/app/use-cases/city/delete-city-use-case'
 import { UpdateCityUseCase } from '@/core/app/use-cases/city/update-city-use-case'
+import { CountGalleryUseCase } from '@/core/app/use-cases/gallery/count-gallery-use-case'
 import { CreateGalleryUseCase } from '@/core/app/use-cases/gallery/create-gallery-use-case'
 import { DeleteGalleryUseCase } from '@/core/app/use-cases/gallery/delete-gallery-use-case'
 import { ListGalleryUseCase } from '@/core/app/use-cases/gallery/list-gallery-use-case'
@@ -94,7 +95,8 @@ export const cityAction = new CityActionImpl(
 export const galleryAction = new GalleryActionImpl(
   new ListGalleryUseCase(repositoryGallery),
   new CreateGalleryUseCase(repositoryGallery),
-  new DeleteGalleryUseCase(repositoryGallery)
+  new DeleteGalleryUseCase(repositoryGallery),
+  new CountGalleryUseCase(repositoryGallery)
 )
 
 // WebSite Template

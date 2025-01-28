@@ -35,7 +35,7 @@ export class Session {
     session.destroy()
   }
 
-  static async getUser(): Promise<{} | null> {
+  static async getUser(): Promise<any | null> {
     const session = await this.getSession()
 
     if (!session.token) {

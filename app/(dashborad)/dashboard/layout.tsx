@@ -1,13 +1,28 @@
+import { Session } from '@/lib/session'
+import { redirect } from 'next/navigation'
 import { Nav } from './_components/nav-left'
 
-export default function DashboardRoot({
+export default async function DashboardRoot({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const session = await Session.getUser()
+  if (!session) {
+    await Session.destroySession()
+    redirect('/dashboard')
+  }
+
+  async function logOutSession() {
+    'use server'
+    await Session.destroySession()
+    redirect('/dashboard')
+  }
+
   return (
     <main className="relative flex h-full min-h-screen flex-row">
       <nav className="w-full max-w-[220px]">
+        <div className="bg-neutral-900 p-6">Olá, {session?.sub?.name}</div>
         <Nav.content>
           <Nav.item>
             <Nav.link href="/dashboard">Dashboard</Nav.link>
@@ -23,7 +38,9 @@ export default function DashboardRoot({
             <Nav.link href="/dashboard/advertisements">Propagandas</Nav.link>
           </Nav.item>
           <Nav.item>
-            <Nav.link href="/dashboard/logout">Sair</Nav.link>
+            <form>
+              <button formAction={logOutSession}>Sair</button>
+            </form>
           </Nav.item>
         </Nav.content>
       </nav>
