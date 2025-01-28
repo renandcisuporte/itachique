@@ -11,6 +11,9 @@ import {
 import { Metadata } from 'next'
 import { Fragment } from 'react'
 
+// deve revalidar a pagina a cada 1 hora
+export const revalidate = 3600 // 1 hour
+
 export const metadata: Metadata = {
   title,
   applicationName,
