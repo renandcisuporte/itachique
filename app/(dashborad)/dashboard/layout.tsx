@@ -22,6 +22,9 @@ export default function DashboardRoot({
           <Nav.item>
             <Nav.link href="/dashboard/advertisements">Propagandas</Nav.link>
           </Nav.item>
+          <Nav.item>
+            <Nav.link href="/dashboard/logout">Sair</Nav.link>
+          </Nav.item>
         </Nav.content>
       </nav>
       <section className="flex-1 bg-[#4b4949] p-8">{children}</section>
