@@ -81,8 +81,8 @@ export default async function Page({ searchParams }: Props) {
                   src={item.coverImage!}
                   alt={item.title}
                   loading="lazy"
-                  width={75}
-                  height={75}
+                  width={105}
+                  height={105}
                 />
               </TableCell>
               <TableCell className="w-[1%]">
