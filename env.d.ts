@@ -1,15 +1,15 @@
 declare namespace NodeJS {
   interface ProcessEnv {
     NODE_ENV: 'development' | 'production'
-    NEXT_BASE_URL: string
-    NEXT_SECRET_SESSION: string
-    NEXT_URL_API: string
-    NEXT_TTL: number
     DATABASE_URL: string
-    NEXT_REDIRECT: string
-    NEXT_BASE_URL: string
-    NEXT_WEATHERSTACK_KEY: string
-    NEXT_WEATHERSTACK_URL: string
+    NEXT_PUBLIC_BASE_URL: string
+    NEXT_PUBLIC_SECRET_SESSION: string
+    NEXT_PUBLIC_URL_API: string
+    NEXT_PUBLIC_TTL: number
+    NEXT_PUBLIC_REDIRECT: string
+    NEXT_PUBLIC_BASE_URL: string
+    NEXT_PUBLIC_WEATHERSTACK_KEY: string
+    NEXT_PUBLIC_WEATHERSTACK_URL: string
     NODE_OPTIONS: string
   }
 }

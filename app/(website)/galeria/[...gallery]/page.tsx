@@ -28,15 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: `${posts?.postTitle} - ${title}`,
     description: posts?.postTitle,
     keywords: `${posts?.categoryName}, ${title}`,
-    url: `${process.env.NEXT_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
-    metadataBase: new URL(process.env.NEXT_BASE_URL),
+    url: `${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
+    metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL),
     openGraph: {
       title: `${posts?.postTitle} - ${title}`,
       description: posts?.postTitle,
       keywords: `${posts?.categoryName}, ${title}`,
       images: [
         {
-          url: `${process.env.NEXT_BASE_URL}${posts?.postCoverImage}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_URL}${posts?.postCoverImage}`,
           width: 1200,
           height: 630,
           alt: posts?.postTitle

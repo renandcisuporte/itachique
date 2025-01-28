@@ -70,7 +70,7 @@ export function WeatherForecast() {
       if (location) {
         try {
           const response = await fetch(
-            `${process.env.NEXT_WEATHERSTACK_URL}?access_key=${process.env.NEXT_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
+            `${process.env.NEXT_PUBLIC_WEATHERSTACK_URL}?access_key=${process.env.NEXT_PUBLIC_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
             { cache: 'force-cache', next: { revalidate: 86200 } }
           )
           if (!response.ok) {

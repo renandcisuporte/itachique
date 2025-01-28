@@ -33,7 +33,7 @@ function Info() {
 function Logo() {
   return (
     <Link
-      className="relative -order-1 h-[85px] w-full basis-1/3 md:h-[105px]"
+      className="relative -order-1 h-[85px] w-full basis-1/3 md:order-none md:h-[105px]"
       href="/"
     >
       <Image
