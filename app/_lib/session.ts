@@ -8,15 +8,17 @@ export class Session {
   static async getSession() {
     const cookieStore = cookies()
     return getIronSession<{ token: string }>(cookieStore, {
-      password: process.env.NEXT_SECRET_SESSION!,
+      password: process.env.NEXT_PUBLIC_SECRET_SESSION!,
       cookieName: 'auth',
-      ttl: process.env.NEXT_TTL!, // 7 days
+      ttl: process.env.NEXT_PUBLIC_TTL!, // 7 days
       cookieOptions: {
         httpOnly: true,
         secure: false, // set this to false in local (non-HTTPS) development
         sameSite: 'lax', // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#lax
         maxAge:
-          (process.env.NEXT_TTL === 0 ? 2147483647 : process.env.NEXT_TTL) - 60, // Expire cookie before the session expires.
+          (process.env.NEXT_PUBLIC_TTL === 0
+            ? 2147483647
+            : process.env.NEXT_PUBLIC_TTL) - 60, // Expire cookie before the session expires.
         path: '/'
       }
     })
