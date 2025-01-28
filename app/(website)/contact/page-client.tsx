@@ -29,7 +29,7 @@ export function PageClient() {
   return (
     <form
       action={formAction}
-      className="w-1/2 pl-12 [&>p+input]:mb-4 [&>p+input]:text-neutral-700 [&>p+textarea]:mb-4 [&>p+textarea]:text-neutral-700 [&>p]:pl-1 [&>p]:font-bold"
+      className="md:w-1/2 [&>p+input]:mb-4 [&>p+input]:text-neutral-700 [&>p+textarea]:mb-4 [&>p+textarea]:text-neutral-700 [&>p]:pl-1 [&>p]:font-bold"
     >
       {state?.message && <p>{state.message[0]}</p>}
       <p className={cn('pl-1 font-bold', state?.error?.name && errClass)}>
