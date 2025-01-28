@@ -4,7 +4,7 @@ declare namespace NodeJS {
     NEXT_BASE_URL: string
     NEXT_SECRET_SESSION: string
     NEXT_URL_API: string
-    NEXT_TTL: number | string
+    NEXT_TTL: number
     DATABASE_URL: string
     NEXT_REDIRECT: string
     NEXT_BASE_URL: string

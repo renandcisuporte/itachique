@@ -6,7 +6,7 @@ import {
   webSiteAction
 } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
-import { cn, slug } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -46,12 +46,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   } as Metadata
 }
 
-export async function generateStaticParams() {
-  const { data: posts } = await webSiteAction.list({ limit: 5 })
-  return posts.map((item) => {
-    return { gallery: [slug(item.postTitle), item.id, '0', '0'] }
-  })
-}
+// export async function generateStaticParams() {
+//   const { data: posts } = await webSiteAction.list({ limit: 5 })
+//   return posts.map((item) => {
+//     return { gallery: [slug(item.postTitle), item.id, '0', '0'] }
+//   })
+// }
 
 export default async function Page({ params }: Props) {
   const [slug, id, page, photo] = params.gallery
