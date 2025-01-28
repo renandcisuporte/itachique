@@ -7,7 +7,7 @@ import {
   advertisementAction,
   webSiteAction
 } from '@/core/main/config/dependencies'
-import { slug, slugNormalized } from '@/lib/utils'
+import { slugNormalized } from '@/lib/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Fragment } from 'react'
@@ -50,12 +50,12 @@ export async function generateMetadata({
   }
 }
 
-export async function generateStaticParams() {
-  const posts = await webSiteAction.list({ limit: 250 })
-  return posts.data.map((item) => {
-    return { events: slug(item.categoryName) }
-  })
-}
+// export async function generateStaticParams() {
+//   const posts = await webSiteAction.list({ limit: 500 })
+//   return posts.data.map((item) => {
+//     return { events: slug(item.categoryName) }
+//   })
+// }
 
 export default async function Page({ params, searchParams }: Props) {
   const { events } = params

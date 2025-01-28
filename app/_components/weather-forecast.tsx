@@ -70,7 +70,7 @@ export function WeatherForecast() {
       if (location) {
         try {
           const response = await fetch(
-            `http://api.weatherstack.com/current?access_key=dd57110817eff96d3da0cea96816bda3&query=${location.latitude},${location.longitude}`,
+            `${process.env.NEXT_WEATHERSTACK_URL}?access_key=${process.env.NEXT_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
             { cache: 'force-cache', next: { revalidate: 86200 } }
           )
           if (!response.ok) {
@@ -85,45 +85,6 @@ export function WeatherForecast() {
       }
     }
     fetchWeather()
-    // setWeather({
-    //   request: {
-    //     type: 'LatLon',
-    //     query: 'Lat -21.55 and Lon -48.83',
-    //     language: 'en',
-    //     unit: 'm'
-    //   },
-    //   location: {
-    //     name: 'Itapolis',
-    //     country: 'Brazil',
-    //     region: 'Sao Paulo',
-    //     lat: '-21.583',
-    //     lon: '-48.767',
-    //     timezone_id: 'America/Sao_Paulo',
-    //     localtime: '2025-01-27 09:33',
-    //     localtime_epoch: 1737970380,
-    //     utc_offset: '-3.0'
-    //   },
-    //   current: {
-    //     observation_time: '12:33 PM',
-    //     temperature: 22,
-    //     weather_code: 176,
-    //     weather_icons: [
-    //       'https://cdn.worldweatheronline.com/images/wsymbols01_png_64/wsymbol_0009_light_rain_showers.png'
-    //     ],
-    //     weather_descriptions: ['Patchy rain nearby'],
-    //     wind_speed: 8,
-    //     wind_degree: 24,
-    //     wind_dir: 'NNE',
-    //     pressure: 1014,
-    //     precip: 0,
-    //     humidity: 92,
-    //     cloudcover: 77,
-    //     feelslike: 22,
-    //     uv_index: 4,
-    //     visibility: 10,
-    //     is_day: 'yes'
-    //   }
-    // })
   }, [location])
 
   if (error) return null
