@@ -1,5 +1,32 @@
 import { Container } from '@/components/common/container'
+import { applicationName, description, title } from '@/config'
+import { Metadata } from 'next'
 import { PageClient } from './page-client'
+
+export const metadata: Metadata = {
+  title: `Contato - ${title}`,
+  description: `contato, Contato Itachique, ${description}`,
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
+  icons: {
+    icon: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`,
+    shortcut: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon-16x16.png`,
+    apple: `${process.env.NEXT_PUBLIC_BASE_URL}/apple-touch-icon.png`
+  },
+  openGraph: {
+    title: `Contato - ${title}`,
+    description: `contato, Contato Itachique, ${description}`,
+    url: process.env.NEXT_PUBLIC_BASE_URL,
+    siteName: applicationName,
+    images: [
+      {
+        url: `${process.env.NEXT_PUBLIC_BASE_URL}/logo.png`,
+        width: 1200,
+        height: 630,
+        alt: title
+      }
+    ]
+  }
+}
 
 export default function Page() {
   return (
