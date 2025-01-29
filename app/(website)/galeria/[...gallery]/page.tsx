@@ -1,10 +1,7 @@
 import { AdvertisementClient } from '@/components/advertisement-client'
 import { Container } from '@/components/common/container'
 import { title } from '@/config'
-import {
-  advertisementAction,
-  webSiteAction
-} from '@/core/main/config/dependencies'
+import { webSiteAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn } from '@/lib/utils'
 import { Metadata } from 'next'
@@ -59,13 +56,13 @@ export default async function Page({ params }: Props) {
 
   const [{ data: posts }, { data: advertisements }] = await Promise.all([
     webSiteAction.find(id),
-    advertisementAction.list()
+    webSiteAction.listByAds()
   ])
   if (!posts?.galleryImage?.length) return notFound()
 
   // Garantir que as propagandas sejam embaralhadas
-  const shuffleAdsHeader = advertisements.sort(() => Math.random() - 0.5)?.[0]
-  const shuffleAdsFooter = advertisements.sort(() => Math.random() - 0.5)?.[1]
+  const shuffleAdsHeader = advertisements?.sort(() => Math.random() - 0.5)?.[0]
+  const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[1]
 
   return (
     <div className="bg-neutral-900 py-8">

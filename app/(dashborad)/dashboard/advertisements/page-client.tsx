@@ -109,12 +109,12 @@ export function PageClientForm({ data }: Form) {
               state?.errors?.validatedAt && errorClass
             )}
           >
-            <Label htmlFor="validatedAt">Validade {data?.validatedAt}</Label>
+            <Label htmlFor="validatedAt">Validade</Label>
             <Input
               id="validatedAt"
               type="date"
               name="validatedAt"
-              defaultValue={'2023-09-24'}
+              defaultValue={data?.validatedAt.toJSON().slice(0, 10)}
             />
             {state?.errors?.validatedAt && (
               <small>{state?.errors?.validatedAt?.[0]}</small>

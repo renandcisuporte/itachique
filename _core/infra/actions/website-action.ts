@@ -1,14 +1,21 @@
+import { AllAdvertisementWebSiteUseCase } from '@/core/app/use-cases/website/all-advertisement-website-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/app/use-cases/website/find-website-use-case'
+import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
 import { WebSiteProps } from '@/core/domain/entity/website-entity'
 
 export class WebSiteActionImpl {
   constructor(
     private readonly listUseCase: AllWebSiteUseCase,
     private readonly findUseCase: FindWebSiteUseCase,
-    private readonly findByTagsUseCase: FindByTagsSiteUseCase
+    private readonly findByTagsUseCase: FindByTagsSiteUseCase,
+    private readonly allAdsUseCase: AllAdvertisementWebSiteUseCase
   ) {}
+
+  async listByAds(): Promise<{ data: AdvertisementProps[] }> {
+    return await this.allAdsUseCase.execute()
+  }
 
   async listByTags(input: string): Promise<{ data: WebSiteProps[] | null }> {
     return await this.findByTagsUseCase.execute(input)

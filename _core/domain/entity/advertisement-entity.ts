@@ -9,7 +9,7 @@ export type AdvertisementProps = {
   link?: string
   position: number
   isActive: boolean
-  validatedAt: Date | null
+  validatedAt: Date
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date | null
@@ -79,9 +79,7 @@ export class Advertisement {
   }
 
   get validatedAt() {
-    return this.props.validatedAt?.toLocaleDateString('pt-BR', {
-      timeZone: 'UTC'
-    })
+    return this.props.validatedAt
   }
 
   get createdAt() {

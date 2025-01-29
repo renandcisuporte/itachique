@@ -31,6 +31,7 @@ import { AllValidatedUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-
 import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
 import { DeleteUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/delete-upcoming-event-use-case'
 import { UpdateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/update-upcoming-event-use-case'
+import { AllAdvertisementWebSiteUseCase } from '@/core/app/use-cases/website/all-advertisement-website-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/app/use-cases/website/find-website-use-case'
@@ -104,7 +105,8 @@ const repositoryWebSite = new WebSiteRepositoryPrisma(prisma)
 export const webSiteAction = new WebSiteActionImpl(
   new AllWebSiteUseCase(repositoryWebSite),
   new FindWebSiteUseCase(repositoryWebSite),
-  new FindByTagsSiteUseCase(repositoryWebSite)
+  new FindByTagsSiteUseCase(repositoryWebSite),
+  new AllAdvertisementWebSiteUseCase(repositoryWebSite)
 )
 
 const repositoryAdvertisement = new AdvertisementRepositoryPrisma(prisma)

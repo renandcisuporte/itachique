@@ -3,10 +3,7 @@ import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { Pagination } from '@/components/pagination'
 import { description, title } from '@/config'
-import {
-  advertisementAction,
-  webSiteAction
-} from '@/core/main/config/dependencies'
+import { webSiteAction } from '@/core/main/config/dependencies'
 import { slugNormalized } from '@/lib/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -77,20 +74,20 @@ export default async function Page({ params, searchParams }: Props) {
 
   const [{ data: posts, total }, { data: advertisements }] = await Promise.all([
     webSiteAction.list(input),
-    advertisementAction.list()
+    webSiteAction.listByAds()
   ])
 
   if (!posts.length) return notFound()
 
   // Garantir que as propagandas sejam embaralhadas
-  const shuffledAds = advertisements.sort(() => Math.random() - 0.5)
+  const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
 
   // montar a lista de propagandas
   const ads = Math.ceil(posts.length / 4)
 
   return (
     <div className="bg-neutral-900 py-8">
-      {shuffledAds.slice(0, ads).map((item, i) => (
+      {shuffledAds?.slice(0, ads).map((item, i) => (
         <Container key={item.id}>
           {item.galleryImagesJson && (
             <AdvertisementClient

@@ -51,7 +51,7 @@ export class AdvertisementActionImpl {
         position: 0,
         description: '',
         isActive: false,
-        validatedAt: null
+        validatedAt: new Date()
       },
       {
         id: '2',
@@ -61,7 +61,7 @@ export class AdvertisementActionImpl {
         position: 0,
         description: '',
         isActive: false,
-        validatedAt: null
+        validatedAt: new Date()
       },
       {
         id: '3',
@@ -71,7 +71,7 @@ export class AdvertisementActionImpl {
         position: 0,
         description: '',
         isActive: false,
-        validatedAt: null
+        validatedAt: new Date()
       },
       {
         id: '4',
@@ -81,7 +81,7 @@ export class AdvertisementActionImpl {
         position: 0,
         description: '',
         isActive: false,
-        validatedAt: null
+        validatedAt: new Date()
       }
     ]
     const result = await this.allUseCase.execute()

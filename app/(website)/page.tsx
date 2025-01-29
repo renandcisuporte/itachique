@@ -4,7 +4,6 @@ import { Container } from '@/components/common/container'
 import { UpcomingEventsClient } from '@/components/upcoming-events-client'
 import { applicationName, description, keywords, title } from '@/config'
 import {
-  advertisementAction,
   upcomingEventAction,
   webSiteAction
 } from '@/core/main/config/dependencies'
@@ -44,16 +43,16 @@ export default async function Home() {
   const [{ data: posts }, { data: advertisements }, { data: events }] =
     await Promise.all([
       webSiteAction.list({ page: 1, limit: 12 }),
-      advertisementAction.list(),
+      webSiteAction.listByAds(),
       upcomingEventAction.listValidated()
     ])
 
   // Garantir que as propagandas sejam embaralhadas
-  const shuffledAds = advertisements.sort(() => Math.random() - 0.5)
+  const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
 
   return (
     <div className="bg-neutral-900 py-8">
-      {shuffledAds.map((item, i) => (
+      {shuffledAds?.map((item, i) => (
         <Container key={item.id}>
           {item.galleryImagesJson && (
             <AdvertisementClient

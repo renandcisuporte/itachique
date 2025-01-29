@@ -86,7 +86,12 @@ export default async function Page({ searchParams }: Props) {
               </TableCell>
               <TableCell>
                 <div>{item.title}</div>
-                <div className="text-xs">{item.link}</div>
+                <div className="text-xs" style={{ letterSpacing: '0.05em' }}>
+                  {item.link} - Válido até:{' '}
+                  {item.validatedAt.toLocaleDateString('pt-BR', {
+                    timeZone: 'UTC'
+                  })}
+                </div>
                 <div className="mt-2 grid grid-cols-2 justify-center gap-2">
                   {item.galleryImagesJson?.map((image) => (
                     <Image
