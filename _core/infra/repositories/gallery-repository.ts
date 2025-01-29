@@ -46,6 +46,10 @@ export class GalleryRepositoryPrisma implements GalleryGateway {
     })
   }
 
+  async count(): Promise<number> {
+    return await this.prisma.gallery.count()
+  }
+
   async all(post_id: string): Promise<Gallery[]> {
     const result = await this.prisma.gallery.findMany({
       where: { post_id }

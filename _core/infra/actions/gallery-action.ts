@@ -1,3 +1,4 @@
+import { CountGalleryUseCase } from '@/core/app/use-cases/gallery/count-gallery-use-case'
 import { CreateGalleryUseCase } from '@/core/app/use-cases/gallery/create-gallery-use-case'
 import { DeleteGalleryUseCase } from '@/core/app/use-cases/gallery/delete-gallery-use-case'
 import { ListGalleryUseCase } from '@/core/app/use-cases/gallery/list-gallery-use-case'
@@ -7,8 +8,13 @@ export class GalleryActionImpl {
   constructor(
     private readonly listUseCase: ListGalleryUseCase,
     private readonly saveUseCase: CreateGalleryUseCase,
-    private readonly deleteUseCase: DeleteGalleryUseCase
+    private readonly deleteUseCase: DeleteGalleryUseCase,
+    private readonly countUseCase: CountGalleryUseCase
   ) {}
+
+  async count() {
+    return await this.countUseCase.execute()
+  }
 
   async list(postId: string): Promise<{ data: GalleryProps[] }> {
     const result = await this.listUseCase.execute({ postId })

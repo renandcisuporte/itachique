@@ -35,8 +35,7 @@ export default async function Page({ searchParams }: Props) {
     limit = '25',
     q = '',
     order = '[date_desc]',
-    modal_delete = 'false',
-    post_id = ''
+    modal_delete = 'false'
   } = searchParams
   const { data: posts, total } = await postAction.list({
     page: page.toString(),
@@ -76,13 +75,14 @@ export default async function Page({ searchParams }: Props) {
         <TableBody>
           {posts?.map((item) => (
             <TableRow key={item.id}>
-              <TableCell className="w-[1%]">
+              <TableCell className="w-[175px]">
                 <Image
                   src={item.coverImage!}
                   alt={item.title}
                   loading="lazy"
-                  width={105}
-                  height={105}
+                  width={175}
+                  height={175}
+                  quality={80}
                 />
               </TableCell>
               <TableCell className="w-[1%]">

@@ -41,7 +41,7 @@ export async function saveUpcomingEventAction(_: any, formData: FormData) {
     return { errors: { message: ['Sessão expirada, faça login novamente.'] } }
   }
 
-  const { galleryImages, ...restForm } = Object.fromEntries(formData)
+  const { ...restForm } = Object.fromEntries(formData)
 
   const file = formData.get('galleryImages') as File
   if (file.size > 0) {

@@ -49,9 +49,16 @@ function CardTitle({ ...rest }) {
   return (
     <h3
       className={cn(
-        'p-4 text-lg font-extrabold uppercase text-[#e4e439] md:text-2xl',
+        'web px-4 text-lg font-extrabold uppercase text-[#e4e439] md:text-2xl',
         mrEavesXLModOTBold.className
       )}
+      style={{
+        display: '-webkit-box',
+        WebkitLineClamp: 2,
+        WebkitBoxOrient: 'vertical',
+        textOverflow: 'ellipsis',
+        overflow: 'hidden'
+      }}
       {...rest}
     />
   )

@@ -8,8 +8,6 @@ const date = new Date()
 const test = date.toISOString().split('T')[0]
 const [YEAR, MONTH] = test.split('-')
 
-// Defina o limite de arquivos processados por vez
-const BATCH_SIZE = 1
 // Diretório onde os arquivos serão armazenados
 const UPLOAD_DIR = path.join(
   process.cwd(),
