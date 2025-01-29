@@ -32,9 +32,11 @@ export default async function Page() {
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      <Card className="border-none bg-neutral-900 text-white">
+      <Card className="border-none bg-neutral-700 text-neutral-300">
         <CardHeader>
-          <CardTitle>Total de Eventos</CardTitle>
+          <CardTitle className="text-lg tracking-wider">
+            Total de Eventos
+          </CardTitle>
           <CardDescription>
             Quantidade resumida de eventos cadastrados no site
           </CardDescription>
@@ -44,9 +46,11 @@ export default async function Page() {
         </CardContent>
       </Card>
 
-      <Card className="border-none bg-neutral-900 text-white">
+      <Card className="border-none bg-neutral-700 text-neutral-300">
         <CardHeader>
-          <CardTitle>Total de Galerias/Fotos</CardTitle>
+          <CardTitle className="text-lg tracking-wider">
+            Total de Galerias/Fotos
+          </CardTitle>
           <CardDescription>
             Quantidade resumida de eventos/fotos cadastrados no site
           </CardDescription>
@@ -56,9 +60,11 @@ export default async function Page() {
         </CardContent>
       </Card>
 
-      <Card className="border-none bg-neutral-900 text-white">
+      <Card className="border-none bg-neutral-700 text-neutral-300">
         <CardHeader>
-          <CardTitle>Total de Propagandas</CardTitle>
+          <CardTitle className="text-lg tracking-wider">
+            Total de Propagandas
+          </CardTitle>
           <CardDescription>
             Quantidade resumida de propagandas cadastrados no site
           </CardDescription>
@@ -68,9 +74,11 @@ export default async function Page() {
         </CardContent>
       </Card>
 
-      <Card className="border-none bg-neutral-900 text-white">
+      <Card className="border-none bg-neutral-700 text-neutral-300">
         <CardHeader>
-          <CardTitle>Total de Próximos Eventos</CardTitle>
+          <CardTitle className="text-lg tracking-wider">
+            Total de Próximos Eventos
+          </CardTitle>
           <CardDescription>
             Quantidade resumida de eventos que irão acontecer
           </CardDescription>

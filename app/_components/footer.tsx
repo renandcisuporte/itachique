@@ -90,8 +90,21 @@ function Social() {
 
 function Copyright() {
   return (
-    <div className="flex-1 basis-full border-t-[1px] border-t-neutral-800 py-2 text-center text-[7px] font-semibold uppercase text-neutral-800 md:text-xs">
-      itachique - todos os direitos reservados - 2011-{new Date().getFullYear()}
+    <div className="flex flex-1 basis-full items-center justify-between border-t-[1px] border-t-neutral-800 py-2 text-center text-[7px] font-semibold uppercase text-neutral-800 md:text-xs">
+      <span>
+        itachique - todos os direitos reservados - 2011-
+        {new Date().getFullYear()}
+      </span>
+      <span>
+        <a
+          href="https://www.datacontrolinformatica.com.br/"
+          target="_blank"
+          rel="noreferrer"
+          className="opacity-50"
+        >
+          <Image src="/rubrica.png" width={35} height={18} alt="" />
+        </a>
+      </span>
     </div>
   )
 }
