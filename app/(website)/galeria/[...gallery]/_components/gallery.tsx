@@ -5,7 +5,6 @@ import { WebSiteGalleryProps } from '@/core/domain/entity/website-entity'
 import { cn } from '@/lib/utils'
 import { Pause, Play } from 'lucide-react'
 import Image from 'next/image'
-import { useSearchParams } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 type Props = {
@@ -35,12 +34,11 @@ export function Gallery({
   page = 0,
   photo = 0
 }: Props) {
-  const params = useSearchParams()
   const containerRef = useRef<HTMLDivElement>(null) // Referência para capturar eventos de toque
 
   const [currentPage, setCurrentPage] = useState(page)
   const [currentPhoto, setCurrentPhoto] = useState(photo)
-  const [autoPlay, setAutoPlay] = useState(params.get('play') === 'true')
+  const [autoPlay, setAutoPlay] = useState(false)
 
   const chunkedArray = chunkGallery(galleryImage, chunkSize)
 
@@ -53,11 +51,13 @@ export function Gallery({
     )
   }
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   const push = useCallback(
     (url: string) => window.history.pushState(null, '', url),
     []
   )
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     if (!autoPlay) return
 
@@ -88,6 +88,7 @@ export function Gallery({
     return () => clearInterval(timer)
   }, [autoPlay, currentPage, currentPhoto, chunkedArray, postTitle, id, push])
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     const container = containerRef.current
     if (!container) return
