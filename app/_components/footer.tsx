@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { DetailedHTMLProps, HTMLAttributes } from 'react'
+import React, { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { Container } from './common/container'
 import { Icons } from './common/icons'
 

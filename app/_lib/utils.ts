@@ -17,7 +17,7 @@ export function slug(string: unknown) {
     .toLowerCase()
     .trim()
     .replace(/\s+/g, '-') // Substitui espaços por hífens
-    .replace(/[^\w\-]+/g, '-') // Remove caracteres não alfanuméricos
+    .replace(/[^\w-]+/g, '-') // Remove caracteres não alfanuméricos
     .replace(/-+/g, '-') // Remove múltiplos hífens consecutivos
 
   // Converte para minúsculas

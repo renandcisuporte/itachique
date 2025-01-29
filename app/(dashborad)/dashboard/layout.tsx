@@ -1,5 +1,6 @@
 import { Session } from '@/lib/session'
 import { redirect } from 'next/navigation'
+import React from 'react'
 import { Nav } from './_components/nav-left'
 
 export default async function DashboardRoot({

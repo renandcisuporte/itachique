@@ -35,8 +35,7 @@ export default async function Page({ searchParams }: Props) {
     limit = '25',
     q = '',
     order = '[date_desc]',
-    modal_delete = 'false',
-    post_id = ''
+    modal_delete = 'false'
   } = searchParams
   const { data: posts, total } = await postAction.list({
     page: page.toString(),

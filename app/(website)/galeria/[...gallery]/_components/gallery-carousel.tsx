@@ -1,6 +1,5 @@
+import { webSiteAction } from '@/core/main/config/dependencies'
 import dynamic from 'next/dynamic'
-import { webSiteAction } from '../../../../../_core/main/config/dependencies'
-// import { GalleryCarouselClient } from './gallery-carousel-client'
 
 const GalleryCarouselClient = dynamic(
   () => import('./gallery-carousel-client'),
@@ -12,7 +11,6 @@ export default async function GalleryCarousel({
 }: {
   categoryName: string
 }) {
-  await new Promise((resolve) => setTimeout(resolve, 1000))
   const posts = await webSiteAction.list({
     categoryName,
     limit: 20
