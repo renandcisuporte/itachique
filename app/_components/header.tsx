@@ -30,7 +30,13 @@ function Logo() {
       className="relative mx-auto block h-[75px] w-[175px] md:h-[175px] md:w-[300px]"
       href="/"
     >
-      <Image src="/logo.png" alt="Logo" fill className="object-contain" />
+      <Image
+        src="/logo.png"
+        alt="Logo"
+        fill
+        className="object-contain"
+        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      />
     </Link>
   )
 }

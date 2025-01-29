@@ -79,7 +79,9 @@ export class Advertisement {
   }
 
   get validatedAt() {
-    return this.props.validatedAt
+    return this.props.validatedAt?.toLocaleDateString('pt-BR', {
+      timeZone: 'UTC'
+    })
   }
 
   get createdAt() {

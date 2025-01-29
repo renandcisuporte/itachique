@@ -11,7 +11,7 @@ import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Gallery } from './_components/gallery'
-import GalleryCarousel from './_components/gallery-carousel'
+import { GalleryCarousel } from './_components/gallery-carousel'
 
 type Props = {
   params: { gallery: string[] }
@@ -68,73 +68,53 @@ export default async function Page({ params }: Props) {
   const shuffleAdsFooter = advertisements.sort(() => Math.random() - 0.5)?.[1]
 
   return (
-    <>
-      <div className="bg-white py-4">
-        <Container>
-          <small className="text-[10px] uppercase tracking-widest">
-            publicidade
-          </small>
-          <AdvertisementClient
-            images={shuffleAdsHeader.galleryImagesJson!}
-            link={shuffleAdsHeader.link!}
-          />
-        </Container>
-      </div>
+    <div className="bg-neutral-900 py-8">
+      <Container className="flex flex-col space-y-4">
+        <AdvertisementClient
+          images={shuffleAdsHeader.galleryImagesJson!}
+          link={shuffleAdsHeader.link!}
+        />
 
-      <div className="bg-neutral-900 py-16">
-        <Container className="flex flex-col space-y-4">
-          <h1
-            className={cn(
-              'uppercase text-[#e4e439] md:text-4xl',
-              mrEavesXLModOTBold.className
-            )}
-          >
-            {posts?.postTitle}
-          </h1>
-          <p className="p-0">Data: {posts?.postDate}</p>
-          {posts?.postLocale && (
-            <p className="p-0">Local: {posts?.postLocale}</p>
+        <h1
+          className={cn(
+            'uppercase text-[#e4e439] md:text-4xl',
+            mrEavesXLModOTBold.className
           )}
-          {posts?.postCity && <p className="p-0">Cidade: {posts?.postCity}</p>}
-          <Suspense fallback={<>Carregando...</>}>
-            <Gallery
-              id={id}
-              postTitle={slug}
-              galleryImage={posts?.galleryImage}
-              page={+page}
-              photo={+photo}
-            />
-          </Suspense>
-        </Container>
-      </div>
+        >
+          {posts?.postTitle}
+        </h1>
 
-      <div className="bg-white py-4">
-        <Container>
-          <small className="text-[10px] uppercase">publicidade</small>
-          <AdvertisementClient
-            images={shuffleAdsFooter.galleryImagesJson!}
-            link={shuffleAdsFooter.link!}
-          />
-        </Container>
-      </div>
+        <p className="p-0">Data: {posts?.postDate}</p>
 
-      <div className="bg-neutral-900 py-16">
-        <Container className="flex flex-col space-y-4">
-          <h2
-            className={cn(
-              'uppercase text-[#e4e439] md:text-2xl',
-              mrEavesXLModOTBold.className
-            )}
-          >
-            Veja também
-          </h2>
-        </Container>
-        <Container className="space-y-4">
-          <Suspense fallback={<p>Carregando...</p>}>
-            <GalleryCarousel categoryName={posts?.categoryName} />
-          </Suspense>
-        </Container>
-      </div>
-    </>
+        {posts?.postLocale && <p className="p-0">Local: {posts?.postLocale}</p>}
+        {posts?.postCity && <p className="p-0">Cidade: {posts?.postCity}</p>}
+
+        <Gallery
+          id={id}
+          postTitle={slug}
+          galleryImage={posts?.galleryImage}
+          page={+page}
+          photo={+photo}
+        />
+
+        <AdvertisementClient
+          images={shuffleAdsFooter.galleryImagesJson!}
+          link={shuffleAdsFooter.link!}
+        />
+
+        <h2
+          className={cn(
+            'uppercase text-[#e4e439] md:text-2xl',
+            mrEavesXLModOTBold.className
+          )}
+        >
+          Veja também
+        </h2>
+
+        <Suspense fallback={<>Carregando...</>}>
+          <GalleryCarousel categoryName={posts?.categoryName} />
+        </Suspense>
+      </Container>
+    </div>
   )
 }

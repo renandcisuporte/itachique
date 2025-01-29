@@ -19,6 +19,7 @@ export class AllAdvertisementUseCase {
       galleryImagesJson: props.galleryImagesJson,
       link: props.link,
       position: props.position,
+      description: props.description,
       isActive: props.isActive,
       validatedAt: props.validatedAt,
       createdAt: props.createdAt,

@@ -97,9 +97,11 @@ export function PageClientForm({ data }: Form) {
               id="position"
               type="text"
               name="position"
-              defaultValue={data?.link}
+              defaultValue={data?.position}
             />
-            {state?.errors?.link && <small>{state?.errors?.link?.[0]}</small>}
+            {state?.errors?.position && (
+              <small>{state?.errors?.position?.[0]}</small>
+            )}
           </div>
           <div
             className={cn(
@@ -107,16 +109,12 @@ export function PageClientForm({ data }: Form) {
               state?.errors?.validatedAt && errorClass
             )}
           >
-            <Label htmlFor="validatedAt">Validade</Label>
+            <Label htmlFor="validatedAt">Validade {data?.validatedAt}</Label>
             <Input
               id="validatedAt"
-              type="datetime-local"
+              type="date"
               name="validatedAt"
-              defaultValue={
-                data?.validatedAt
-                  ? new Date(data?.validatedAt!).toISOString().slice(0, 16)
-                  : undefined
-              }
+              defaultValue={'2023-09-24'}
             />
             {state?.errors?.validatedAt && (
               <small>{state?.errors?.validatedAt?.[0]}</small>

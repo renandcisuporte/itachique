@@ -33,16 +33,18 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
   }
 
   async update(id: string, input: Advertisement): Promise<Advertisement> {
-    const data = {
+    const data: any = {
       title: input.title,
-      gallery_images: input.galleryImages,
       position: input.position,
       description: input.description,
       link: input.link!,
       is_active: input.isActive,
       validated_at: input.validatedAt,
-      updated_at: input.updatedAt
+      updated_at: new Date()
     }
+    if (input.galleryImages) data.gallery_images = input.galleryImages
+
+    console.log(data)
 
     const result = await this.prisma.advertisement.update({
       where: { id },

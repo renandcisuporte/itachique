@@ -5,7 +5,8 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["relationJoins"]
 }
 
 datasource db {
@@ -115,7 +116,7 @@ model Advertisement {
   link           String
   position       Int       @default(0)
   is_active      Boolean   @default(false)
-  validated_at   DateTime?
+  validated_at   DateTime? @db.Date
   created_at     DateTime
   updated_at     DateTime
   deleted_at     DateTime?

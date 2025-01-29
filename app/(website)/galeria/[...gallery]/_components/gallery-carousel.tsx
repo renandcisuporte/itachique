@@ -1,24 +1,36 @@
 import { webSiteAction } from '@/core/main/config/dependencies'
-import dynamic from 'next/dynamic'
+import GalleryCarouselClient from './gallery-carousel-client'
 
-const GalleryCarouselClient = dynamic(
-  () => import('./gallery-carousel-client'),
-  { ssr: false }
-)
+// import dynamic from 'next/dynamic'
+// const GalleryCarouselClient = dynamic(
+//   () => import('./gallery-carousel-client'),
+//   { ssr: false }
+// )
 
-export default async function GalleryCarousel({
+export async function GalleryCarousel({
   categoryName
 }: {
   categoryName: string
 }) {
-  const posts = await webSiteAction.list({
-    categoryName,
-    limit: 20
-  })
+  const [{ data: posts }, { data: postsPush }] = await Promise.all([
+    webSiteAction.list({
+      categoryName,
+      limit: 20
+    }),
+    webSiteAction.list({
+      postTitle: categoryName,
+      limit: 20
+    })
+  ])
 
   return (
     <>
-      <GalleryCarouselClient posts={posts.data} />
+      <div className="hidden md:block">
+        <GalleryCarouselClient posts={posts} perView={5} />
+      </div>
+      <div className="block md:hidden">
+        <GalleryCarouselClient posts={posts} perView={2} />
+      </div>
     </>
   )
 }

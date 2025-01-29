@@ -46,16 +46,26 @@ export function WeatherForecast() {
   const [location, setLocation] = useState<{
     latitude: number
     longitude: number
-  }>()
-  const [weather, setWeather] = useState<Props>()
+  } | null>()
+  const [weather, setWeather] = useState<Props | null>()
   const [error, setError] = useState('')
 
   useEffect(() => {
+    const savedLocation = localStorage.getItem('user-location')
+    if (savedLocation) {
+      setLocation(JSON.parse(savedLocation))
+      return
+    }
+
     // Obter geolocalização ao carregar a página
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude } = position.coords
-        setLocation({ latitude, longitude })
+        const userLocation = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude
+        }
+        setLocation(userLocation)
+        localStorage.setItem('user-location', JSON.stringify(userLocation))
       },
       (err) => {
         console.error(err)
@@ -73,8 +83,7 @@ export function WeatherForecast() {
             `${process.env.NEXT_PUBLIC_WEATHERSTACK_URL}?access_key=${process.env.NEXT_PUBLIC_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
             {
               cache: 'force-cache',
-              // deve revalidar a cada 12 horas
-              next: { revalidate: 43200 }
+              next: { revalidate: 14400 } // deve revalidar a cada 4 horas
             }
           )
           if (!response.ok) {

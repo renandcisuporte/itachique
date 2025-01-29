@@ -2,6 +2,7 @@
   "extends": ["eslint:recommended", "next/core-web-vitals"],
   "rules": {
     "react-hooks/rules-of-hooks": "warn", // Checks rules of Hooks
-    "react-hooks/exhaustive-deps": "warn" // Checks effect dependencies
+    "react-hooks/exhaustive-deps": "warn", // Checks effect dependencies
+    "no-unused-vars": "off"
   }
 }

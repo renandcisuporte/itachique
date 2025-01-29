@@ -93,14 +93,15 @@ export default async function Page({ searchParams }: Props) {
                       alt=""
                       key={image}
                       src={image}
-                      width={255}
-                      height={55}
+                      width={505}
+                      height={65}
                       quality={100}
                     />
                   ))}
                 </div>
+                {item.description}
               </TableCell>
-              <TableCell>asdf{item.description}</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -49,6 +49,7 @@ export class AdvertisementActionImpl {
         galleryImagesJson: JSON.parse('["/anuncie-952x135.jpg"]'),
         link: '',
         position: 0,
+        description: '',
         isActive: false,
         validatedAt: null
       },
@@ -58,6 +59,7 @@ export class AdvertisementActionImpl {
         galleryImagesJson: JSON.parse('["/anuncie-952x135.jpg"]'),
         link: '',
         position: 0,
+        description: '',
         isActive: false,
         validatedAt: null
       },
@@ -67,6 +69,7 @@ export class AdvertisementActionImpl {
         galleryImagesJson: JSON.parse('["/anuncie-952x135.jpg"]'),
         link: '',
         position: 0,
+        description: '',
         isActive: false,
         validatedAt: null
       },
@@ -76,6 +79,7 @@ export class AdvertisementActionImpl {
         galleryImagesJson: JSON.parse('["/anuncie-952x135.jpg"]'),
         link: '',
         position: 0,
+        description: '',
         isActive: false,
         validatedAt: null
       }

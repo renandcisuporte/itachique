@@ -9,7 +9,6 @@ import {
   webSiteAction
 } from '@/core/main/config/dependencies'
 import { Metadata } from 'next'
-import { Fragment } from 'react'
 
 // deve revalidar a pagina a cada 1 hora
 export const revalidate = 3600 // 1 hour
@@ -53,52 +52,39 @@ export default async function Home() {
   const shuffledAds = advertisements.sort(() => Math.random() - 0.5)
 
   return (
-    <div className="space-y-8 bg-neutral-900 pb-8">
+    <div className="bg-neutral-900 py-8">
       {shuffledAds.map((item, i) => (
-        <Fragment key={item.id}>
+        <Container key={item.id}>
           {item.galleryImagesJson && (
-            <div className="bg-white py-4">
-              <Container>
-                <small className="text-[10px] uppercase tracking-widest">
-                  publicidade
-                </small>
-                <AdvertisementClient
-                  images={item.galleryImagesJson}
-                  link={item.link}
-                />
-              </Container>
-            </div>
+            <AdvertisementClient
+              images={item.galleryImagesJson}
+              link={item.link}
+            />
           )}
 
           {i === 0 && <UpcomingEventsClient events={events} />}
 
-          <Container className="space-y-8">
-            <CardEvent.content>
-              {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
-                <CardEvent.item
-                  key={item.id}
-                  id={item.id}
-                  title={item.postTitle}
-                >
-                  <CardEvent.image
-                    src={item.postCoverImage}
-                    alt={item.postTitle}
-                  />
-                  <CardEvent.title>{item.postTitle}</CardEvent.title>
-                  <CardEvent.description>
-                    Data: {item.postDate}
-                  </CardEvent.description>
-                  <CardEvent.description>
-                    Local: {item.postLocale}
-                  </CardEvent.description>
-                  <CardEvent.description>
-                    Cidade: {item.postCity}
-                  </CardEvent.description>
-                </CardEvent.item>
-              ))}
-            </CardEvent.content>
-          </Container>
-        </Fragment>
+          <CardEvent.content>
+            {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
+              <CardEvent.item key={item.id} id={item.id} title={item.postTitle}>
+                <CardEvent.image
+                  src={item.postCoverImage}
+                  alt={item.postTitle}
+                />
+                <CardEvent.title>{item.postTitle}</CardEvent.title>
+                <CardEvent.description>
+                  Data: {item.postDate}
+                </CardEvent.description>
+                <CardEvent.description>
+                  Local: {item.postLocale}
+                </CardEvent.description>
+                <CardEvent.description>
+                  Cidade: {item.postCity}
+                </CardEvent.description>
+              </CardEvent.item>
+            ))}
+          </CardEvent.content>
+        </Container>
       ))}
     </div>
   )
