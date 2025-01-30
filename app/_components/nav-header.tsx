@@ -3,8 +3,8 @@ import { Container } from './common/container'
 
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/lib/utils'
-import Link from 'next/link'
 import { categoryAction } from '../../_core/main/config/dependencies'
+import Link from './common/link'
 import { Nav } from './nav-client'
 
 interface Props
@@ -12,7 +12,7 @@ interface Props
 
 function Root({ ...rest }: Props) {
   return (
-    <div className="border-y-[1px] border-[#e4e439] bg-[#1b1a1a]" {...rest} />
+    <div className="border-t-[1px] border-[#e4e439] bg-[#1b1a1a]" {...rest} />
   )
 }
 
@@ -23,10 +23,7 @@ async function Links() {
     <Link
       href={`/${slug(item.name)}`}
       key={item.id}
-      className={cn(
-        'flex h-12 items-center px-4 italic text-white',
-        mrEavesXLModOTBold.className
-      )}
+      className={cn(mrEavesXLModOTBold.className)}
     >
       <span>{item.name}</span>
     </Link>
