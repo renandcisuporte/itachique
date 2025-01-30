@@ -66,7 +66,7 @@ export default async function Page({ params }: Props) {
   const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[1]
 
   return (
-    <div className="bg-neutral-900 py-8">
+    <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
       <Container className="flex flex-col space-y-4">
         <AdvertisementClient
           images={shuffleAdsHeader.galleryImagesJson!}

@@ -51,7 +51,7 @@ export default async function Home() {
   const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
 
   return (
-    <div className="bg-neutral-900 py-8">
+    <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
       {shuffledAds?.map((item, i) => (
         <Container key={item.id}>
           {item.galleryImagesJson && (

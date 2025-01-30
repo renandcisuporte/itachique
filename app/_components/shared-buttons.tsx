@@ -27,10 +27,10 @@ export function ShareButtons({
   return (
     <div className={cn('flex space-x-3 p-4', className)}>
       <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer">
-        <Icons.facebook className="h-3 w-3 fill-blue-600 hover:opacity-80 md:h-6 md:w-6" />
+        <Icons.facebook className="h-4 w-4 fill-blue-600 hover:opacity-80 md:h-6 md:w-6" />
       </a>
       <a href={shareLinks.whatsapp} target="_blank" rel="noopener noreferrer">
-        <Icons.whatsapp className="h-3 w-3 fill-green-500 hover:opacity-80 md:h-6 md:w-6" />
+        <Icons.whatsapp className="h-4 w-4 fill-green-500 hover:opacity-80 md:h-6 md:w-6" />
       </a>
     </div>
   )
