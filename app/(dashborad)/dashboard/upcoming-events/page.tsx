@@ -58,14 +58,23 @@ export default async function Page({ searchParams }: Props) {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>#</TableHead>
-            <TableHead>Lista</TableHead>
+            <TableHead colSpan={1}>#</TableHead>
+            <TableHead>Açoes</TableHead>
             <TableHead>Descrição</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data?.map((item) => (
             <TableRow key={item.id}>
+              <TableCell className="w-[175px]">
+                <Image
+                  alt=""
+                  src={item.galleryImages!}
+                  width={255}
+                  height={55}
+                  quality={100}
+                />
+              </TableCell>
               <TableCell className="w-[1%]">
                 <span className="flex space-x-1">
                   <Link
@@ -81,17 +90,15 @@ export default async function Page({ searchParams }: Props) {
                 </span>
               </TableCell>
               <TableCell>
-                <div>{item.title}</div>
+                <div>
+                  {item.title} -{' '}
+                  {item?.date?.toLocaleString('pt-BR', {
+                    timeZone: 'UTC'
+                  })}
+                </div>
                 <div className="text-xs">{item.locale}</div>
-                <Image
-                  alt=""
-                  src={item.galleryImages!}
-                  width={255}
-                  height={55}
-                  quality={100}
-                />
+                <div className="text-xs">{item.description}</div>
               </TableCell>
-              <TableCell>asdf{item.description}</TableCell>
             </TableRow>
           ))}
         </TableBody>
