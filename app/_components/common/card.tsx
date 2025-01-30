@@ -3,6 +3,7 @@ import { cn, slug } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
+import { ShareButtons } from '../shared-buttons'
 
 function Card({ children }: { children: ReactNode }) {
   return (
@@ -22,9 +23,19 @@ function CardItem({
   children: ReactNode
 }) {
   return (
-    <Link href={`/galeria/${slug(title)}/${id}/0/0`} className="bg-black pb-6">
-      {children}
-    </Link>
+    <div className="relative">
+      <Link
+        href={`/galeria/${slug(title)}/${id}/0/0`}
+        className="block bg-black pb-6"
+      >
+        {children}
+      </Link>
+      <ShareButtons
+        url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug(title)}/${id}/0/0`}
+        text={title}
+        className="absolute bottom-0 right-0 z-10"
+      />
+    </div>
   )
 }
 

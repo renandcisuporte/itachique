@@ -20,3 +20,10 @@ export function slug(string: unknown) {
     .replace(/[^\w-]+/g, '-') // Remove caracteres não alfanuméricos
     .replace(/-+/g, '-') // Remove múltiplos hífens consecutivos
 }
+
+export function isMobile() {
+  if (typeof window === 'undefined') return false // Evita erro no servidor
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+    navigator.userAgent
+  )
+}

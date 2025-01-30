@@ -1,9 +1,10 @@
 'use client'
 
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UpcomingEventProps } from '../../_core/domain/entity/upcoming-event-entity'
 // import SwiperCore from 'swiper'
+import { isMobile } from '@/lib/utils'
 import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
@@ -12,11 +13,25 @@ import { A11y, EffectFade, FreeMode, Navigation, Thumbs } from 'swiper/modules'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 
 export function UpcomingEventsClient({
-  events
+  events,
+  direction = 'vertical',
+  slides = 3
 }: {
   events: UpcomingEventProps[]
+  direction?: 'horizontal' | 'vertical'
+  slides?: number
 }) {
+  const [isMobileDevice, setIsMobileDevice] = useState(false)
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass>()
+
+  useEffect(() => {
+    setIsMobileDevice(isMobile())
+  }, [])
+
+  if (isMobileDevice) {
+    slides = 1
+    direction = 'horizontal'
+  }
 
   if (!events) return null
 
@@ -53,12 +68,12 @@ export function UpcomingEventsClient({
         <Swiper
           onSwiper={setThumbsSwiper}
           spaceBetween={8}
-          direction="vertical"
-          slidesPerView={3}
+          direction={direction}
+          slidesPerView={slides}
           freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs, A11y]}
-          className="h-[355px] w-full flex-shrink md:w-56"
+          className="w-full flex-shrink md:h-[355px] md:w-56"
           autoHeight={false}
         >
           {events.map((item) => (

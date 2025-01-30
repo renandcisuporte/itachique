@@ -86,7 +86,7 @@ export default async function Page({ params, searchParams }: Props) {
   const ads = Math.ceil(posts.length / 4)
 
   return (
-    <div className="bg-neutral-900 py-8">
+    <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
       {shuffledAds?.slice(0, ads).map((item, i) => (
         <Container key={item.id}>
           {item.galleryImagesJson && (

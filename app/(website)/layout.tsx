@@ -12,6 +12,7 @@ export default function RootLayout({
   return (
     <>
       <WeatherForecast />
+
       <Header.root>
         <Header.content>
           <div className="basis-full md:basis-1/3" />
