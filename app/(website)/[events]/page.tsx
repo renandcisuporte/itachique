@@ -3,14 +3,11 @@ import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { Pagination } from '@/components/pagination'
 import { description, title } from '@/config'
-import {
-  advertisementAction,
-  webSiteAction
-} from '@/core/main/config/dependencies'
+import { webSiteAction } from '@/core/main/config/dependencies'
 import { slugNormalized } from '@/lib/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import { Fragment } from 'react'
+import {} from 'react'
 
 type Props = {
   params: {
@@ -77,62 +74,48 @@ export default async function Page({ params, searchParams }: Props) {
 
   const [{ data: posts, total }, { data: advertisements }] = await Promise.all([
     webSiteAction.list(input),
-    advertisementAction.list()
+    webSiteAction.listByAds()
   ])
 
   if (!posts.length) return notFound()
 
   // Garantir que as propagandas sejam embaralhadas
-  const shuffledAds = advertisements.sort(() => Math.random() - 0.5)
+  const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
 
   // montar a lista de propagandas
   const ads = Math.ceil(posts.length / 4)
 
   return (
-    <div className="space-y-8 bg-neutral-900 pb-8">
-      {shuffledAds.slice(0, ads).map((item, i) => (
-        <Fragment key={item.id}>
+    <div className="bg-neutral-900 py-8">
+      {shuffledAds?.slice(0, ads).map((item, i) => (
+        <Container key={item.id}>
           {item.galleryImagesJson && (
-            <div className="bg-white py-4">
-              <Container>
-                <small className="text-[10px] uppercase tracking-widest">
-                  publicidade
-                </small>
-                <AdvertisementClient
-                  images={item.galleryImagesJson}
-                  link={item.link}
-                />
-              </Container>
-            </div>
+            <AdvertisementClient
+              images={item.galleryImagesJson}
+              link={item.link}
+            />
           )}
-
-          <Container className="space-y-8">
-            <CardEvent.content>
-              {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
-                <CardEvent.item
-                  key={item.id}
-                  id={item.id}
-                  title={item.postTitle}
-                >
-                  <CardEvent.image
-                    src={item.postCoverImage}
-                    alt={item.postTitle}
-                  />
-                  <CardEvent.title>{item.postTitle}</CardEvent.title>
-                  <CardEvent.description>
-                    Data: {item.postDate}
-                  </CardEvent.description>
-                  <CardEvent.description>
-                    Local: {item.postLocale}
-                  </CardEvent.description>
-                  <CardEvent.description>
-                    Cidade: {item.postCity}
-                  </CardEvent.description>
-                </CardEvent.item>
-              ))}
-            </CardEvent.content>
-          </Container>
-        </Fragment>
+          <CardEvent.content>
+            {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
+              <CardEvent.item key={item.id} id={item.id} title={item.postTitle}>
+                <CardEvent.image
+                  src={item.postCoverImage}
+                  alt={item.postTitle}
+                />
+                <CardEvent.title>{item.postTitle}</CardEvent.title>
+                <CardEvent.description>
+                  Data: {item.postDate}
+                </CardEvent.description>
+                <CardEvent.description>
+                  Local: {item.postLocale}
+                </CardEvent.description>
+                <CardEvent.description>
+                  Cidade: {item.postCity}
+                </CardEvent.description>
+              </CardEvent.item>
+            ))}
+          </CardEvent.content>
+        </Container>
       ))}
 
       {total > 0 && (

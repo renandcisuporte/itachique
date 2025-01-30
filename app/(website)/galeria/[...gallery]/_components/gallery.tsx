@@ -27,6 +27,19 @@ const chunkGallery = (gallery: WebSiteGalleryProps[], size: number) => {
   return chunks
 }
 
+function AutoPlay({ play, onClick }: { play: boolean; onClick: () => void }) {
+  return (
+    <div className="flex flex-row items-center space-x-2 text-xs">
+      {!play ? (
+        <Play className="w-4 cursor-pointer text-white" onClick={onClick} />
+      ) : (
+        <Pause className="w-4 cursor-pointer text-white" onClick={onClick} />
+      )}
+      <span>Visualização automática</span>
+    </div>
+  )
+}
+
 export function Gallery({
   id,
   galleryImage,
@@ -144,31 +157,21 @@ export function Gallery({
 
   return (
     <>
-      <div className="flex flex-row space-x-2">
-        {!autoPlay ? (
-          <Play
-            className="w-6 cursor-pointer text-white"
-            onClick={toggleAutoPlay}
+      <div className="flex flex-col items-center justify-center gap-2">
+        <AutoPlay play={autoPlay} onClick={toggleAutoPlay} />
+        <div
+          ref={containerRef}
+          className="relative mx-auto h-[332px] w-full max-w-[800px] bg-black md:h-[532px]"
+        >
+          <Image
+            src={chunkedArray?.[currentPage]?.[currentPhoto]?.url || ''}
+            alt={chunkedArray?.[currentPage]?.[currentPhoto]?.image || ''}
+            loading="lazy"
+            fill
+            className="z-0 object-contain"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        ) : (
-          <Pause
-            className="w-6 cursor-pointer text-white"
-            onClick={toggleAutoPlay}
-          />
-        )}
-      </div>
-      <div
-        ref={containerRef}
-        className="relative mx-auto h-[332px] w-full max-w-[800px] bg-black md:h-[532px]"
-      >
-        <Image
-          src={chunkedArray?.[currentPage]?.[currentPhoto]?.url || ''}
-          alt={chunkedArray?.[currentPage]?.[currentPhoto]?.image || ''}
-          loading="lazy"
-          fill
-          className="z-0 object-contain"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+        </div>
       </div>
       <div className="flex flex-row items-center justify-center gap-2 overflow-x-auto">
         {chunkedArray?.[currentPage]?.map((item, index) => (

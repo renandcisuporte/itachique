@@ -1,10 +1,11 @@
 'use client'
 
 import Image from 'next/image'
-import SwiperCore from 'swiper'
+
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/pagination'
+
 import { A11y, Autoplay, EffectFade } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 
@@ -13,14 +14,17 @@ type AdvertisementProps = {
   images: string[]
 }
 
-// install Swiper modules
-SwiperCore.use([EffectFade, A11y, Autoplay])
 export function AdvertisementClient({ images, link }: AdvertisementProps) {
   if (!images) return null
 
   if (link) {
     return (
-      <a href={link} target="_blank" rel="noopener noreferrer">
+      <a
+        href={link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="block"
+      >
         <AdvertisementClient images={images} />
       </a>
     )
@@ -34,6 +38,8 @@ export function AdvertisementClient({ images, link }: AdvertisementProps) {
       slidesPerView={1}
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       effect="fade"
+      className="my-8"
+      modules={[EffectFade, A11y, Autoplay]}
     >
       {sortImages.map((item: string) => (
         <SwiperSlide key={item}>

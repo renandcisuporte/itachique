@@ -1,3 +1,4 @@
+import { Advertisement } from '@/core/domain/entity/advertisement-entity'
 import { Category } from '@/core/domain/entity/category-entity'
 import { WebSite } from '@/core/domain/entity/website-entity'
 import { WebSiteGateway } from '@/core/domain/gateway/website-gateway'
@@ -8,6 +9,41 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
   allCategory(): Promise<Category[]> {
     throw new Error('Method not implemented.')
+  }
+
+  async allWebSiteAds(): Promise<Advertisement[]> {
+    const data = new Date()
+      .toLocaleDateString()
+      .slice(0, 10)
+      .split('/')
+      .reverse()
+      .join('-')
+
+    const result = await this.prisma.advertisement.findMany({
+      where: {
+        deleted_at: null,
+        validated_at: {
+          gte: new Date(data)
+        }
+      }
+    })
+
+    return result.map((item) => {
+      return Advertisement.with({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        galleryImages: item.gallery_images,
+        galleryImagesJson: JSON.parse(item.gallery_images),
+        position: item.position,
+        link: item.link,
+        isActive: item.is_active,
+        validatedAt: item.validated_at!,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        deletedAt: item.deleted_at
+      })
+    })
   }
 
   async countWebSite(input: Record<string, any>): Promise<number> {

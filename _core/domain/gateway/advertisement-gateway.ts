@@ -6,4 +6,5 @@ export interface AdvertisementGateway {
   create(input: Advertisement): Promise<Advertisement>
   find(id: string): Promise<Advertisement | null>
   allAdvertisement(): Promise<Advertisement[]>
+  allAdvertisementValidated(): Promise<Advertisement[]>
 }

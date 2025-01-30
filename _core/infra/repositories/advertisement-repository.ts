@@ -24,7 +24,7 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
       title: result.title,
       position: result.position,
       isActive: result.is_active,
-      validatedAt: result.validated_at,
+      validatedAt: result.validated_at!,
       galleryImages: result.gallery_images,
       createdAt: result.created_at,
       updatedAt: result.updated_at,
@@ -33,16 +33,16 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
   }
 
   async update(id: string, input: Advertisement): Promise<Advertisement> {
-    const data = {
+    const data: any = {
       title: input.title,
-      gallery_images: input.galleryImages,
       position: input.position,
       description: input.description,
       link: input.link!,
       is_active: input.isActive,
       validated_at: input.validatedAt,
-      updated_at: input.updatedAt
+      updated_at: new Date()
     }
+    if (input.galleryImages) data.gallery_images = input.galleryImages
 
     const result = await this.prisma.advertisement.update({
       where: { id },
@@ -54,7 +54,7 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
       title: result.title,
       position: result.position,
       isActive: result.is_active,
-      validatedAt: result.validated_at,
+      validatedAt: result.validated_at!,
       galleryImages: result.gallery_images,
       createdAt: result.created_at,
       updatedAt: result.updated_at,
@@ -87,7 +87,7 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
       position: result.position,
       description: input.description,
       isActive: result.is_active,
-      validatedAt: result.validated_at,
+      validatedAt: result.validated_at!,
       galleryImages: result.gallery_images,
       createdAt: result.created_at,
       updatedAt: result.updated_at,
@@ -99,6 +99,33 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
     const result = await this.prisma.advertisement.findMany({
       where: {
         deleted_at: null
+      }
+    })
+
+    return result.map((item) => {
+      return Advertisement.with({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        galleryImages: item.gallery_images,
+        position: item.position,
+        link: item.link,
+        isActive: item.is_active,
+        validatedAt: item.validated_at!,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        deletedAt: item.deleted_at
+      })
+    })
+  }
+
+  async allAdvertisementValidated(): Promise<Advertisement[]> {
+    const result = await this.prisma.advertisement.findMany({
+      where: {
+        deleted_at: null,
+        validated_at: {
+          gte: new Date().toUTCString()
+        }
       }
     })
 

@@ -41,7 +41,7 @@ export async function saveAdvertisementAction(_: any, formData: FormData) {
     return { errors: { message: ['Sessão expirada, faça login novamente.'] } }
   }
 
-  const { ...restForm } = Object.fromEntries(formData)
+  const { galleryImages, ...restForm } = Object.fromEntries(formData)
 
   const images: string[] = []
   const files = formData.getAll('galleryImages') as File[]
@@ -69,7 +69,7 @@ export async function saveAdvertisementAction(_: any, formData: FormData) {
     link: restForm.link as string,
     position: Number(restForm.position),
     isActive: restForm.isActive === 'on' ? true : false,
-    validatedAt: new Date()
+    validatedAt: new Date(restForm.validatedAt as string)
   })
 
   if (result.errors) {

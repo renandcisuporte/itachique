@@ -19,16 +19,4 @@ export function slug(string: unknown) {
     .replace(/\s+/g, '-') // Substitui espaços por hífens
     .replace(/[^\w-]+/g, '-') // Remove caracteres não alfanuméricos
     .replace(/-+/g, '-') // Remove múltiplos hífens consecutivos
-
-  // Converte para minúsculas
-  // return String(string)
-  //   .normalize('NFD') // Decompor caracteres acentuados
-  //   .replace(/[\u0300-\u036f]/g, '') // Remover diacríticos
-  //   .trim()
-  //   .toLowerCase()
-  //   .replace(/\s+/g, '-') // Substituir espaços por hífens
-  //   .replace(/[^\w\-]+/g, '') // Remover caracteres não permitidos
-  //   .replace(/\-\-+/g, '-') // Substituir múltiplos hífens consecutivos por um único hífen
-  //   .replace(/^-+/, '') // Remover hífens do início
-  //   .replace(/-+$/, '') // Remover hífens do final
 }

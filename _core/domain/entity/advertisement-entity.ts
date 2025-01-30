@@ -9,7 +9,7 @@ export type AdvertisementProps = {
   link?: string
   position: number
   isActive: boolean
-  validatedAt: Date | null
+  validatedAt: Date
   createdAt?: Date
   updatedAt?: Date
   deletedAt?: Date | null
