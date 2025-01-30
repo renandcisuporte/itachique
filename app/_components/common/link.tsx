@@ -9,7 +9,7 @@ export default function Link({
   ...rest
 }: LinkProps & React.AnchorHTMLAttributes<HTMLAnchorElement>) {
   const pathname = usePathname()
-  const slug = rest.href.startsWith(pathname)
+  const slug = rest.href.startsWith(pathname) && pathname !== '/'
 
   const className = cn(
     rest.className,
