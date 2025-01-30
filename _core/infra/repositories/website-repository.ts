@@ -12,18 +12,13 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
   }
 
   async allWebSiteAds(): Promise<Advertisement[]> {
-    const data = new Date()
-      .toLocaleDateString()
-      .slice(0, 10)
-      .split('/')
-      .reverse()
-      .join('-')
+    const date = new Date(new Date().toISOString().split('T')[0])
 
     const result = await this.prisma.advertisement.findMany({
       where: {
         deleted_at: null,
         validated_at: {
-          gte: new Date(data)
+          gte: date
         }
       }
     })

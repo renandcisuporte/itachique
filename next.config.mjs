@@ -2,7 +2,7 @@
 const nextConfig = {
   // output: 'standalone',
   // distDir: 'dist',
-  swcMinify: true,
+  // swcMinify: true,
   reactStrictMode: true,
   experimental: {
     serverActions: true,

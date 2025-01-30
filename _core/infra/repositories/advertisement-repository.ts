@@ -120,11 +120,12 @@ export class AdvertisementRepositoryPrisma implements AdvertisementGateway {
   }
 
   async allAdvertisementValidated(): Promise<Advertisement[]> {
+    const date = new Date(new Date().toISOString().split('T')[0])
     const result = await this.prisma.advertisement.findMany({
       where: {
         deleted_at: null,
         validated_at: {
-          gte: new Date().toUTCString()
+          gte: date
         }
       }
     })
