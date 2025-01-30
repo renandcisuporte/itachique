@@ -12,7 +12,7 @@ interface Props
 
 function Root({ ...rest }: Props) {
   return (
-    <div className="border-t-[1px] border-[#e4e439] bg-[#1b1a1a]" {...rest} />
+    <div className="border-y-[1px] border-[#e4e439] bg-[#1b1a1a]" {...rest} />
   )
 }
 
