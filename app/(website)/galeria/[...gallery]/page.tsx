@@ -1,5 +1,6 @@
 import { AdvertisementClient } from '@/components/advertisement-client'
 import { Container } from '@/components/common/container'
+import { ShareButtons } from '@/components/shared-buttons'
 import { title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
@@ -80,11 +81,22 @@ export default async function Page({ params }: Props) {
         >
           {posts?.postTitle}
         </h1>
-
-        <p className="p-0">Data: {posts?.postDate}</p>
-
-        {posts?.postLocale && <p className="p-0">Local: {posts?.postLocale}</p>}
-        {posts?.postCity && <p className="p-0">Cidade: {posts?.postCity}</p>}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="p-0">Data: {posts?.postDate}</p>
+            {posts?.postLocale && (
+              <p className="p-0">Local: {posts?.postLocale}</p>
+            )}
+            {posts?.postCity && (
+              <p className="p-0">Cidade: {posts?.postCity}</p>
+            )}
+          </div>
+          <ShareButtons
+            text={posts?.postTitle}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/0/0`}
+            className="justify-end"
+          />
+        </div>
 
         <Gallery
           id={id}
