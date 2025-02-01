@@ -39,7 +39,7 @@ export function AdvertisementClient({ images, link }: AdvertisementProps) {
       autoplay={{ delay: 5000, disableOnInteraction: false }}
       effect="fade"
       modules={[EffectFade, A11y, Autoplay]}
-      className="my-8"
+      className="my-8 max-h-[228px] w-full"
     >
       {sortImages.map((item: string) => (
         <SwiperSlide key={item}>
