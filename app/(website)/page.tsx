@@ -9,8 +9,8 @@ import {
 } from '@/core/main/config/dependencies'
 import { Metadata } from 'next'
 
-// deve revalidar a pagina a cada 1 hora
-export const revalidate = 3600 // 1 hour
+// deve revalidar a pagina a cada 5 minutos
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title,

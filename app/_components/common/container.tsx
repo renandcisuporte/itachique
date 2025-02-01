@@ -1,4 +1,4 @@
-import { cn } from '../../_lib/utils'
+import { cn } from '@/lib/utils'
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
 
 interface Props

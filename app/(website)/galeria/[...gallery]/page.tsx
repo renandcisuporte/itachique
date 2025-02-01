@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 // export async function generateStaticParams() {
-//   const { data: posts } = await webSiteAction.list({ limit: 5 })
+//   const { data: posts } = await webSiteAction.list({ limit: 550 })
 //   return posts.map((item) => {
 //     return { gallery: [slug(item.postTitle), item.id, '0', '0'] }
 //   })
