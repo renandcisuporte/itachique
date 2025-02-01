@@ -114,7 +114,7 @@ export function PageClientForm({ data }: Form) {
               id="validatedAt"
               type="date"
               name="validatedAt"
-              defaultValue={data?.validatedAt.toJSON().slice(0, 10)}
+              defaultValue={data?.validatedAt?.toJSON().slice(0, 10)}
             />
             {state?.errors?.validatedAt && (
               <small>{state?.errors?.validatedAt?.[0]}</small>
