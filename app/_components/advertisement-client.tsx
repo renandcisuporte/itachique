@@ -48,8 +48,8 @@ export function AdvertisementClient({ images, link }: AdvertisementProps) {
             loading="lazy"
             alt={item}
             width={1200}
-            height={200}
-            className="mx-auto"
+            height={228}
+            className="mx-auto h-auto w-full"
           />
         </SwiperSlide>
       ))}
