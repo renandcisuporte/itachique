@@ -1,3 +1,6 @@
+'use client'
+
+import { useDownload } from '@/context/download-context'
 import { cn } from '@/lib/utils'
 import React from 'react'
 import { Icons } from './common/icons'
@@ -12,6 +15,7 @@ export function ShareButtons({
   text = 'Compartilhar',
   ...rest
 }: ShareButtonsProps) {
+  const { download } = useDownload()
   const encodedUrl = encodeURIComponent(url)
   const encodedText = encodeURIComponent(text)
 
@@ -26,6 +30,12 @@ export function ShareButtons({
 
   return (
     <div className={cn('flex space-x-3 p-4', className)}>
+      {download && (
+        <a href={download} download>
+          <Icons.download className="h-4 w-4 fill-white hover:opacity-80 md:h-6 md:w-6" />
+        </a>
+      )}
+
       <a href={shareLinks.facebook} target="_blank" rel="noopener noreferrer">
         <Icons.facebook className="h-4 w-4 fill-blue-600 hover:opacity-80 md:h-6 md:w-6" />
       </a>

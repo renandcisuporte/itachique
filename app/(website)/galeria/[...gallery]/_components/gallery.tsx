@@ -1,8 +1,9 @@
 'use client'
 
 import { Container } from '@/components/common/container'
+import { useDownload } from '@/context/download-context'
 import { WebSiteGalleryProps } from '@/core/domain/entity/website-entity'
-import { cn } from '@/lib/utils'
+import { chunkGallery, cn } from '@/lib/utils'
 import { Pause, Play } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -18,22 +19,16 @@ type Props = {
 const chunkSize = 12
 const autoPlayInterval = 4000
 
-// Função auxiliar para dividir a galeria em chunks
-const chunkGallery = (gallery: WebSiteGalleryProps[], size: number) => {
-  const chunks: WebSiteGalleryProps[][] = []
-  for (let i = 0; i < gallery.length; i += size) {
-    chunks.push(gallery.slice(i, i + size))
-  }
-  return chunks
-}
-
 function AutoPlay({ play, onClick }: { play: boolean; onClick: () => void }) {
   return (
-    <div className="flex flex-row items-center space-x-2 text-xs">
+    <div
+      className="flex cursor-pointer flex-row items-center space-x-2 text-xs"
+      onClick={onClick}
+    >
       {!play ? (
-        <Play className="w-4 cursor-pointer text-white" onClick={onClick} />
+        <Play className="w-4 text-white" />
       ) : (
-        <Pause className="w-4 cursor-pointer text-white" onClick={onClick} />
+        <Pause className="w-4 text-white" />
       )}
       <span>Visualização automática</span>
     </div>
@@ -47,13 +42,18 @@ export function Gallery({
   page = 0,
   photo = 0
 }: Props) {
+  const { setDownload } = useDownload()
+
   const containerRef = useRef<HTMLDivElement>(null) // Referência para capturar eventos de toque
 
   const [currentPage, setCurrentPage] = useState(page)
   const [currentPhoto, setCurrentPhoto] = useState(photo)
   const [autoPlay, setAutoPlay] = useState(false)
 
-  const chunkedArray = chunkGallery(galleryImage, chunkSize)
+  const chunkedArray = chunkGallery<WebSiteGalleryProps>(
+    galleryImage,
+    chunkSize
+  )
 
   if (!chunkedArray.length) return null
 
@@ -154,6 +154,8 @@ export function Gallery({
       container.removeEventListener('touchend', handleTouchEnd)
     }
   }, [currentPage, chunkedArray])
+
+  setDownload(chunkedArray?.[currentPage]?.[currentPhoto]?.url)
 
   return (
     <>

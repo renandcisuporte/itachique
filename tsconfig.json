@@ -23,6 +23,9 @@
       }
     ],
     "paths": {
+      "@/context/*": [
+        "./app/_context/*"
+      ],
       "@/fonts": [
         "./app/_font/fonts.ts"
       ],

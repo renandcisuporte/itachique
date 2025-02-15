@@ -27,3 +27,12 @@ export function isMobile() {
     navigator.userAgent
   )
 }
+
+// Função auxiliar para dividir a galeria em chunks
+export function chunkGallery<Props>(gallery: Props[], size = 12) {
+  const chunks: Props[][] = []
+  for (let i = 0; i < gallery.length; i += size) {
+    chunks.push(gallery.slice(i, i + size))
+  }
+  return chunks
+}
