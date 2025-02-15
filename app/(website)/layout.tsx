@@ -19,9 +19,7 @@ export default function RootLayout({
           <div className="basis-full md:basis-1/3">
             <Header.logo />
           </div>
-          <div className="w-full flex-1 md:w-1/3">
-            <Header.search />
-          </div>
+          <div className="w-full flex-1 md:w-1/3" />
         </Header.content>
       </Header.root>
 
