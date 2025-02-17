@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client'
 import { genSaltSync, hashSync } from 'bcryptjs'
-import { randomUUID } from 'crypto'
+import { slug } from '../app/_lib/utils'
 // import { randomUUID } from 'crypto'
 import fs from 'fs'
 import path from 'path'
@@ -39,20 +39,46 @@ async function main() {
   const password = hashSync('dci@6913', salt)
 
   const folderPath = './public/uploads'
-  const images = getImagesFromFolderRecursive(folderPath)
+  // const images = getImagesFromFolderRecursive(folderPath)
+  const images = await prisma.post.findMany()
   for (const item of images) {
-    const [, dir, id, image] = item.split('\\')
-    if (image) {
-      await prisma.gallery.create({
+    if (!item?.cover_image) return
+
+    const [, dir, id, image] = item.cover_image!.split('/')
+    const [name, ext] = image.split('.')
+    const newName = [slug(name), ext].join('.')
+    const oldPath = path.join(process.cwd(), 'public', dir, id, image)
+    const newPath = path.join(process.cwd(), 'public', dir, id, newName)
+
+    if (fs.existsSync(oldPath) && oldPath !== newPath) {
+      console.log(`Renomeado: ${image} -> ${newName}`)
+      fs.renameSync(oldPath, newPath)
+      await prisma.post.update({
+        where: {
+          id: item.id
+        },
         data: {
-          id: randomUUID(),
-          post_id: id,
-          url: [dir, id, image].join('/'),
-          image: image
+          cover_image: ['', dir, id, newName].join('/'),
+          updated_at: new Date()
         }
       })
     }
   }
+
+  // for (const item of images) {
+  //   const [, dir, id, image] = item.split('\\')
+  //   if (image) {
+  //     await prisma.gallery.create({
+  //       data: {
+  //         id: randomUUID(),
+  //         post_id: id,
+  //         url: [dir, id, image].join('/'),
+  //         image: image
+  //       }
+  //     })
+  //   }
+  // }
+
   // console.log(images, 'images')
 
   // const id = randomUUID()

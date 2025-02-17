@@ -140,7 +140,7 @@ export function PageClient({ post }: { post: PostProps }) {
             key={index}
             className="flex flex-row items-center justify-between space-x-2 py-1"
           >
-            <Image width={175} height={175} src={item.url} alt={post.title} />
+            <Image width={275} height={275} src={item.url} alt={post.title} />
             <span className="flex-1">{item.image}</span>
             <div className="flex-shrink-0 space-x-2">
               <span>
