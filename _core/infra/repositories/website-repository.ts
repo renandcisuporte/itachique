@@ -43,35 +43,20 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
   async countWebSite(input: Record<string, any>): Promise<number> {
     let where = {
-      post: {
-        deleted_at: null,
-        gallery: {
-          some: {
-            image: {
-              not: null
-            }
-          }
-        }
-      },
+      post: { deleted_at: null },
       category: { deleted_at: null }
     }
     if (input && input.categoryName) {
-      Object.assign(where, {
-        category: {
-          name: {
-            contains: input.categoryName
-          }
+      Object.assign(where.category, {
+        name: {
+          contains: input.categoryName
         }
       })
     }
 
     if (input && input.postTitle) {
-      Object.assign(where, {
-        post: {
-          title: {
-            contains: input.postTitle
-          }
-        }
+      Object.assign(where.post, {
+        title: { contains: input.postTitle }
       })
     }
 
@@ -85,36 +70,19 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
     const page = input.page || 1
 
     let where = {
-      post: {
-        deleted_at: null,
-        gallery: {
-          some: {
-            image: {
-              not: null
-            }
-          }
-        }
-      },
+      post: { deleted_at: null },
       category: { deleted_at: null }
     }
 
-    if (input && input.categoryName) {
-      Object.assign(where, {
-        category: {
-          name: {
-            contains: input.categoryName
-          }
-        }
+    if (input?.categoryName) {
+      Object.assign(where.category, {
+        name: { contains: input.categoryName }
       })
     }
 
     if (input && input.postTitle) {
-      Object.assign(where, {
-        post: {
-          title: {
-            contains: input.postTitle
-          }
-        }
+      Object.assign(where.post, {
+        title: { contains: input.postTitle }
       })
     }
 
@@ -174,6 +142,9 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
       include: {
         category: true,
         post: {
+          where: {
+            deleted_at: null
+          },
           include: {
             city: true,
             locale: true,
@@ -218,8 +189,6 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
     const matches = tags.match(regex)
     const stringKey = tags.trim().split('-').slice(3, 6)
 
-    console.log(stringKey)
-
     const result = await this.prisma.categoryPost.findMany({
       orderBy: {
         post: {
@@ -228,6 +197,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
       },
       where: {
         post: {
+          deleted_at: null,
           title: {
             in: stringKey
           }
