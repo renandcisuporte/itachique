@@ -158,7 +158,7 @@ export class PostRepositoryPrisma implements PostGateway {
       localeText: result.locale_text! || result.locale?.name!,
       categoryId: result.categories[0]?.category?.id!,
       categoryName: result.categories[0]?.category?.name!,
-      coverImage: result.cover_image!,
+      coverImage: result.cover_image?.replace('á', 'Ã¡').replace('ç', 'Ã§')!,
       createdAt: result.created_at,
       updatedAt: result.updated_at
     })

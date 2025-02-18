@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { PostProps } from '@/core/domain/schemas/post-schema'
-import { Trash, Undo } from 'lucide-react'
+import { Download, Trash, Undo } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
@@ -140,10 +140,28 @@ export function PageClient({ post }: { post: PostProps }) {
             key={index}
             className="flex flex-row items-center justify-between space-x-2 py-1"
           >
-            <Image width={75} height={75} src={item.url} alt={post.title} />
+            <Image width={275} height={275} src={item.url} alt={post.title} />
             <span className="flex-1">{item.image}</span>
             <div className="flex-shrink-0 space-x-2">
-              <span>{uploadProgress[index]}%</span>
+              <span>
+                {uploadProgress[index] && `${uploadProgress[index]}%`}
+              </span>
+              {!item.id?.includes('blob') && (
+                <Button
+                  type="button"
+                  variant={'download'}
+                  className="h-6 w-6 fill-white p-4 text-white"
+                  asChild
+                >
+                  <Link
+                    href={`/api/download/?image=${item.url}`}
+                    target="_blank"
+                  >
+                    <Download />
+                  </Link>
+                </Button>
+              )}
+
               <Button
                 type="button"
                 variant={'destructive'}

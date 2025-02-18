@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client'
 import { genSaltSync, hashSync } from 'bcryptjs'
-import { randomUUID } from 'crypto'
 // import { randomUUID } from 'crypto'
 import fs from 'fs'
 import path from 'path'
@@ -39,20 +38,41 @@ async function main() {
   const password = hashSync('dci@6913', salt)
 
   const folderPath = './public/uploads'
-  const images = getImagesFromFolderRecursive(folderPath)
-  for (const item of images) {
-    const [, dir, id, image] = item.split('\\')
-    if (image) {
-      await prisma.gallery.create({
-        data: {
-          id: randomUUID(),
-          post_id: id,
-          url: [dir, id, image].join('/'),
-          image: image
-        }
-      })
+  // const images = getImagesFromFolderRecursive(folderPath)
+  const images = await prisma.gallery.groupBy({
+    by: ['post_id'],
+    _min: {
+      url: true,
+      post_id: true
     }
+  })
+  for (const item of images) {
+    console.log(item._min.url)
+    await prisma.post.update({
+      where: {
+        id: item.post_id!
+      },
+      data: {
+        cover_image: item._min.url,
+        updated_at: new Date()
+      }
+    })
   }
+
+  // for (const item of images) {
+  //   const [, dir, id, image] = item.split('\\')
+  //   if (image) {
+  //     await prisma.gallery.create({
+  //       data: {
+  //         id: randomUUID(),
+  //         post_id: id,
+  //         url: [dir, id, image].join('/'),
+  //         image: image
+  //       }
+  //     })
+  //   }
+  // }
+
   // console.log(images, 'images')
 
   // const id = randomUUID()

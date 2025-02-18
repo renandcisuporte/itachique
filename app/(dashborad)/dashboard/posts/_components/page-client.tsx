@@ -240,13 +240,13 @@ export function PageClient({
           {state?.errors?.cityId && <small>{state?.errors?.cityId?.[0]}</small>}
         </div>
 
-        <div className="flex gap-4">
+        <div className="flex items-center gap-4">
           {post?.coverImage && (
             <Image
               src={post?.coverImage}
               alt={post?.coverImage}
-              width={100}
-              height={100}
+              width={255}
+              height={255}
               className="rounded-lg"
             />
           )}

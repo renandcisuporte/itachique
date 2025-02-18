@@ -2,6 +2,7 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { NavHeader } from '@/components/nav-header'
 import { WeatherForecast } from '@/components/weather-forecast'
+import { DownloadProvider } from '@/context/download-context'
 import React, { Suspense } from 'react'
 
 export default function RootLayout({
@@ -10,7 +11,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <>
+    <DownloadProvider>
       <WeatherForecast />
 
       <Header.root>
@@ -19,9 +20,7 @@ export default function RootLayout({
           <div className="basis-full md:basis-1/3">
             <Header.logo />
           </div>
-          <div className="w-full flex-1 md:w-1/3">
-            <Header.search />
-          </div>
+          <div className="w-full flex-1 md:w-1/3" />
         </Header.content>
       </Header.root>
 
@@ -43,6 +42,6 @@ export default function RootLayout({
           <Footer.copyright />
         </Footer.content>
       </Footer.root>
-    </>
+    </DownloadProvider>
   )
 }
