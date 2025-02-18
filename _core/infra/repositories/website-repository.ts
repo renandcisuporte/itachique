@@ -80,9 +80,15 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
       })
     }
 
-    if (input && input.postTitle) {
+    if (input?.postTitle) {
       Object.assign(where.post, {
         title: { contains: input.postTitle }
+      })
+    }
+
+    if (input?.date) {
+      Object.assign(where.post, {
+        date: { lte: input.date }
       })
     }
 
@@ -185,8 +191,6 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
   }
 
   async findTagsWebSite(tags: string): Promise<WebSite[] | null> {
-    const regex = /-\s*(.*?)\s*-/
-    const matches = tags.match(regex)
     const stringKey = tags.trim().split('-').slice(3, 6)
 
     const result = await this.prisma.categoryPost.findMany({

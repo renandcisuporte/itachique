@@ -1,20 +1,21 @@
 import { webSiteAction } from '@/core/main/config/dependencies'
 import GalleryCarouselClient from './gallery-carousel-client'
 
-// import dynamic from 'next/dynamic'
-// const GalleryCarouselClient = dynamic(
-//   () => import('./gallery-carousel-client'),
-//   { ssr: false }
-// )
-
-export async function GalleryCarousel({
-  categoryName
+export async function GalleryCarouselPrevious({
+  categoryName,
+  date
 }: {
   categoryName: string
+  date: string
 }) {
+  let [day, month, year] = date.split('/').map(Number)
+  let datePrevious = new Date(year, month - 1, day)
+  datePrevious.setFullYear(datePrevious.getFullYear() - 2)
+
   const [{ data: posts }] = await Promise.all([
     webSiteAction.list({
       categoryName,
+      date: datePrevious,
       limit: 20
     })
   ])
