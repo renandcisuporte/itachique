@@ -10,6 +10,7 @@ import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
 import { Gallery } from './_components/gallery'
 import { GalleryCarousel } from './_components/gallery-carousel'
+import { GalleryCarouselPrevious } from './_components/gallery-carousel-previous'
 
 type Props = {
   params: { gallery: string[] }
@@ -63,65 +64,88 @@ export default async function Page({ params }: Props) {
 
   // Garantir que as propagandas sejam embaralhadas
   const shuffleAdsHeader = advertisements?.sort(() => Math.random() - 0.5)?.[0]
-  const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[1]
+  const shuffleAdsMiddle = advertisements?.sort(() => Math.random() - 0.5)?.[1]
+  const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[2]
 
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
-      <Container className="flex flex-col space-y-4">
+      <Container className="flex flex-col space-y-8">
         <AdvertisementClient
           images={shuffleAdsHeader.galleryImagesJson!}
           link={shuffleAdsHeader.link!}
         />
-
-        <h1
-          className={cn(
-            'uppercase text-[#e4e439] md:text-4xl',
-            mrEavesXLModOTBold.className
-          )}
-        >
-          {posts?.postTitle}
-        </h1>
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="p-0">Data: {posts?.postDate}</p>
-            {posts?.postLocale && (
-              <p className="p-0">Local: {posts?.postLocale}</p>
+        <div>
+          <h1
+            className={cn(
+              'uppercase text-[#e4e439] md:text-4xl',
+              mrEavesXLModOTBold.className
             )}
-            {posts?.postCity && (
-              <p className="p-0">Cidade: {posts?.postCity}</p>
-            )}
+          >
+            {posts?.postTitle}
+          </h1>
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="p-0">Data: {posts?.postDate}</p>
+              {posts?.postLocale && (
+                <p className="p-0">Local: {posts?.postLocale}</p>
+              )}
+              {posts?.postCity && (
+                <p className="p-0">Cidade: {posts?.postCity}</p>
+              )}
+            </div>
+            <ShareButtons
+              text={posts?.postTitle}
+              url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/0/0`}
+              className="justify-end"
+            />
           </div>
-          <ShareButtons
-            text={posts?.postTitle}
-            url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/0/0`}
-            className="justify-end"
-          />
+
+          <div className="space-y-4">
+            <Gallery
+              id={id}
+              postTitle={slug}
+              galleryImage={posts?.galleryImage}
+              page={+page}
+              photo={+photo}
+            />
+          </div>
         </div>
 
-        <Gallery
-          id={id}
-          postTitle={slug}
-          galleryImage={posts?.galleryImage}
-          page={+page}
-          photo={+photo}
+        <AdvertisementClient
+          images={shuffleAdsMiddle.galleryImagesJson!}
+          link={shuffleAdsMiddle.link!}
         />
+
+        <Suspense fallback={<>Carregando...</>}>
+          <h2
+            className={cn(
+              'uppercase text-[#e4e439] md:text-2xl',
+              mrEavesXLModOTBold.className
+            )}
+          >
+            Veja também
+          </h2>
+          <GalleryCarousel categoryName={posts?.categoryName} />
+        </Suspense>
 
         <AdvertisementClient
           images={shuffleAdsFooter.galleryImagesJson!}
           link={shuffleAdsFooter.link!}
         />
 
-        <h2
-          className={cn(
-            'uppercase text-[#e4e439] md:text-2xl',
-            mrEavesXLModOTBold.className
-          )}
-        >
-          Veja também
-        </h2>
-
         <Suspense fallback={<>Carregando...</>}>
-          <GalleryCarousel categoryName={posts?.categoryName} />
+          <h2
+            className={cn(
+              'uppercase text-[#e4e439] md:text-2xl',
+              mrEavesXLModOTBold.className
+            )}
+          >
+            Eventos Anteriores
+          </h2>
+          <GalleryCarouselPrevious
+            categoryName={posts?.categoryName}
+            date={posts?.postDate}
+          />
         </Suspense>
       </Container>
     </div>
