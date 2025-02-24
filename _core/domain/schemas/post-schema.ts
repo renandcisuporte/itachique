@@ -21,6 +21,8 @@ export const PostSchema = z.object({
   cityId: z.string().optional().nullable(),
   categoryName: z.string().optional().nullable(),
   categoryId: z.string().optional().nullable(),
+  subCategoryId: z.string().optional().nullable(),
+  subCategoryName: z.string().optional().nullable(),
   coverImage: z.string().optional().nullable(),
   galleryImage: z.optional(
     z.array(

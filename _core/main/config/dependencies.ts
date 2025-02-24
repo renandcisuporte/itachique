@@ -26,6 +26,10 @@ import { DeletePostUseCase } from '@/core/app/use-cases/post/delete-post-use-cas
 import { FindPostUseCase } from '@/core/app/use-cases/post/find-post-use-case'
 import { ListPostUseCase } from '@/core/app/use-cases/post/list-post-use-case'
 import { UpdatePostUseCase } from '@/core/app/use-cases/post/update-post-use-case'
+import { AllSubCategoryUseCase } from '@/core/app/use-cases/subcategory/all-subcategory-use-case'
+import { CreateSubCategoryUseCase } from '@/core/app/use-cases/subcategory/create-subcategory-use-case'
+import { DeleteSubCategoryUseCase } from '@/core/app/use-cases/subcategory/delete-subcategory-use-case'
+import { UpdateSubCategoryUseCase } from '@/core/app/use-cases/subcategory/update-subcategory-use-case'
 import { AllUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-upcoming-event-use-case'
 import { AllValidatedUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
 import { CreateUpcomingEventUseCase } from '@/core/app/use-cases/upcoming-event/create-upcoming-event-use-case'
@@ -42,6 +46,7 @@ import { CityActionImpl } from '@/core/infra/actions/city-action'
 import { GalleryActionImpl } from '@/core/infra/actions/gallery-action'
 import { LocaleActionImpl } from '@/core/infra/actions/locale-action'
 import { PostActionImpl } from '@/core/infra/actions/post-action'
+import { SubCategoryActionImpl } from '@/core/infra/actions/subcategory-action'
 import { UpcomingEventActionImpl } from '@/core/infra/actions/upcoming-event-action'
 import { WebSiteActionImpl } from '@/core/infra/actions/website-action'
 import { UploadImageProviderImpl } from '@/core/infra/provider/upload-image'
@@ -52,6 +57,7 @@ import { CityRepositoryPrisma } from '@/core/infra/repositories/city-repository'
 import { GalleryRepositoryPrisma } from '@/core/infra/repositories/gallery-repository'
 import { LocaleRepositoryPrisma } from '@/core/infra/repositories/locale-repository'
 import { PostRepositoryPrisma } from '@/core/infra/repositories/post-repository'
+import { SubCategoryRepositoryPrisma } from '@/core/infra/repositories/subcategory-repository'
 import { UpcomingEventRepositoryPrisma } from '@/core/infra/repositories/upcoming-event-repository'
 import { WebSiteRepositoryPrisma } from '@/core/infra/repositories/website-repository'
 import { prisma } from '@/core/package/prisma'
@@ -84,6 +90,14 @@ export const categoryAction = new CategoryActionImpl(
   new CreateCategoryUseCase(categoryRepository),
   new UpdateCategoryUseCase(categoryRepository),
   new DeleteCategoryUseCase(categoryRepository)
+)
+
+const subCategoryRepository = new SubCategoryRepositoryPrisma(prisma)
+export const subCategoryAction = new SubCategoryActionImpl(
+  new AllSubCategoryUseCase(subCategoryRepository),
+  new CreateSubCategoryUseCase(subCategoryRepository),
+  new UpdateSubCategoryUseCase(subCategoryRepository),
+  new DeleteSubCategoryUseCase(subCategoryRepository)
 )
 
 const cityRepository = new CityRepositoryPrisma(prisma)

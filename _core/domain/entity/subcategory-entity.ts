@@ -1,25 +1,25 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
 import {
-  CategoryProps,
-  CategorySchema
-} from '@/core/domain/schemas/category-schema'
+  SubCategoryProps,
+  SubCategorySchema
+} from '@/core/domain/schemas/subcategory-schema'
 import { randomUUID } from 'crypto'
 
-export class Category {
-  private constructor(private readonly props: CategoryProps) {
+export class SubCategory {
+  private constructor(private readonly props: SubCategoryProps) {
     this.validate()
   }
 
   private validate() {
-    const result = CategorySchema.safeParse(this.props)
+    const result = SubCategorySchema.safeParse(this.props)
     if (!result.success) {
       const error = result.error.flatten()
       throw new ValidationError(error.fieldErrors)
     }
   }
 
-  static create({ name, position }: CategoryProps) {
-    return new Category({
+  static create({ name, position }: SubCategoryProps) {
+    return new SubCategory({
       id: randomUUID(),
       name,
       position,
@@ -29,8 +29,8 @@ export class Category {
     })
   }
 
-  static with(props: CategoryProps) {
-    return new Category(props)
+  static with(props: SubCategoryProps) {
+    return new SubCategory(props)
   }
 
   get id() {
