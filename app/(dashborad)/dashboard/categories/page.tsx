@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { PageClientDelete, PageClientForm } from './page-client'
 
 export const metadata: Metadata = {
-  title: 'Locais - Itachique'
+  title: 'Sub Categorias - Itachique'
 }
 
 type T = {
@@ -51,7 +51,7 @@ export default async function Page({ searchParams }: Props) {
       )}
 
       <div className="mb-4 flex items-center justify-between space-x-2">
-        <h1 className="text-2xl">Locais</h1>
+        <h1 className="text-2xl">Categorias</h1>
         <Button asChild type="button">
           <Link
             href="/dashboard/categories/?modal_form=open"

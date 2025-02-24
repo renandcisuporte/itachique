@@ -1,6 +1,6 @@
 'use server'
 
-import { categoryAction } from '@/core/main/config/dependencies'
+import { subCategoryAction } from '@/core/main/config/dependencies'
 import { Session } from '@/lib/session'
 import { revalidatePath } from 'next/cache'
 
@@ -13,7 +13,7 @@ export async function deleteCategoryAction(_: any, formData: FormData) {
   }
 
   const id = formData.get('id') as string
-  await categoryAction.delete(id)
+  await subCategoryAction.delete(id)
 
   return {
     success: true
@@ -27,7 +27,7 @@ export async function saveCategoryAction(_: any, formData: FormData) {
   }
 
   const form = Object.fromEntries(formData)
-  const result = await categoryAction.save({
+  const result = await subCategoryAction.save({
     id: form.id as string,
     name: form.name as string,
     position: 0
@@ -39,7 +39,7 @@ export async function saveCategoryAction(_: any, formData: FormData) {
   }
 
   const id = result?.data?.id
-  revalidatePath(`/(dashboard)/dashboard/categories`, 'page')
+  revalidatePath(`/(dashboard)/dashboard/subcategories`, 'page')
   return {
     success: true,
     data: { id }
