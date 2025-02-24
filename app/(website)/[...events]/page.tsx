@@ -6,7 +6,6 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { description, title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
-import { slugNormalized } from '@/lib/utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -14,7 +13,7 @@ import {} from 'react'
 
 type Props = {
   params: {
-    events: string
+    events: string[]
   }
   searchParams: {
     q?: string
@@ -27,53 +26,48 @@ export async function generateMetadata({
   params,
   searchParams
 }: Props): Promise<Metadata> {
-  // read route params
-  const { events } = params
   const { q = '' } = searchParams
+  const { events } = params
 
   let input = {
-    categoryName: slugNormalized(events),
+    categoryName: '',
+    subCategoryName: '',
     postTitle: ''
   }
 
-  if (events === 'search') {
-    input.postTitle = q
-    input.categoryName = ''
-  }
+  if (events[0]) input.categoryName = events[0]
+  if (events[1]) input.subCategoryName = events[1]
+  if (q) input.postTitle = q
 
   const posts = await webSiteAction.list(input)
+
   return {
     title: `${
-      posts.data.length > 0 ? `${posts.data[0].categoryName}: ` : ''
+      posts.data.length > 0
+        ? `${[posts.data[0].categoryName, posts.data[0].subCategoryName].join(' - ')}: `
+        : ''
     } ${title}`,
     description
   }
 }
 
-// export async function generateStaticParams() {
-//   const posts = await webSiteAction.list({ limit: 500 })
-//   return posts.data.map((item) => {
-//     return { events: slug(item.categoryName) }
-//   })
-// }
-
 export default async function Page({ params, searchParams }: Props) {
   const { events } = params
   const { page = 1, limit = 16, q = '' } = searchParams
 
-  if (events === undefined) return notFound()
+  if (events[0] === undefined) return notFound()
 
   let input = {
     page,
     limit,
-    categoryName: slugNormalized(events),
+    categoryName: '',
+    subCategoryName: '',
     postTitle: ''
   }
 
-  if (q) {
-    input.postTitle = q
-    input.categoryName = events
-  }
+  if (events[0]) input.categoryName = events[0]
+  if (events[1]) input.subCategoryName = events[1]
+  if (q) input.postTitle = q
 
   const [{ data: posts, total }, { data: advertisements }] = await Promise.all([
     webSiteAction.list(input),
@@ -95,7 +89,7 @@ export default async function Page({ params, searchParams }: Props) {
           {i === 0 && (
             <form
               className="mx-auto my-6 w-full items-center justify-end text-neutral-900 md:w-1/2"
-              action={`/${events}`}
+              action={`/${events.join('/')}`}
             >
               <Label
                 htmlFor="q"
@@ -156,7 +150,7 @@ export default async function Page({ params, searchParams }: Props) {
           page={+page}
           totalPage={total}
           perPage={16}
-          pathname={events}
+          pathname={events.join('/')}
         />
       )}
     </div>
