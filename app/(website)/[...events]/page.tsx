@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { description, title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
+import { slugNormalized } from '@/lib/utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
@@ -35,8 +36,9 @@ export async function generateMetadata({
     postTitle: ''
   }
 
-  if (events[0]) input.categoryName = events[0]
-  if (events[1]) input.subCategoryName = events[1]
+  if (events[0]) input.categoryName = slugNormalized(events[0])
+  console.log(input.categoryName)
+  if (events[1]) input.subCategoryName = slugNormalized(events[1])
   if (q) input.postTitle = q
 
   const posts = await webSiteAction.list(input)

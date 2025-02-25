@@ -29,6 +29,7 @@ model User {
 
 model Category {
   id         String    @id @db.Char(36)
+  slug       String
   name       String
   position   Int       @default(0)
   created_at DateTime
@@ -36,11 +37,13 @@ model Category {
   deleted_at DateTime?
   posts      Post[]
 
+  @@index([slug, name])
   @@map("categories")
 }
 
 model SubCategory {
   id         String    @id @db.Char(36)
+  slug       String
   name       String
   position   Int       @default(0)
   created_at DateTime
@@ -49,6 +52,7 @@ model SubCategory {
 
   posts Post[]
 
+  @@index([slug, name])
   @@map("sub_categories")
 }
 
@@ -99,6 +103,7 @@ model Post {
   @@index([subcategory_id])
   @@index([city_id])
   @@index([locale_id])
+  @@index([title, date])
   @@map("posts")
 }
 

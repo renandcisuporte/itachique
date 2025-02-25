@@ -1,5 +1,6 @@
 import { SubCategory } from '@/core/domain/entity/subcategory-entity'
 import { SubCategoryGateway } from '@/core/domain/gateway/subcategory-gateway'
+import { slug } from '@/lib/utils'
 import { PrismaClient } from '@prisma/client'
 
 export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
@@ -15,6 +16,7 @@ export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
   async update(id: string, input: SubCategory): Promise<SubCategory> {
     const data = {
       name: input.name,
+      slug: slug(input.name),
       position: input.position,
       updated_at: input.updatedAt!,
       deleted_at: input.deletedAt
@@ -27,6 +29,7 @@ export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
 
     return SubCategory.with({
       id: result.id,
+      slug: result.slug,
       name: result.name,
       position: result.position,
       createdAt: result.created_at,
@@ -38,6 +41,7 @@ export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
   async create(input: SubCategory): Promise<SubCategory> {
     const data = {
       id: input.id!,
+      slug: slug(input.name),
       name: input.name,
       position: input.position,
       created_at: input.createdAt!,
@@ -51,6 +55,7 @@ export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
 
     return SubCategory.with({
       id: result.id,
+      slug: result.slug,
       name: result.name,
       position: result.position,
       createdAt: result.created_at,
@@ -68,6 +73,7 @@ export class SubCategoryRepositoryPrisma implements SubCategoryGateway {
     return result.map((item) => {
       return SubCategory.with({
         id: item.id,
+        slug: item.slug,
         name: item.name,
         position: item.position,
         createdAt: item.created_at,

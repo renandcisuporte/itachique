@@ -37,6 +37,10 @@ export class Category {
     return this.props.id
   }
 
+  get slug() {
+    return this.props.slug
+  }
+
   get name() {
     return this.props.name
   }

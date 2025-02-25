@@ -1,5 +1,4 @@
 import { Advertisement } from '@/core/domain/entity/advertisement-entity'
-import { Category } from '@/core/domain/entity/category-entity'
 import { WebSite } from '@/core/domain/entity/website-entity'
 import {
   SiteMenuOutput,
@@ -9,10 +8,6 @@ import { PrismaClient } from '@prisma/client'
 
 export class WebSiteRepositoryPrisma implements WebSiteGateway {
   constructor(private readonly prisma: PrismaClient) {}
-
-  allCategory(): Promise<Category[]> {
-    throw new Error('Method not implemented.')
-  }
 
   async allMenuWebSite(): Promise<SiteMenuOutput[]> {
     const result = await this.prisma.post.findMany({
@@ -116,14 +111,14 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
     if (input?.categoryName) {
       Object.assign(where.category, {
-        name: { contains: input.categoryName }
+        slug: { contains: input.categoryName }
       })
     }
 
     if (input?.subCategoryName) {
       Object.assign(where, {
         subcategory: {
-          name: { contains: input.subCategoryName }
+          slug: { contains: input.subCategoryName }
         }
       })
     }
