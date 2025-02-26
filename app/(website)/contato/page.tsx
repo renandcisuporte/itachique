@@ -38,7 +38,7 @@ export default function Page() {
       <div className="min-h-500px mb-5 flex w-full flex-col md:flex-row md:space-x-8">
         <PageClient />
 
-        <div className="-order-1 w-full pt-4 md:order-none md:w-1/2 [&>ul>li]:pb-2 [&>ul>li]:font-bold [&>ul>li]:text-gray-600">
+        <div className="-order-1 w-full pt-4 md:order-none md:w-1/2 [&>ul>li]:pb-2 [&>ul>li]:font-bold [&>ul>li]:text-gray-100">
           <ul>
             <li>Site com fotos de baladas e festas em Itápolis e região.</li>
             <li>
