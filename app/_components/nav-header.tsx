@@ -21,7 +21,10 @@ async function Links() {
   const menus = await webSiteAction.findListMenus()
 
   return menus?.data?.map((item) => (
-    <li key={item.category} className="relative [&>div]:hover:block">
+    <li
+      key={item.category}
+      className="relative hover:bg-[#e4e439] hover:text-[#1b1a1a] [&>a]:hover:text-[#1b1a1a] [&>div]:hover:block"
+    >
       <Link
         href={`/${slug(item.category)}`}
         className={cn(mrEavesXLModOTBold.className)}
@@ -50,6 +53,11 @@ function NavRoot() {
     <Container>
       <Nav>
         <Links />
+        <li className="relative hover:bg-[#e4e439] hover:text-[#1b1a1a] [&>a]:hover:text-[#1b1a1a] [&>div]:hover:block">
+          <Link href="/contato" className={cn(mrEavesXLModOTBold.className)}>
+            <span>Contato</span>
+          </Link>
+        </li>
       </Nav>
     </Container>
   )

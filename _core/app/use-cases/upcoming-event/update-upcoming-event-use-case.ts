@@ -19,6 +19,7 @@ export class UpdateUpcomingEventUseCase {
     return {
       id: props.id,
       title: props.title,
+      categoryId: props.categoryId,
       description: props.description,
       locale: props.locale,
       date: props.date,

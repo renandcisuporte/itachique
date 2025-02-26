@@ -7,7 +7,10 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { upcomingEventAction } from '@/core/main/config/dependencies'
+import {
+  categoryAction,
+  upcomingEventAction
+} from '@/core/main/config/dependencies'
 import { Edit, Newspaper, Trash } from 'lucide-react'
 import { Metadata } from 'next'
 import Image from 'next/image'
@@ -29,17 +32,25 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const { modal_delete = 'false', modal_form = 'false', id = '' } = searchParams
-  const { data } = await upcomingEventAction.list()
+
+  const [{ data }, { data: category }] = await Promise.all([
+    upcomingEventAction.list(),
+    categoryAction.list()
+  ])
 
   return (
     <>
       {modal_delete === 'open' && (
-        <PageClientDelete data={data?.find((item) => item.id === id)!} />
+        <PageClientDelete
+          data={data?.find((item) => item.id === id)!}
+          categories={[]}
+        />
       )}
 
       {modal_form === 'open' && (
         <PageClientForm
           data={data?.find((item) => item.id === id) || ({} as any)}
+          categories={category}
         />
       )}
 

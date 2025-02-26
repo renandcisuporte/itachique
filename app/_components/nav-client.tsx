@@ -48,7 +48,7 @@ export function Nav({ ...rest }: Props) {
       <ul
         ref={navRef}
         className={cn(
-          'relative z-10 hidden text-xl md:flex md:justify-evenly md:space-x-2 [&>li>a]:hover:text-black [&>li>div]:transition-all [&>li>div]:duration-200 [&>li]:hover:bg-[#e4e439]',
+          'relative z-10 hidden text-xl md:flex md:justify-evenly md:space-x-2',
           open && 'absolute left-0 top-auto flex w-full flex-col bg-neutral-900'
         )}
         {...rest}

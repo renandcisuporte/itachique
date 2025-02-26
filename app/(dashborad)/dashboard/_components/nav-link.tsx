@@ -1,4 +1,5 @@
 'use client'
+
 import LinkNext from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,7 +15,7 @@ export const Link = ({
 }) => {
   const path = usePathname()
   const url = href.toString()
-  const active = path.includes(url)
+  const active = url.includes(path) && path !== '/dashboard'
 
   const className = cn('text-white', active && '!underline')
 

@@ -1,5 +1,5 @@
 import { mrEavesXLModOTBold } from '@/fonts'
-import { cn, slug } from '@/lib/utils'
+import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
@@ -14,25 +14,25 @@ function Card({ children }: { children: ReactNode }) {
 }
 
 function CardItem({
-  id,
   title,
+  url,
   children
 }: {
-  id: string
   title: string
+  url: string
   children: ReactNode
 }) {
   return (
     <div className="relative">
       <Link
-        href={`/galeria/${slug(title)}/${id}/0/0`}
+        href={`${process.env.NEXT_PUBLIC_BASE_URL}${url}`}
         className="block bg-black pb-6"
       >
         {children}
       </Link>
       <ShareButtons
-        url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug(title)}/${id}/0/0`}
         text={title}
+        url={`${process.env.NEXT_PUBLIC_BASE_URL}${url}`}
         className="absolute bottom-0 right-0 z-10"
       />
     </div>

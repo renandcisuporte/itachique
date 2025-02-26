@@ -23,7 +23,8 @@ export class AllMenuSiteUseCase {
           parent: []
         }
       }
-      acc[categoryName].parent.push({ subcategory: subcategory })
+
+      subcategory && acc[categoryName].parent.push({ subcategory })
 
       return acc
     }, {})

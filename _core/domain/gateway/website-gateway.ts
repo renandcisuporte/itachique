@@ -1,9 +1,10 @@
 import { Advertisement } from '@/core/domain/entity/advertisement-entity'
+import { UpcomingEvent } from '@/core/domain/entity/upcoming-event-entity'
 import { WebSite } from '@/core/domain/entity/website-entity'
 
 export type SiteMenuOutput = {
   category: string
-  subcategory: string
+  subcategory?: string
 }
 
 export interface WebSiteGateway {
@@ -13,4 +14,5 @@ export interface WebSiteGateway {
   findSlugWebSite(id: string): Promise<WebSite | null>
   findTagsWebSite(tags: string): Promise<WebSite[] | null>
   allWebSiteAds(): Promise<Advertisement[]>
+  upcomingEventWebSite(input: Record<string, any>): Promise<UpcomingEvent[]>
 }

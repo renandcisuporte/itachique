@@ -5,7 +5,7 @@ import { PageClient } from './page-client'
 
 export const metadata: Metadata = {
   title: `Contato - ${title}`,
-  description: `contato, Contato Itachique, ${description}`,
+  description: `Contato Itachique, ${description}`,
   metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
   icons: {
     icon: `${process.env.NEXT_PUBLIC_BASE_URL}/favicon.ico`,

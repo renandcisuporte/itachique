@@ -1,4 +1,5 @@
 import { Advertisement } from '@/core/domain/entity/advertisement-entity'
+import { UpcomingEvent } from '@/core/domain/entity/upcoming-event-entity'
 import { WebSite } from '@/core/domain/entity/website-entity'
 import {
   SiteMenuOutput,
@@ -10,7 +11,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
   constructor(private readonly prisma: PrismaClient) {}
 
   async allMenuWebSite(): Promise<SiteMenuOutput[]> {
-    const result = await this.prisma.post.findMany({
+    const posts = await this.prisma.post.findMany({
       distinct: ['category_id', 'subcategory_id'],
       where: {
         deleted_at: null,
@@ -31,11 +32,35 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         }
       }
     })
+    const upcomings = await this.prisma.upcomingEvent.findMany({
+      distinct: ['category_id'],
+      where: {
+        deleted_at: null,
+        category: {
+          deleted_at: null
+        }
+      },
+      select: {
+        category: {
+          select: {
+            name: true
+          }
+        }
+      }
+    })
 
-    return result.map((item) => ({
-      category: item.category?.name!,
-      subcategory: item.subcategory?.name!
-    }))
+    // Unindo e organizando os resultados
+    const combined = [
+      ...posts.map((post) => ({
+        category: post.category?.name!,
+        subcategory: post.subcategory?.name || null
+      })),
+      ...upcomings.map((event) => ({
+        category: event.category?.name!
+      }))
+    ]
+
+    return combined
   }
 
   async allWebSiteAds(): Promise<Advertisement[]> {
@@ -75,7 +100,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
     }
     if (input && input.categoryName) {
       Object.assign(where.category, {
-        name: {
+        slug: {
           contains: input.categoryName
         }
       })
@@ -84,7 +109,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
     if (input?.subCategoryName) {
       Object.assign(where, {
         subcategory: {
-          name: { contains: input.subCategoryName }
+          slug: { contains: input.subCategoryName }
         }
       })
     }
@@ -273,5 +298,47 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         })
       }
     )
+  }
+
+  async upcomingEventWebSite(
+    input: Record<string, any> = {}
+  ): Promise<UpcomingEvent[]> {
+    const where = {
+      deleted_at: null,
+      date: {
+        gte: new Date()
+      }
+    }
+
+    if (input.id) Object.assign(where, { id: input.id })
+
+    if (input.categoryName) {
+      Object.assign(where, {
+        category: {
+          slug: { contains: input.categoryName }
+        }
+      })
+    }
+
+    const result = await this.prisma.upcomingEvent.findMany({
+      where,
+      orderBy: {
+        date: 'asc'
+      }
+    })
+
+    return result.map((item) => {
+      return UpcomingEvent.with({
+        id: item.id,
+        title: item.title,
+        date: item.date,
+        galleryImages: item.gallery_images,
+        description: item.description!,
+        locale: item.locale,
+        createdAt: item.created_at,
+        updatedAt: item.updated_at,
+        deletedAt: item.deleted_at
+      })
+    })
   }
 }

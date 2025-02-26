@@ -1,5 +1,6 @@
 import { AllAdvertisementWebSiteUseCase } from '@/core/app/use-cases/website/all-advertisement-website-use-case'
 import { AllMenuSiteUseCase } from '@/core/app/use-cases/website/all-menusite-use-case'
+import { AllUpcomingSiteUseCase } from '@/core/app/use-cases/website/all-upcomingsite-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/app/use-cases/website/find-website-use-case'
@@ -12,6 +13,7 @@ export class WebSiteActionImpl {
     private readonly findUseCase: FindWebSiteUseCase,
     private readonly findByTagsUseCase: FindByTagsSiteUseCase,
     private readonly allAdsUseCase: AllAdvertisementWebSiteUseCase,
+    private readonly allUpcomingUseCase: AllUpcomingSiteUseCase,
     private readonly findMenuUseCase: AllMenuSiteUseCase
   ) {}
 
@@ -29,6 +31,10 @@ export class WebSiteActionImpl {
 
   async find(id: string): Promise<OutputSingle> {
     return await this.findUseCase.execute({ id })
+  }
+
+  async listUpcomingEvents(input: Input): Promise<{ data: WebSiteProps[] }> {
+    return await this.allUpcomingUseCase.execute(input)
   }
 
   async findListMenus(): Promise<{ data: Menu[] }> {

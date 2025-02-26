@@ -4,7 +4,7 @@ import { ShareButtons } from '@/components/shared-buttons'
 import { title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
-import { cn } from '@/lib/utils'
+import { cn, slug as slugUse } from '@/lib/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -125,7 +125,7 @@ export default async function Page({ params }: Props) {
           >
             Veja também
           </h2>
-          <GalleryCarousel categoryName={posts?.categoryName} />
+          <GalleryCarousel categoryName={slugUse(posts?.categoryName)} />
         </Suspense>
 
         <AdvertisementClient
@@ -143,7 +143,7 @@ export default async function Page({ params }: Props) {
             Eventos Anteriores
           </h2>
           <GalleryCarouselPrevious
-            categoryName={posts?.categoryName}
+            categoryName={slugUse(posts?.categoryName)}
             date={posts?.postDate}
           />
         </Suspense>

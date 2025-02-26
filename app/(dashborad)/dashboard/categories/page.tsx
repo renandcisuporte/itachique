@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { PageClientDelete, PageClientForm } from './page-client'
 
 export const metadata: Metadata = {
-  title: 'Sub Categorias - Itachique'
+  title: 'Categorias - Itachique'
 }
 
 type T = {
