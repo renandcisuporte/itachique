@@ -17,6 +17,7 @@ export class AllUpcomingEventUseCase {
       id: props.id,
       title: props.title,
       description: props.description,
+      categoryId: props.categoryId,
       locale: props.locale,
       date: props.date,
       dateISO: props.dateISO,

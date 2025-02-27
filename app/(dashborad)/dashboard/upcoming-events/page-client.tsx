@@ -12,11 +12,20 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
+import { Textarea } from '@/components/ui/textarea'
 import { UpcomingEventProps } from '@/core/domain/entity/upcoming-event-entity'
+import { CategoryProps } from '@/core/domain/schemas/category-schema'
 import { cn } from '@/lib/utils'
 import { CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   // @ts-ignore
   experimental_useFormState as useFormState
@@ -25,15 +34,24 @@ import { deleteUpcomingEventAction, saveUpcomingEventAction } from './actions'
 
 type Form = {
   data: UpcomingEventProps
+  categories: CategoryProps[]
 }
 
-export function PageClientForm({ data }: Form) {
+export function PageClientForm({ data, categories }: Form) {
   const { back } = useRouter()
+  const [selectedOption, setSelectedOption] = useState('')
+
   const [state, formAction] = useFormState(saveUpcomingEventAction, {})
 
   useEffect(() => {
     if (state.success) back()
   }, [state, back])
+
+  useEffect(() => {
+    if (data?.categoryId) setSelectedOption(data.categoryId!)
+  }, [data])
+
+  console.log(data)
 
   const errorClass = cn(
     '[&>input]:text-red-500 border-red-300 text-red-500 [&>input:focus-visible]:ring-red-300 [&>input]:border-red-500 [&>label]:text-red-500 [&>small]:text-xs [&>small]:text-red-500'
@@ -42,7 +60,7 @@ export function PageClientForm({ data }: Form) {
   return (
     <Dialog open={true} modal={true}>
       <DialogContent
-        className="text-[#616161] [&>button]:hidden"
+        className="max-w-5xl text-[#616161] [&>button]:hidden"
         onInteractOutside={(e) => e.preventDefault()}
       >
         <DialogClose asChild>
@@ -91,7 +109,7 @@ export function PageClientForm({ data }: Form) {
 
           <div
             className={cn(
-              'w-1/33 mb-4 [&>input]:text-black',
+              'mb-4 w-1/5 [&>input]:text-black',
               state?.errors?.date && errorClass
             )}
           >
@@ -106,14 +124,37 @@ export function PageClientForm({ data }: Form) {
           </div>
           <div
             className={cn(
+              'mb-4 ml-4 w-1/2 [&>input]:text-black',
+              state?.errors?.categoryId && errorClass
+            )}
+          >
+            <Label htmlFor="categoryId">Categoria</Label>
+            <Select
+              name="categoryId"
+              value={selectedOption}
+              onValueChange={(value) => setSelectedOption(value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Selecione uma categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories?.map((item) => (
+                  <SelectItem value={item.id!} key={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+          <div
+            className={cn(
               'mb-4 w-full [&>input]:text-black',
               state?.errors?.description && errorClass
             )}
           >
             <Label htmlFor="description">Descrição da Propaganda</Label>
-            <Input
+            <Textarea
               id="description"
-              type="text"
               name="description"
               defaultValue={data?.description}
             />

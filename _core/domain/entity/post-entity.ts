@@ -86,6 +86,14 @@ export class Post {
     return this.props.categoryName
   }
 
+  get subCategoryId() {
+    return this.props.subCategoryId
+  }
+
+  get subCategoryName() {
+    return this.props.subCategoryName
+  }
+
   get coverImage() {
     return this.props.coverImage
   }

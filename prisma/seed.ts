@@ -39,25 +39,25 @@ async function main() {
 
   const folderPath = './public/uploads'
   // const images = getImagesFromFolderRecursive(folderPath)
-  const images = await prisma.gallery.groupBy({
-    by: ['post_id'],
-    _min: {
-      url: true,
-      post_id: true
-    }
-  })
-  for (const item of images) {
-    console.log(item._min.url)
-    await prisma.post.update({
-      where: {
-        id: item.post_id!
-      },
-      data: {
-        cover_image: item._min.url,
-        updated_at: new Date()
-      }
-    })
-  }
+  // const images = await prisma.gallery.groupBy({
+  //   by: ['post_id'],
+  //   _min: {
+  //     url: true,
+  //     post_id: true
+  //   }
+  // })
+  // for (const item of images) {
+  //   console.log(item._min.url)
+  //   await prisma.post.update({
+  //     where: {
+  //       id: item.post_id!
+  //     },
+  //     data: {
+  //       cover_image: item._min.url,
+  //       updated_at: new Date()
+  //     }
+  //   })
+  // }
 
   // for (const item of images) {
   //   const [, dir, id, image] = item.split('\\')

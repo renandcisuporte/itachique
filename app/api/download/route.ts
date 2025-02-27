@@ -2,9 +2,11 @@ import { readFile } from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
 import path from 'path'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(req.url)
+    const searchParams = req.nextUrl.searchParams
     const image = searchParams.get('image')
     const ext = image?.split('.').pop()
 
@@ -22,7 +24,7 @@ export async function GET(req: NextRequest) {
     headers.append('Content-Disposition', 'attachment; filename=' + image)
     headers.append('Content-Type', 'application/jpeg')
 
-    return new Response(buffer, {
+    return new NextResponse(buffer, {
       headers
     })
   } catch (error) {

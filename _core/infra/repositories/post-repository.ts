@@ -10,11 +10,8 @@ export class PostRepositoryPrisma implements PostGateway {
       include: {
         city: { select: { city: true } },
         locale: { select: { name: true } },
-        categories: {
-          select: {
-            category: { select: { name: true, id: true } }
-          }
-        }
+        category: { select: { name: true, id: true } },
+        subcategory: { select: { name: true, id: true } }
       },
       where: { id, deleted_at: null }
     })
@@ -27,8 +24,10 @@ export class PostRepositoryPrisma implements PostGateway {
       cityText: result?.city?.city!,
       localeId: result?.locale_id!,
       localeText: result?.locale_text! || result?.locale?.name!,
-      categoryId: result?.categories[0]?.category?.id!,
-      categoryName: result?.categories[0]?.category?.name!,
+      categoryId: result?.category?.id!,
+      subCategoryId: result?.subcategory?.id!,
+      categoryName: result?.category?.name!,
+      subCategoryName: result?.subcategory?.name!,
       coverImage: result?.cover_image!,
       createdAt: result?.created_at!,
       updatedAt: result?.updated_at!
@@ -56,11 +55,8 @@ export class PostRepositoryPrisma implements PostGateway {
       include: {
         city: { select: { city: true } },
         locale: { select: { name: true } },
-        categories: {
-          select: {
-            category: { select: { name: true, id: true } }
-          }
-        }
+        category: { select: { name: true, id: true } },
+        subcategory: { select: { name: true, id: true } }
       },
       where: { deleted_at: null, title: { contains: q } },
       orderBy,
@@ -77,8 +73,10 @@ export class PostRepositoryPrisma implements PostGateway {
         cityText: item.city?.city!,
         localeId: item.locale_id!,
         localeText: item.locale_text! || item.locale?.name!,
-        categoryId: item.categories[0]?.category?.id!,
-        categoryName: item.categories[0]?.category?.name!,
+        categoryId: item.category?.id!,
+        categoryName: item.category?.name!,
+        subCategoryId: item.subcategory?.id!,
+        subCategoryName: item.subcategory?.name!,
         coverImage: item.cover_image!,
         createdAt: item.created_at!,
         updatedAt: item.updated_at!
@@ -140,11 +138,8 @@ export class PostRepositoryPrisma implements PostGateway {
       include: {
         city: { select: { city: true } },
         locale: { select: { name: true } },
-        categories: {
-          select: {
-            category: { select: { name: true, id: true } }
-          }
-        }
+        category: { select: { name: true, id: true } },
+        subcategory: { select: { name: true, id: true } }
       }
     })
 
@@ -156,8 +151,10 @@ export class PostRepositoryPrisma implements PostGateway {
       cityText: result.city?.city!,
       localeId: result.locale_id!,
       localeText: result.locale_text! || result.locale?.name!,
-      categoryId: result.categories[0]?.category?.id!,
-      categoryName: result.categories[0]?.category?.name!,
+      categoryId: result.category?.id!,
+      categoryName: result.category?.name!,
+      subCategoryId: result.subcategory?.id!,
+      subCategoryName: result.subcategory?.name!,
       coverImage: result.cover_image?.replace('á', 'Ã¡').replace('ç', 'Ã§')!,
       createdAt: result.created_at,
       updatedAt: result.updated_at

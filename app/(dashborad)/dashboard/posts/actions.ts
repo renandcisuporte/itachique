@@ -81,7 +81,10 @@ export async function savePostAction(_: any, formData: FormData) {
     cityId: restForm.cityId ? (restForm.cityId as string) : null,
     localeText: restForm.localeText as string,
     cityText: restForm.cityText as string,
-    categoryId: restForm.categoryId ? (restForm.categoryId as string) : null
+    categoryId: restForm.categoryId ? (restForm.categoryId as string) : null,
+    subCategoryId: restForm.subCategoryId
+      ? (restForm.subCategoryId as string)
+      : null
   })
 
   if (result.errors) {

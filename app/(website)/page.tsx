@@ -7,6 +7,7 @@ import {
   upcomingEventAction,
   webSiteAction
 } from '@/core/main/config/dependencies'
+import { slug } from '@/lib/utils'
 import { Metadata } from 'next'
 
 // deve revalidar a pagina a cada 5 minutos
@@ -65,7 +66,11 @@ export default async function Home() {
 
           <CardEvent.content>
             {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
-              <CardEvent.item key={item.id} id={item.id} title={item.postTitle}>
+              <CardEvent.item
+                key={item.id}
+                title={item.postTitle}
+                url={`/galeria/${slug(item.postTitle)}/${item.id}/0/0`}
+              >
                 <CardEvent.image
                   src={item.postCoverImage}
                   alt={item.postTitle}

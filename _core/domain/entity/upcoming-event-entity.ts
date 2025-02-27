@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto'
 export type UpcomingEventProps = {
   id?: string
   title: string
+  categoryId?: string
   galleryImages?: string
   description?: string
   date: Date | string | null
@@ -19,6 +20,7 @@ export class UpcomingEvent {
   static create({
     title,
     date,
+    categoryId,
     galleryImages,
     locale,
     description
@@ -28,6 +30,7 @@ export class UpcomingEvent {
       title,
       date,
       locale,
+      categoryId,
       galleryImages,
       description,
       createdAt: new Date(),
@@ -46,6 +49,10 @@ export class UpcomingEvent {
 
   get title() {
     return this.props.title
+  }
+
+  get categoryId() {
+    return this.props.categoryId
   }
 
   get galleryImages() {

@@ -1,4 +1,6 @@
 import { AllAdvertisementWebSiteUseCase } from '@/core/app/use-cases/website/all-advertisement-website-use-case'
+import { AllMenuSiteUseCase } from '@/core/app/use-cases/website/all-menusite-use-case'
+import { AllUpcomingSiteUseCase } from '@/core/app/use-cases/website/all-upcomingsite-use-case'
 import { AllWebSiteUseCase } from '@/core/app/use-cases/website/all-website-use-case'
 import { FindByTagsSiteUseCase } from '@/core/app/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/app/use-cases/website/find-website-use-case'
@@ -10,7 +12,9 @@ export class WebSiteActionImpl {
     private readonly listUseCase: AllWebSiteUseCase,
     private readonly findUseCase: FindWebSiteUseCase,
     private readonly findByTagsUseCase: FindByTagsSiteUseCase,
-    private readonly allAdsUseCase: AllAdvertisementWebSiteUseCase
+    private readonly allAdsUseCase: AllAdvertisementWebSiteUseCase,
+    private readonly allUpcomingUseCase: AllUpcomingSiteUseCase,
+    private readonly findMenuUseCase: AllMenuSiteUseCase
   ) {}
 
   async listByAds(): Promise<{ data: AdvertisementProps[] }> {
@@ -29,32 +33,13 @@ export class WebSiteActionImpl {
     return await this.findUseCase.execute({ id })
   }
 
-  // async save(input: Input): Promise<OutputSingle> {
-  //   return {
-  //     message: ['Post criado com sucesso!']
-  //   }
-  //   // try {
-  //   //   if (input.id) {
-  //   //     await this.updateUseCase.execute(input)
-  //   //     return {
-  //   //       message: ['Post atualizado com sucesso!'],
-  //   //       data: { id: input.id }
-  //   //     }
-  //   //   }
-  //   //   await this.createUseCase.execute(input)
-  //   //   return {
-  //   //     message: ['Post criado com sucesso!'],
-  //   //     data: { id: input.id }
-  //   //   }
-  //   // } catch (err: unknown) {
-  //   //   console.log('[ERROR POST ACTION]', JSON.stringify(err, null, 2))
-  //   //   if (err instanceof ValidationError) {
-  //   //     const errors = err.errors
-  //   //     return { errors } as Output
-  //   //   }
-  //   //   return { message: ['Erro ao criar post'] }
-  //   // }
-  // }
+  async listUpcomingEvents(input: Input): Promise<{ data: WebSiteProps[] }> {
+    return await this.allUpcomingUseCase.execute(input)
+  }
+
+  async findListMenus(): Promise<{ data: Menu[] }> {
+    return await this.findMenuUseCase.execute()
+  }
 }
 
 type Input = Record<string, {}>
@@ -73,3 +58,5 @@ type OutputArray = {
   data: WebSiteProps[]
   total: number
 } & Outhers
+
+type Menu = { category: string; parent: { subcategory: string }[] }

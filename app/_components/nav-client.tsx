@@ -13,11 +13,14 @@ import {
 import { Container } from './common/container'
 
 interface Props
-  extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}
+  extends DetailedHTMLProps<
+    HTMLAttributes<HTMLUListElement>,
+    HTMLUListElement
+  > {}
 
 export function Nav({ ...rest }: Props) {
   const [open, setOpen] = useState<boolean>(false)
-  const navRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLUListElement>(null)
   const resolveClick = useCallback(() => setOpen(!open), [open])
 
   useEffect(() => {
@@ -42,10 +45,10 @@ export function Nav({ ...rest }: Props) {
         className="h-12 w-8 cursor-pointer text-white md:hidden"
         onClick={resolveClick}
       />
-      <nav
+      <ul
         ref={navRef}
         className={cn(
-          'z-10 hidden text-xl md:flex md:justify-evenly md:space-x-2',
+          'relative z-10 hidden text-xl md:flex md:justify-evenly md:space-x-2',
           open && 'absolute left-0 top-auto flex w-full flex-col bg-neutral-900'
         )}
         {...rest}

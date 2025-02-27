@@ -14,9 +14,8 @@ export class AllWebSiteUseCase {
   private present(props: WebSite): WebSiteProps {
     return {
       id: props.id,
-      categorySlug: props.categorySlug,
       categoryName: props.categoryName,
-      postSlug: props.postSlug,
+      subCategoryName: props.subCategoryName,
       postTitle: props.postTitle,
       postDate: props.postDate,
       postLocale: props.postLocale,
@@ -31,6 +30,7 @@ export class AllWebSiteUseCase {
 
 type Input = {
   categoryName?: string
+  subCategoryName?: string
   postTitle?: string
   postDate?: string
   postLocale?: string

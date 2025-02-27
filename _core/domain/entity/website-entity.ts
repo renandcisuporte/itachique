@@ -6,9 +6,8 @@ export type WebSiteGalleryProps = {
 
 export type WebSiteProps = {
   id: string
-  categorySlug?: string
   categoryName: string
-  postSlug: string
+  subCategoryName: string
   postTitle: string
   postDate: string
   postLocale: string
@@ -30,16 +29,12 @@ export class WebSite {
     return this.props.id
   }
 
-  get categorySlug() {
-    return this.props.categorySlug
-  }
-
   get categoryName() {
     return this.props.categoryName
   }
 
-  get postSlug() {
-    return this.props.postSlug
+  get subCategoryName() {
+    return this.props.subCategoryName
   }
 
   get postTitle() {

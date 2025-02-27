@@ -24,6 +24,8 @@ export class ListPostUseCase {
       cityText: post.cityText,
       categoryId: post.categoryId,
       categoryName: post.categoryName,
+      subCategoryId: post.subCategoryId,
+      subCategoryName: post.subCategoryName,
       coverImage: post.coverImage,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt
