@@ -120,7 +120,12 @@ export function PageClient({
       <div className="space-y-4 [&>div>input]:text-[#292929]">
         <div className={cn('w-1/6', state?.errors?.date && errorClass)}>
           <Label htmlFor="date">Data - Evento</Label>
-          <Input id="date" type="date" name="date" value={`${post?.date}`} />
+          <Input
+            id="date"
+            type="date"
+            name="date"
+            defaultValue={`${post?.date}`}
+          />
           {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
         </div>
 
