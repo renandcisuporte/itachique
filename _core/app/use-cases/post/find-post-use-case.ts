@@ -31,11 +31,17 @@ export class FindPostUseCase {
       coverImage: post.coverImage,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt,
-      galleryImage: images.map((image) => ({
-        id: image.id,
-        image: image.image,
-        url: image.url
-      }))
+      galleryImage: images
+        .map((image) => ({
+          id: image.id,
+          image: image.image,
+          url: image.url
+        }))
+        ?.sort((a, b) => {
+          const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
+          const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+          return numA - numB
+        })
     })
 
     return {

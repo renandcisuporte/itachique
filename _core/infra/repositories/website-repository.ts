@@ -218,22 +218,24 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         subcategory: true,
         city: true,
         locale: true,
-        gallery: {
-          orderBy: {
-            image: 'asc'
-          }
-        }
+        gallery: true
       }
     })
 
     if (!result) return null
 
     const { category, subcategory, gallery, city, locale, ...rest } = result
-    const galleryImage = gallery?.map((item) => ({
-      id: item.id!,
-      url: item.url!,
-      image: item.image!
-    }))
+    const galleryImage = gallery
+      ?.map((item) => ({
+        id: item.id!,
+        url: item.url!,
+        image: item.image!
+      }))
+      ?.sort((a, b) => {
+        const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
+        const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+        return numA - numB
+      })
 
     return WebSite.with({
       id: rest.id,
@@ -273,11 +275,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         subcategory: true,
         city: true,
         locale: true,
-        gallery: {
-          orderBy: {
-            image: 'asc'
-          }
-        }
+        gallery: true
       }
     })
 
@@ -285,11 +283,18 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
     return result.map(
       ({ category, subcategory, gallery, locale, city, ...rest }) => {
-        const galleryImage = gallery?.map((item) => ({
-          id: item.id!,
-          url: item.url!,
-          image: item.image!
-        }))
+        const galleryImage = gallery
+          ?.map((item) => ({
+            id: item.id!,
+            url: item.url!,
+            image: item.image!
+          }))
+          ?.sort((a, b) => {
+            const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
+            const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+            return numA - numB
+          })
+
         return WebSite.with({
           id: rest.id,
           categoryName: category?.name!,
