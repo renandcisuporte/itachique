@@ -172,6 +172,7 @@ export function Gallery({
             fill
             className="z-0 object-contain"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            quality={100}
           />
         </div>
       </div>
@@ -195,6 +196,7 @@ export function Gallery({
               loading="lazy"
               className="object-cover"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={55}
             />
           </span>
         ))}

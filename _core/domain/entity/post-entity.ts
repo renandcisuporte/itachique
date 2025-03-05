@@ -50,12 +50,13 @@ export class Post {
   }
 
   get date() {
-    return new Intl.DateTimeFormat('UTC', {
-      year: 'numeric',
-      day: '2-digit',
-      month: '2-digit',
-      timeZone: 'UTC'
-    }).format(new Date(this.props.date))
+    return this.props.date
+    // return new Intl.DateTimeFormat('UTC', {
+    //   year: 'numeric',
+    //   day: '2-digit',
+    //   month: '2-digit',
+    //   timeZone: 'UTC'
+    // }).format(new Date(this.props.date))
   }
 
   get dateISO() {

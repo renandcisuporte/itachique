@@ -31,9 +31,9 @@ type Props = {
 
 export default async function Page({ searchParams }: Props) {
   const {
+    q = '',
     page = '1',
     limit = '25',
-    q = '',
     order = '[date_desc]',
     modal_delete = 'false'
   } = searchParams
@@ -101,7 +101,14 @@ export default async function Page({ searchParams }: Props) {
                 </span>
               </TableCell>
               <TableCell className="w-[1%] whitespace-nowrap text-center">
-                {item.date as string}
+                {
+                  new Date(item.date)
+                    .toISOString()
+                    .split('T')[0]
+                    .split('-')
+                    .reverse()
+                    .join('/')!
+                }
               </TableCell>
               <TableCell>{item.title}</TableCell>
             </TableRow>
