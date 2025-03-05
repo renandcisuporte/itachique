@@ -10,22 +10,16 @@ export class CreatePostUseCase {
   ) {}
 
   async execute(input: Input): Promise<Output> {
-    let data = {} as PostProps
-    const { coverImage, ...restInput } = input
-    data = { ...restInput }
+    const output = Post.create(input)
+    const { coverImage, ...restInput } = output
 
     const file = coverImage as unknown as File
     if (file.size > 0) {
       const result = await this.imageProvider.uploadSingle(file)
-      data = {
-        ...data,
-        coverImage: result.url
-      }
+      Object.assign(output, { coverImage: result.url })
     }
 
-    const output = Post.create(data)
     const result = await this.repository.create(output)
-
     return { data: this.present(result) }
   }
 
