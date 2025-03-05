@@ -142,7 +142,7 @@ export function PageClient({
 
         {/* categorias */}
         <div className={cn('relative w-1/5')}>
-          <input type="hidden" name="categoryId" value={categorySelected?.id} />
+          <input type="hidden" name="categoryId" value={categorySelected.id} />
           <Label htmlFor="categoryPostId">Categorias</Label>
           <Input
             type="search"
@@ -180,7 +180,7 @@ export function PageClient({
           <input
             type="hidden"
             name="subCategoryId"
-            value={subCategorySelected?.id}
+            value={subCategorySelected.id}
           />
           <Label htmlFor="subCategoryPostId">Sub Categorias</Label>
           <Input
