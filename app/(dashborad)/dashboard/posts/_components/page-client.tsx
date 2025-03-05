@@ -131,7 +131,12 @@ export function PageClient({
 
         <div className={cn('w-1/2', state?.errors?.title && errorClass)}>
           <Label htmlFor="title">Festa/Evento</Label>
-          <Input type="text" id="title" name="title" value={post?.title} />
+          <Input
+            type="text"
+            id="title"
+            name="title"
+            defaultValue={post?.title}
+          />
           {state?.errors?.title && <small>{state?.errors?.title?.[0]}</small>}
         </div>
 
