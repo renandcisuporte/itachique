@@ -19,7 +19,7 @@ export class PostRepositoryPrisma implements PostGateway {
     return Post.with({
       id: result?.id!,
       title: result?.title!,
-      date: result?.date?.toString()!,
+      date: result?.date!,
       cityId: result?.city_id!,
       cityText: result?.city?.city!,
       localeId: result?.locale_id!,
@@ -68,7 +68,7 @@ export class PostRepositoryPrisma implements PostGateway {
       Post.with({
         id: item.id,
         title: item.title,
-        date: item.date?.toString()!,
+        date: item.date!,
         cityId: item.city_id!,
         cityText: item.city?.city!,
         localeId: item.locale_id!,
@@ -114,7 +114,7 @@ export class PostRepositoryPrisma implements PostGateway {
     return Post.with({
       id: result.id,
       title: result.title,
-      date: result.date?.toString()!,
+      date: result.date!,
       cityId: result.city_id!,
       cityText: result.city?.city!,
       localeId: result.locale_id!,
@@ -156,7 +156,12 @@ export class PostRepositoryPrisma implements PostGateway {
     return Post.with({
       id: result.id,
       title: result.title,
-      date: result.date!,
+      date: result.date
+        ?.toISOString()
+        .split('T')[0]
+        .split('-')
+        .reverse()
+        .join('/')!,
       cityId: result.city_id!,
       cityText: result.city?.city!,
       localeId: result.locale_id!,

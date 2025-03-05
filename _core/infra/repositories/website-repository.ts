@@ -170,7 +170,11 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
       include: {
         city: true,
         locale: true,
-        gallery: true,
+        gallery: {
+          orderBy: {
+            image: 'asc'
+          }
+        },
         category: true,
         subcategory: true
       }
@@ -214,7 +218,11 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         subcategory: true,
         city: true,
         locale: true,
-        gallery: true
+        gallery: {
+          orderBy: {
+            image: 'asc'
+          }
+        }
       }
     })
 
@@ -265,7 +273,11 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         subcategory: true,
         city: true,
         locale: true,
-        gallery: true
+        gallery: {
+          orderBy: {
+            image: 'asc'
+          }
+        }
       }
     })
 
