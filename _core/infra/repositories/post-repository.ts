@@ -91,6 +91,8 @@ export class PostRepositoryPrisma implements PostGateway {
       id: input.id!,
       title: input.title,
       date: new Date(input.dateISO),
+      category_id: input.categoryId,
+      subcategory_id: input.subCategoryId,
       city_id: input.cityId,
       locale_id: input.localeId,
       locale_text: input.localeText,
@@ -103,7 +105,9 @@ export class PostRepositoryPrisma implements PostGateway {
       data,
       include: {
         city: { select: { city: true } },
-        locale: { select: { name: true } }
+        locale: { select: { name: true } },
+        category: { select: { name: true, id: true } },
+        subcategory: { select: { name: true, id: true } }
       }
     })
 
@@ -115,6 +119,10 @@ export class PostRepositoryPrisma implements PostGateway {
       cityText: result.city?.city!,
       localeId: result.locale_id!,
       localeText: result.locale_text! || result.locale?.name!,
+      categoryId: result.category?.id!,
+      categoryName: result.category?.name!,
+      subCategoryId: result.subcategory?.id!,
+      subCategoryName: result.subcategory?.name!,
       coverImage: result.cover_image!,
       createdAt: result.created_at,
       updatedAt: result.updated_at
@@ -125,6 +133,8 @@ export class PostRepositoryPrisma implements PostGateway {
     const data = {
       title: input.title,
       date: new Date(input.dateISO),
+      category_id: input.categoryId,
+      subcategory_id: input.subCategoryId,
       city_id: input.cityId,
       locale_id: input.localeId,
       locale_text: input.localeText,

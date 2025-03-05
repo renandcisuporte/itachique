@@ -131,13 +131,18 @@ export function PageClient({
 
         <div className={cn('w-1/2', state?.errors?.title && errorClass)}>
           <Label htmlFor="title">Festa/Evento</Label>
-          <Input type="text" id="title" name="title" value={post?.title} />
+          <Input
+            type="text"
+            id="title"
+            name="title"
+            defaultValue={post?.title}
+          />
           {state?.errors?.title && <small>{state?.errors?.title?.[0]}</small>}
         </div>
 
         {/* categorias */}
         <div className={cn('relative w-1/5')}>
-          <input type="hidden" name="categoryId" value={categorySelected?.id} />
+          <input type="hidden" name="categoryId" value={categorySelected.id} />
           <Label htmlFor="categoryPostId">Categorias</Label>
           <Input
             type="search"
@@ -175,7 +180,7 @@ export function PageClient({
           <input
             type="hidden"
             name="subCategoryId"
-            value={subCategorySelected?.id}
+            value={subCategorySelected.id}
           />
           <Label htmlFor="subCategoryPostId">Sub Categorias</Label>
           <Input
