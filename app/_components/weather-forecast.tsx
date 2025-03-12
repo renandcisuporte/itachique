@@ -105,7 +105,8 @@ export function WeatherForecast() {
   return (
     <Container className="flex flex-row items-center justify-end space-x-1 py-1 text-[10px]">
       {!location && !error && <p>Obtendo localização...</p>}
-      {weather && (
+
+      {weather && weather?.location?.name && (
         <>
           <p className="font-semibold tracking-widest">
             {[weather.location.name, weather.location.region].join(', ')}:{' '}
