@@ -10,8 +10,8 @@ import {
 import { slug } from '@/lib/utils'
 import { Metadata } from 'next'
 
-// deve revalidar a pagina a cada 5 minutos
-export const revalidate = 300
+// // deve revalidar a pagina a cada 5 minutos
+// export const revalidate = 300
 
 export const metadata: Metadata = {
   title,
