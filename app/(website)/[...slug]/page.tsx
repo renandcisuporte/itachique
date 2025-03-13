@@ -8,7 +8,7 @@ import { UpcomingEvents } from './_upcoming-events'
 
 type Props = {
   params: {
-    events: string[]
+    slug: string[]
   }
   searchParams: {
     q?: string
@@ -22,7 +22,7 @@ export async function generateMetadata({
   searchParams
 }: Props): Promise<Metadata> {
   const { q = '' } = searchParams
-  const { events } = params
+  const { slug } = params
 
   let input = {
     categoryName: '',
@@ -30,8 +30,8 @@ export async function generateMetadata({
     postTitle: ''
   }
 
-  if (events[0]) input.categoryName = events[0]
-  if (events[1]) input.subCategoryName = events[1]
+  if (slug[0]) input.categoryName = slug[0]
+  if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
   const posts = await webSiteAction.list(input)
@@ -47,7 +47,7 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params, searchParams }: Props) {
-  const { events } = params
+  const { slug } = params
   const { page = 1, limit = 16, q = '' } = searchParams
 
   let input = {
@@ -58,8 +58,8 @@ export default async function Page({ params, searchParams }: Props) {
     postTitle: ''
   }
 
-  if (events[0]) input.categoryName = events[0]
-  if (events[1]) input.subCategoryName = events[1]
+  if (slug[0]) input.categoryName = slug[0]
+  if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
   const [
@@ -97,7 +97,7 @@ export default async function Page({ params, searchParams }: Props) {
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
       <Events
         ads={ads}
-        events={events}
+        events={slug}
         posts={posts}
         shuffledAds={shuffledAds}
         total={total}
