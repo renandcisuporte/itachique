@@ -6,7 +6,7 @@ declare namespace NodeJS {
     NEXT_PUBLIC_URL_API: string
     NEXT_PUBLIC_TTL: number
     NEXT_PUBLIC_REDIRECT: string
-    NEXT_PUBLIC_BASE_URL: string
+    NEXT_PUBLIC_BASE_IMG: string
     NEXT_PUBLIC_WEATHERSTACK_KEY: string
     NEXT_PUBLIC_WEATHERSTACK_URL: string
     NEXT_PUBLIC_SMTP_HOST: string

@@ -3,6 +3,7 @@ import { Post } from '@/core/domain/entity/post-entity'
 import { GalleryGateway } from '@/core/domain/gateway/gallery-gateway'
 import { PostGateway } from '@/core/domain/gateway/post-gateway'
 import { PostProps } from '@/core/domain/schemas/post-schema'
+import { getImageNumber } from '@/lib/utils'
 
 export class FindPostUseCase {
   constructor(
@@ -19,7 +20,8 @@ export class FindPostUseCase {
     const postWithGallery = Post.with({
       id: post.id,
       title: post.title,
-      date: post.dateISO,
+      date: post.date,
+      dateISO: post.dateISO,
       cityId: post.cityId || null,
       cityText: post.cityText || '',
       localeId: post.localeId || null,
@@ -38,8 +40,8 @@ export class FindPostUseCase {
           url: image.url
         }))
         ?.sort((a, b) => {
-          const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
-          const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+          const numA = getImageNumber(a.image)
+          const numB = getImageNumber(b.image)
           return numA - numB
         })
     })
@@ -53,7 +55,8 @@ export class FindPostUseCase {
     return {
       id: post.id,
       title: post.title,
-      date: post.dateISO,
+      date: post.date,
+      dateISO: post.dateISO,
       cityId: post.cityId,
       cityText: post.cityText,
       localeId: post.localeId,

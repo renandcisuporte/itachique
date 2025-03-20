@@ -36,3 +36,12 @@ export function chunkGallery<Props>(gallery: Props[], size = 12) {
   }
   return chunks
 }
+
+// parseInt(a.image.match(/\((\d+)\)/)![1], 10)
+export function getImageNumber(image: string) {
+  const match = image.match(/\((\d+)\)/)
+  if (match) {
+    return parseInt(match[1], 10)
+  }
+  return 0
+}
