@@ -5,16 +5,8 @@ export const PostSchema = z.object({
   title: z
     .string()
     .min(3, { message: 'Você deve informar um título para o evento' }),
-  date: z.union([
-    z.date({
-      invalid_type_error: 'Informe uma data válida',
-      message: 'Informe uma data válida'
-    }),
-    z
-      .string({ invalid_type_error: 'Informe uma data válida' })
-      .refine((val) => !isNaN(Date.parse(val)), 'Informe uma data válida')
-  ]),
-  dateISO: z.optional(z.date()),
+  date: z.date({ invalid_type_error: 'Informe uma data válida' }),
+  dateISO: z.optional(z.string()),
   localeText: z.string().optional().nullable(),
   localeId: z.string().optional().nullable(),
   cityText: z.string().optional().nullable(),

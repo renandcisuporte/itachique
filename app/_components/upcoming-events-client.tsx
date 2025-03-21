@@ -55,7 +55,7 @@ export function UpcomingEventsClient({
             <SwiperSlide key={item.id}>
               <div className="relative h-36 bg-black md:h-[355px]">
                 <Image
-                  src={item.galleryImages!}
+                  src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.galleryImages!}`}
                   alt={item.title}
                   fill
                   className="object-contain"

@@ -18,6 +18,7 @@ export class ListPostUseCase {
       id: post.id,
       title: post.title,
       date: post.date,
+      dateISO: post.dateISO,
       cityId: post.cityId,
       localeId: post.localeId,
       localeText: post.localeText,

@@ -156,12 +156,7 @@ export class PostRepositoryPrisma implements PostGateway {
     return Post.with({
       id: result.id,
       title: result.title,
-      date: result.date
-        ?.toISOString()
-        .split('T')[0]
-        .split('-')
-        .reverse()
-        .join('/')!,
+      date: result.date!,
       cityId: result.city_id!,
       cityText: result.city?.city!,
       localeId: result.locale_id!,

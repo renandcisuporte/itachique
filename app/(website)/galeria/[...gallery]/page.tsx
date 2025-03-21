@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       keywords: `${posts?.categoryName}, ${title}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_URL}${posts?.postCoverImage}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG}${posts?.postCoverImage}`,
           width: 1200,
           height: 630,
           alt: posts?.postTitle

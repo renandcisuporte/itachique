@@ -76,14 +76,16 @@ export default async function Page({ searchParams }: Props) {
           {posts?.map((item) => (
             <TableRow key={item.id}>
               <TableCell className="w-[175px]">
-                <Image
-                  src={item.coverImage!}
-                  alt={item.title}
-                  loading="lazy"
-                  width={175}
-                  height={175}
-                  quality={80}
-                />
+                {item.coverImage && (
+                  <Image
+                    src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.coverImage}`}
+                    alt={item.title}
+                    loading="lazy"
+                    width={175}
+                    height={175}
+                    quality={80}
+                  />
+                )}
               </TableCell>
               <TableCell className="w-[1%]">
                 <span className="flex space-x-1">

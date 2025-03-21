@@ -165,15 +165,17 @@ export function Gallery({
           ref={containerRef}
           className="relative mx-auto h-[332px] w-full max-w-[800px] bg-black md:h-[532px]"
         >
-          <Image
-            src={chunkedArray?.[currentPage]?.[currentPhoto]?.url || ''}
-            alt={chunkedArray?.[currentPage]?.[currentPhoto]?.image || ''}
-            loading="lazy"
-            fill
-            className="z-0 object-contain"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            quality={100}
-          />
+          {chunkedArray?.[currentPage]?.[currentPhoto]?.url && (
+            <Image
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${chunkedArray?.[currentPage]?.[currentPhoto]?.url}`}
+              alt={chunkedArray?.[currentPage]?.[currentPhoto]?.image || ''}
+              loading="lazy"
+              fill
+              className="z-0 object-contain"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              quality={100}
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-row items-center justify-center gap-2 overflow-x-auto">
@@ -190,7 +192,7 @@ export function Gallery({
             )}
           >
             <Image
-              src={item.url}
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.url}`}
               alt={item.image}
               fill
               loading="lazy"

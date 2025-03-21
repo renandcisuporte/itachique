@@ -124,7 +124,7 @@ export function PageClient({
             id="date"
             type="date"
             name="date"
-            defaultValue={`${post?.date}`}
+            defaultValue={`${post?.dateISO}`}
           />
           {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
         </div>

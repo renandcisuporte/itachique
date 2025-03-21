@@ -11,6 +11,7 @@ export class UpdatePostUseCase {
 
   async execute(input: Input): Promise<Output> {
     const output = Post.with(input)
+
     const result = await this.repository.update(output.id!, output)
     return { data: this.present(result) }
   }
@@ -20,12 +21,15 @@ export class UpdatePostUseCase {
       id: post.id,
       title: post.title,
       date: post.date,
+      dateISO: post.dateISO,
       localeText: post.localeText,
       localeId: post.localeId,
       cityText: post.cityText,
       cityId: post.cityId,
       categoryName: post.categoryName,
       categoryId: post.categoryId,
+      subCategoryName: post.subCategoryName,
+      subCategoryId: post.subCategoryId,
       coverImage: post.coverImage,
       createdAt: post.createdAt,
       updatedAt: post.updatedAt
