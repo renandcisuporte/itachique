@@ -85,7 +85,7 @@ export default async function Page({ params }: Props) {
         </div>
 
         <Image
-          src={upcomingEvents[0]?.postCoverImage}
+          src={`${process.env.NEXT_PUBLIC_BASE_IMG}${upcomingEvents[0]?.postCoverImage}`}
           width={600}
           height={600}
           className="mx-auto my-6 w-full max-w-[600px]"

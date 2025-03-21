@@ -80,7 +80,7 @@ export default async function Page({ searchParams }: Props) {
               <TableCell className="w-[175px]">
                 <Image
                   alt=""
-                  src={item.galleryImages!}
+                  src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.galleryImages!}`}
                   width={255}
                   height={55}
                   quality={100}

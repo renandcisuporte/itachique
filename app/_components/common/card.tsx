@@ -44,7 +44,7 @@ function CardImage({ src, alt }: { src: string; alt: string }) {
     <>
       {src && (
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_URL}/${src}`}
+          src={`${process.env.NEXT_PUBLIC_BASE_IMG}${src}`}
           alt={alt}
           width={500}
           height={132}

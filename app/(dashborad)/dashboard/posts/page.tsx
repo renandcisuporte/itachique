@@ -78,7 +78,7 @@ export default async function Page({ searchParams }: Props) {
               <TableCell className="w-[175px]">
                 {item.coverImage && (
                   <Image
-                    src={item.coverImage}
+                    src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.coverImage}`}
                     alt={item.title}
                     loading="lazy"
                     width={175}

@@ -47,7 +47,7 @@ export default function GalleryCarouselClient({
               className="block"
             >
               <Image
-                src={item.postCoverImage}
+                src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.postCoverImage}`}
                 loading="lazy"
                 alt={'Veja mais'}
                 width={200}

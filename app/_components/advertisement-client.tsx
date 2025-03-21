@@ -44,7 +44,7 @@ export function AdvertisementClient({ images, link }: AdvertisementProps) {
       {sortImages.map((item: string) => (
         <SwiperSlide key={item}>
           <Image
-            src={item}
+            src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item}`}
             loading="lazy"
             alt={item}
             width={1200}
