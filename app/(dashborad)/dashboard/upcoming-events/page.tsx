@@ -102,10 +102,7 @@ export default async function Page({ searchParams }: Props) {
               </TableCell>
               <TableCell>
                 <div>
-                  {item.title} -{' '}
-                  {item?.date?.toLocaleString('pt-BR', {
-                    timeZone: 'UTC'
-                  })}
+                  {item.title} - {item?.dateISO}
                 </div>
                 <div className="text-xs">{item.locale}</div>
                 <div className="text-xs">{item.description}</div>
