@@ -9,12 +9,13 @@ services:
   #   depends_on:
   #     - db
 
-  # nginx:
-  #   image: nginx:1.25-alpine
-  #   volumes:
-  #     - ./.docker/nginx:/etc/nginx/conf.d
-  #   ports:
-  #     - 80:80
+  nginx:
+    image: nginx:1.25-alpine
+    volumes:
+      - ./.docker/nginx:/etc/nginx/conf.d
+      - ./public:/var/www/public
+    ports:
+      - 80:80
 
   db:
     image: mysql:5.7

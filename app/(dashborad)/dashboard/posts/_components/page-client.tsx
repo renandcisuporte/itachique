@@ -296,7 +296,7 @@ export function PageClient({
         <div className="flex items-center gap-4">
           {post?.coverImage && (
             <Image
-              src={post?.coverImage}
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${post?.coverImage}`}
               alt={post?.coverImage}
               width={255}
               height={255}
