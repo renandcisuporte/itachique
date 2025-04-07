@@ -80,7 +80,17 @@ export function UpcomingEventsClient({
             <SwiperSlide key={item.id} className="bg-black">
               <div className="flex h-full flex-col justify-center p-4">
                 <strong>{item.title}</strong>
-                <p className="text-xs">Data: {item.date as string}</p>
+                <p className="text-xs">
+                  Data:{' '}
+                  {
+                    new Date(item.date!)
+                      .toISOString()
+                      .split('T')[0]
+                      .split('-')
+                      .reverse()
+                      .join('/')!
+                  }
+                </p>
                 <p className="text-xs">Local: {item.locale}</p>
               </div>
             </SwiperSlide>

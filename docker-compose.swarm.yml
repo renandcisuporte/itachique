@@ -1,0 +1,94 @@
+version: '3.8'  # obrigatório para Swarm
+
+services:
+  app:
+    image: itachique:latest
+    volumes:
+      - .:/var/www
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  nginx:
+    image: nginx:1.25-alpine
+    volumes:
+      - ./.docker/nginx:/etc/nginx/conf.d
+      - ./public:/var/www/public
+    ports:
+      - 80:80
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: mysql:5.7
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: itachiqu_db
+    ports:
+      - "3304:3306"
+    volumes:
+      - ./.docker/db:/var/lib/mysql
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 8004:80
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: root
+      PMA_PORT: 3306  # Porta interna do serviço "db"
+      UPLOAD_LIMIT: 512M
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+      - 8005:8025
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+volumes:
+  nginx_config:
+  public_html:
+  mysql_data:
+
+networks:
+  network:
+    driver: overlay

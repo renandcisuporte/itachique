@@ -13,9 +13,8 @@ export class UpcomingEventRepositoryPrisma implements UpcomingEventGateway {
   }
 
   async find(id: string): Promise<UpcomingEvent | null> {
-    const result = await this.prisma.upcomingEvent.update({
-      where: { id },
-      data: { deleted_at: new Date() }
+    const result = await this.prisma.upcomingEvent.findFirst({
+      where: { id }
     })
 
     if (!result) return null
@@ -37,11 +36,11 @@ export class UpcomingEventRepositoryPrisma implements UpcomingEventGateway {
   async update(id: string, input: UpcomingEvent): Promise<UpcomingEvent> {
     const data = {
       title: input.title,
+      date: new Date(input.dateISO),
       gallery_images: input.galleryImages,
       description: input.description,
       category_id: input.categoryId!,
       locale: input.locale!,
-      date: new Date(input.dateISO),
       updated_at: new Date()
     }
 

@@ -102,7 +102,15 @@ export default async function Page({ searchParams }: Props) {
               </TableCell>
               <TableCell>
                 <div>
-                  {item.title} - {item?.dateISO}
+                  {item.title} -{' '}
+                  {
+                    new Date(item.date!)
+                      .toISOString()
+                      .split('T')[0]
+                      .split('-')
+                      .reverse()
+                      .join('/')!
+                  }
                 </div>
                 <div className="text-xs">{item.locale}</div>
                 <div className="text-xs">{item.description}</div>
