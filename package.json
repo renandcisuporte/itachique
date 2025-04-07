@@ -33,7 +33,7 @@
     "jsonwebtoken": "^9.0.2",
     "lint-staged": "^12.3.2",
     "lucide-react": "^0.402.0",
-    "next": "^13.5.9",
+    "next": "^13.5.11",
     "nodemailer": "^6.10.0",
     "react": "^18",
     "react-dom": "^18",

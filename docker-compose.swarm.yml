@@ -2,9 +2,7 @@ version: '3.8'  # obrigatório para Swarm
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: itachique:latest
     volumes:
       - .:/var/www
     networks:

@@ -68,16 +68,22 @@ export class UpcomingEvent {
   }
 
   get date() {
-    return new Intl.DateTimeFormat('UTC', {
-      year: 'numeric',
-      day: '2-digit',
-      month: '2-digit',
-      timeZone: 'UTC'
-    }).format(new Date(this.props.date!))
+    return this.props.date
+    // return new Intl.DateTimeFormat('UTC', {
+    //   year: 'numeric',
+    //   day: '2-digit',
+    //   month: '2-digit',
+    //   timeZone: 'UTC'
+    // }).format(new Date(this.props.date!))
   }
 
   get dateISO() {
-    return new Date(this.props.date!).toISOString().split('T')[0]
+    return new Date(this.props.date!)
+      ?.toISOString()
+      .split('T')[0]
+      .split('-')
+      .reverse()
+      .join('/')
   }
 
   get createdAt() {
