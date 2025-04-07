@@ -51,8 +51,6 @@ export function PageClientForm({ data, categories }: Form) {
     if (data?.categoryId) setSelectedOption(data.categoryId!)
   }, [data])
 
-  console.log(data)
-
   const errorClass = cn(
     '[&>input]:text-red-500 border-red-300 text-red-500 [&>input:focus-visible]:ring-red-300 [&>input]:border-red-500 [&>label]:text-red-500 [&>small]:text-xs [&>small]:text-red-500'
   )
@@ -118,7 +116,7 @@ export function PageClientForm({ data, categories }: Form) {
               id="date"
               type="date"
               name="date"
-              defaultValue={data?.dateISO}
+              defaultValue={`${new Date(data?.date!).toISOString().split('T')[0]}`}
             />
             {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
           </div>

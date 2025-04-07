@@ -15,7 +15,12 @@ export class AllUpcomingSiteUseCase {
       id: props.id!,
       categoryName: '',
       postTitle: props.title,
-      postDate: props.dateISO,
+      postDate: new Date(props.date!)
+        .toISOString()
+        .split('T')[0]
+        .split('-')
+        .reverse()
+        .join('/')!,
       postLocale: props.locale,
       postCity: '',
       subCategoryName: props.description!, // usado para descrição

@@ -59,9 +59,9 @@ export async function saveUpcomingEventAction(_: any, formData: FormData) {
   const result = await upcomingEventAction.save({
     ...restForm,
     id: restForm.id as string,
+    date: new Date(restForm.date as string),
     title: restForm.title as string,
     description: restForm.description as string,
-    date: restForm.date as string,
     locale: restForm.locale as string
   })
 
