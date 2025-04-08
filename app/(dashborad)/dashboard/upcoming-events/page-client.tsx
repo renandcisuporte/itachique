@@ -116,7 +116,7 @@ export function PageClientForm({ data, categories }: Form) {
               id="date"
               type="date"
               name="date"
-              defaultValue={`${new Date(data?.date!).toISOString().split('T')[0]}`}
+              defaultValue={`${data?.date && new Date(data?.date!).toISOString().split('T')[0]}`}
             />
             {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
           </div>
