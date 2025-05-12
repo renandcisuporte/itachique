@@ -79,12 +79,12 @@ export async function savePostAction(_: any, formData: FormData) {
     date: new Date(restForm.date as string),
     localeId: restForm.localeId ? (restForm.localeId as string) : null,
     cityId: restForm.cityId ? (restForm.cityId as string) : null,
-    localeText: restForm.localeText as string,
-    cityText: restForm.cityText as string,
     categoryId: restForm.categoryId ? (restForm.categoryId as string) : null,
     subCategoryId: restForm.subCategoryId
       ? (restForm.subCategoryId as string)
-      : null
+      : null,
+    localeText: restForm.localeText as string,
+    cityText: restForm.cityText as string
   })
 
   if (result.errors) {
@@ -92,6 +92,6 @@ export async function savePostAction(_: any, formData: FormData) {
   }
 
   const id = result.data?.id
-  revalidatePath(`/(dashboard)/dashboard/posts`, 'page')
+  revalidatePath('/(dashboard)/dashboard/posts', 'page')
   redirect(`/dashboard/posts/${id}/edit?success=true`)
 }
