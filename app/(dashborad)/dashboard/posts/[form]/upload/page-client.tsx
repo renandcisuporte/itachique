@@ -27,10 +27,9 @@ export function PageClient({ post }: { post: PostProps }) {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
-    if (files) {
-      setSelectedFiles(Array.from(files))
-      setUploadProgress(Array(files.length).fill(0)) // Inicializa o progresso
-    }
+    if (!files) return
+    setSelectedFiles(Array.from(files))
+    setUploadProgress(Array(files.length).fill(0))
   }
 
   const handleUpload = async () => {
@@ -82,15 +81,15 @@ export function PageClient({ post }: { post: PostProps }) {
   }
 
   useEffect(() => {
-    // Atualizar a galeria com URLs temporários
+    const newUrls: string[] = []
+
     selectedFiles.forEach((file) => {
       const url = URL.createObjectURL(file)
+      newUrls.push(url)
 
       setUploadedFiles((prevGallery) => {
-        const existingImage = prevGallery.some(
-          (item) => item.image === file.name
-        )
-        if (!existingImage) {
+        const exists = prevGallery.some((item) => item.image === file.name)
+        if (!exists) {
           return [
             ...prevGallery,
             {
@@ -100,17 +99,24 @@ export function PageClient({ post }: { post: PostProps }) {
             }
           ]
         }
-
         return prevGallery
       })
-
-      return () => URL.revokeObjectURL(url) // Limpar URL temporário
     })
+
+    // Cleanup: revogar todos os URLs criados
+    return () => {
+      newUrls.forEach((url) => URL.revokeObjectURL(url))
+    }
   }, [selectedFiles])
 
   useEffect(() => {
-    if (!post?.galleryImage) return
-    setUploadedFiles(post?.galleryImage)
+    if (post?.galleryImage)
+      setUploadedFiles(
+        post.galleryImage.map((item) => ({
+          ...item,
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG}${item.url}`
+        }))
+      )
   }, [post?.galleryImage])
 
   return (
@@ -140,12 +146,7 @@ export function PageClient({ post }: { post: PostProps }) {
             key={index}
             className="flex flex-row items-center justify-between space-x-2 py-1"
           >
-            <Image
-              width={275}
-              height={275}
-              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${item.url}`}
-              alt={post.title}
-            />
+            <Image width={275} height={275} src={item.url} alt={post.title} />
             <span className="flex-1">{item.image}</span>
             <div className="flex-shrink-0 space-x-2">
               <span>

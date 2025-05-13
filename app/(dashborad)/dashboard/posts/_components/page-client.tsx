@@ -90,15 +90,6 @@ export function PageClient({ post }: PageClientProps) {
     })()
   }, [])
 
-  // useEffect(() => {
-  //   if (!loadsh || !post) return
-
-  //   setCategory((prev) => markSelected(prev, post.categoryId!))
-  //   setSubCategory((prev) => markSelected(prev, post.subCategoryId!))
-  //   setLocale((prev) => markSelected(prev, post.localeId!))
-  //   setCity((prev) => markSelected(prev, post.cityId!))
-  // }, [loadsh, post])
-
   const changeCategory = (value: string) =>
     setCategory((prev) => markSelected(prev, value))
 

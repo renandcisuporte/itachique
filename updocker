@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+# deve parar todos os containers
+echo "Parando todos os containers"
+docker compose down || true
+
+# # deve remover imagens antigas
+# echo "Removendo imagens antigas"
+# docker rmi guiacomercial:latest || true
+
+# # deve criar imagem
+# echo "Criando imagem"
+# docker build -t guiacomercial:latest -f Dockerfile .
+
+# deve subir os containers
+echo "Subindo os containers"
+docker compose up -d
+docker compose exec -it app "./deploydev.sh"
+
+echo "DONE"

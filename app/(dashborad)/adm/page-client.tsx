@@ -1,18 +1,26 @@
 'use client'
 
 import { SubmitButton } from '@/components/submit-button'
+import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { authAction } from './actions'
+import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 import {
   // @ts-ignore
   experimental_useFormState as useFormState
 } from 'react-dom'
-import { cn } from '@/lib/utils'
-import { Alert, AlertDescription } from '@/components/ui/alert'
+import { authAction } from './actions'
 
 export function PageClient() {
+  const router = useRouter()
+
   const [state, formAction] = useFormState(authAction, {})
+
+  useEffect(() => {
+    if (state?.success) router.push('/dashboard', { scroll: false })
+  }, [state?.success])
 
   const errorClass = cn(
     'flex flex-col space-y-1',

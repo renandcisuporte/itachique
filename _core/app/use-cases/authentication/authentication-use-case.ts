@@ -5,6 +5,9 @@ import { sign } from 'jsonwebtoken'
 import { ValidationError } from '../../errors/validation-error'
 
 export class AuthenticationUseCase {
+  private readonly secretKey = process.env.NEXT_PUBLIC_KEY
+  private readonly expiresIn = process.env.NEXT_PUBLIC_TTL
+
   constructor(private readonly authRepository: UserGateway) {}
 
   async execute(data: Input): Promise<Output> {
@@ -15,26 +18,21 @@ export class AuthenticationUseCase {
     if (!this.validatedPassword(auth.password, result.password))
       throw new ValidationError({ message: ['Dados inválidos'] })
 
+    const accessToken = this.createToken({
+      id: result.id,
+      email: result.email,
+      name: result.name
+    })
+
     return {
       data: {
-        accessToken: this.createToken({
-          id: result.id,
-          email: result.email,
-          name: result.name
-        })
+        accessToken
       }
     }
   }
 
   private createToken(data: {}): string {
-    return sign(
-      {
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 days
-        iat: Math.floor(Date.now() / 1000),
-        sub: data
-      },
-      process.env.NEXT_PUBLIC_SECRET_SESSION!
-    )
+    return sign({ sub: data }, this.secretKey, { expiresIn: this.expiresIn })
   }
 
   private validatedPassword(password: string, hash: string): boolean {

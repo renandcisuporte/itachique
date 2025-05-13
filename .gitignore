@@ -37,6 +37,7 @@ yarn-error.log*
 next-env.d.ts
 .docker/db
 .docker/*.sql
+/temp_public
 /public/uploads
 /public/advertisements
 /public/upcoming-events

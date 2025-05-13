@@ -17,14 +17,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
-
-  let input = {
-    id: ''
-  }
-
-  if (id[1]) input.id = id[1]
-
-  const { data } = await webSiteAction.listUpcomingEvents(input)
+  const { data } = await webSiteAction.listUpcomingEvents({ id: id[1] })
 
   return {
     title: `${data[0]?.postTitle} - ${title}`,
@@ -35,15 +28,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { id } = params
 
-  let input = {
-    id: ''
-  }
-
-  if (id[1]) input.id = id[1]
-
   const [{ data: upcomingEvents }, { data: advertisements }] =
     await Promise.all([
-      webSiteAction.listUpcomingEvents(input),
+      webSiteAction.listUpcomingEvents({ id: id[1] }),
       webSiteAction.listByAds()
     ])
 

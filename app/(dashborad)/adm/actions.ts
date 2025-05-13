@@ -3,7 +3,6 @@
 import { ValidationError } from '@/core/app/errors/validation-error'
 import { makeAuthentication } from '@/core/main/factories/make-authentication'
 import { Session } from '@/lib/session'
-import { redirect, RedirectType } from 'next/navigation'
 
 export async function authAction(_: any, formData: FormData) {
   try {
@@ -17,9 +16,12 @@ export async function authAction(_: any, formData: FormData) {
     })
 
     const { accessToken } = result.data
+
     await Session.saveSession(accessToken)
+
+    return { success: true }
   } catch (err) {
-    console.log('[ERROR LOGIN]', JSON.stringify(err, null, 2))
+    console.log('[ERROR LOGIN]: %o', err)
     if (err instanceof ValidationError) {
       const errors = err.errors
       return { errors }
@@ -29,6 +31,4 @@ export async function authAction(_: any, formData: FormData) {
       message: ['Erro não informado']
     }
   }
-
-  redirect('/dashboard', RedirectType.push)
 }
