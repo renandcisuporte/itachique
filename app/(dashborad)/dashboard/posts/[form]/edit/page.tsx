@@ -13,7 +13,6 @@ type Props = {
 }
 
 export default async function Page({ params }: Props) {
-  const [post] = await Promise.all([postAction.find(params.form)])
-
-  return <PageClient post={post.data} />
+  const { data } = await postAction.find(params.form)
+  return <PageClient post={data} />
 }

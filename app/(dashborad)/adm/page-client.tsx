@@ -20,7 +20,7 @@ export function PageClient() {
 
   useEffect(() => {
     if (state?.success) router.push('/dashboard', { scroll: false })
-  }, [state?.success])
+  }, [state?.success, router])
 
   const errorClass = cn(
     'flex flex-col space-y-1',
