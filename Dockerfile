@@ -1,9 +1,13 @@
-FROM node:18-alpine
+FROM node:16-alpine3.18
 
 WORKDIR /var/www
 
-COPY package.json .
+RUN apk update && apk add --no-cache \
+  npm \
+  curl \
+  git \
+  bash
 
-RUN npm install
+RUN npm install -g pm2
 
-CMD ["npm", "run", "dev"]
+CMD ["tail", "-f", "/dev/null"]

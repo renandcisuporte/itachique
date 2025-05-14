@@ -1,29 +1,30 @@
 import { Session } from '@/lib/session'
-import { redirect } from 'next/navigation'
+import { redirect, RedirectType } from 'next/navigation'
 import React from 'react'
 import { Nav } from './_components/nav-left'
+
+async function logOutSession() {
+  'use server'
+  await Session.destroySession()
+  redirect('/dashboard')
+}
 
 export default async function DashboardRoot({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const session = await Session.getUser()
-  if (!session) {
-    await Session.destroySession()
-    redirect('/dashboard')
+  const session = await Session.getSession()
+  if (!session?.token) {
+    redirect('/adm', RedirectType.replace)
   }
 
-  async function logOutSession() {
-    'use server'
-    await Session.destroySession()
-    redirect('/dashboard')
-  }
+  const user = await Session.getUser()
 
   return (
     <main className="relative flex h-full min-h-screen flex-row">
       <nav className="w-full max-w-[220px]">
-        <div className="bg-neutral-900 p-6">Olá, {session?.sub?.name}</div>
+        <div className="bg-neutral-900 p-6">Olá, {user?.sub?.name}</div>
         <Nav.content>
           <Nav.item>
             <Nav.link href="/dashboard">Dashboard</Nav.link>

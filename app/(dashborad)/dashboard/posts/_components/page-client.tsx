@@ -2,15 +2,17 @@
 
 import { SubmitButton } from '@/components/submit-button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
+import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-
-import { Button } from '@/components/ui/button'
-import { CategoryProps } from '@/core/domain/schemas/category-schema'
-import { CityProps } from '@/core/domain/schemas/city-schema'
-import { LocaleProps } from '@/core/domain/schemas/locale-schema'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@/components/ui/select'
 import { PostProps } from '@/core/domain/schemas/post-schema'
-import { SubCategoryProps } from '@/core/domain/schemas/subcategory-schema'
 import { cn } from '@/lib/utils'
 import { Undo, Upload, X } from 'lucide-react'
 import Image from 'next/image'
@@ -25,42 +27,55 @@ import { savePostAction } from '../actions'
 
 type PageClientProps = {
   post?: PostProps
-  locales: LocaleProps[]
-  cities: CityProps[]
-  categories: CategoryProps[]
-  subCategories: SubCategoryProps[]
 }
 
-export function PageClient({
-  post,
-  locales,
-  cities,
-  categories,
-  subCategories
-}: PageClientProps) {
+type Selects = {
+  id: string
+  name: string
+}
+
+export function PageClient({ post }: PageClientProps) {
   const searchParams = useSearchParams()
   const success = searchParams.get('success')
   const router = useRouter()
-
-  const [citySelected, setCitySelected] = useState({ id: '', city: '' })
-  const [localeSelected, setLocaleSelected] = useState({ id: '', name: '' })
-  const [categorySelected, setCategorySelected] = useState({ id: '', name: '' })
-  const [subCategorySelected, setSubCategorySelected] = useState({
-    id: '',
-    name: ''
-  })
-
   const [state, formAction] = useFormState(savePostAction, {})
 
+  const [category, setCategory] = useState<Selects[]>([])
+  const [subCategory, setSubCategory] = useState<Selects[]>([])
+  const [locale, setLocale] = useState<Selects[]>([])
+  const [city, setCity] = useState<Selects[]>([])
+
+  const [categoryId, setCategoryId] = useState('')
+  const [subCategoryId, setSubCategoryId] = useState('')
+  const [localeId, setLocaleId] = useState('')
+  const [cityId, setCityId] = useState('')
+
+  const [loading, setLoading] = useState(false)
+
   useEffect(() => {
-    if (!post) return
-    setCitySelected({ id: post.cityId!, city: post.cityText! })
-    setLocaleSelected({ id: post.localeId!, name: post.localeText! })
-    setCategorySelected({ id: post.categoryId!, name: post.categoryName! })
-    setSubCategorySelected({
-      id: post.subCategoryId!,
-      name: post.subCategoryName!
-    })
+    const fetchData = async () => {
+      const response = await fetch('/api/posts-helpers')
+      const { category, subcategory, city, locale } = await response.json()
+
+      const mapData = (arr: any[], label = 'name'): Selects[] =>
+        arr.map((r: any) => ({ id: r.id, name: r[label] }))
+
+      setCategory(mapData(category))
+      setSubCategory(mapData(subcategory))
+      setLocale(mapData(locale))
+      setCity(mapData(city, 'city'))
+
+      if (post) {
+        if (post.categoryId) setCategoryId(post.categoryId)
+        if (post.subCategoryId) setSubCategoryId(post.subCategoryId)
+        if (post.localeId) setLocaleId(post.localeId)
+        if (post.cityId) setCityId(post.cityId)
+      }
+
+      setLoading(true)
+    }
+
+    fetchData()
   }, [post])
 
   const errorClass = cn(
@@ -89,22 +104,22 @@ export function PageClient({
 
       {state?.message && (
         <Alert className="border-lime-100 bg-lime-100 text-lime-900">
-          <AlertDescription>{state?.message?.[0]}</AlertDescription>
+          <AlertDescription>{state.message[0]}</AlertDescription>
         </Alert>
       )}
 
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl">Cadastro - Postagem/Eventos</h1>
-        <span className="flex items-center justify-between space-x-1">
-          <Button asChild variant={'ghost'}>
+        <span className="flex items-center space-x-1">
+          <Button asChild variant="ghost">
             <Link href="/dashboard/posts" className="flex items-center gap-2">
               <Undo className="h-4 w-4" /> <span>Voltar</span>
             </Link>
           </Button>
           {post?.id && (
-            <Button asChild variant={'ghost'}>
+            <Button asChild variant="ghost">
               <Link
-                href={`/dashboard/posts/${post?.id}/upload`}
+                href={`/dashboard/posts/${post.id}/upload`}
                 className="flex items-center gap-2"
               >
                 <Upload className="h-4 w-4" /> <span>Imagens</span>
@@ -117,189 +132,165 @@ export function PageClient({
 
       <hr />
 
-      <div className="space-y-4 [&>div>input]:text-[#292929]">
-        <div className={cn('w-1/6', state?.errors?.date && errorClass)}>
+      <div className="flex flex-wrap gap-4 [&>div>input]:text-[#292929]">
+        {/* Data */}
+        <div className={cn('basis-24', state?.errors?.date && errorClass)}>
           <Label htmlFor="date">Data - Evento</Label>
           <Input
             id="date"
             type="date"
             name="date"
-            defaultValue={`${post?.dateISO}`}
+            defaultValue={post?.dateISO}
           />
-          {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
+          {state?.errors?.date && <small>{state.errors.date[0]}</small>}
         </div>
 
-        <div className={cn('w-1/2', state?.errors?.title && errorClass)}>
+        {/* Título */}
+        <div className={cn('basis-full', state?.errors?.title && errorClass)}>
           <Label htmlFor="title">Festa/Evento</Label>
           <Input
-            type="text"
             id="title"
+            type="text"
             name="title"
             defaultValue={post?.title}
           />
-          {state?.errors?.title && <small>{state?.errors?.title?.[0]}</small>}
+          {state?.errors?.title && <small>{state.errors.title[0]}</small>}
         </div>
 
-        {/* categorias */}
-        <div className={cn('relative w-1/5')}>
-          <input type="hidden" name="categoryId" value={categorySelected.id} />
-          <Label htmlFor="categoryPostId">Categorias</Label>
-          <Input
-            type="search"
-            id="categoryPostId"
-            name="categoryPostId"
-            placeholder="Pesquise as categorias..."
-            value={categorySelected.name}
-            onChange={(e) =>
-              setCategorySelected({ id: '', name: e.target.value })
-            }
-            className="peer focus:rounded-b-none"
-          />
-          <ul className="opacity-1 absolute top-[92%] z-10 h-0 w-full overflow-y-auto rounded-b-lg border-[1px] border-[#333] bg-[#1b1a1a] opacity-0 outline-2 outline-white transition-all duration-500 ease-in-out peer-focus:h-48 peer-focus:opacity-100">
-            {categories
-              ?.filter((item) => {
-                const query = categorySelected.name.toLowerCase()
-                return item.name.toLowerCase().includes(query)
-              })
-              ?.map((item) => (
-                <li
-                  key={item.id}
-                  className="z-10 cursor-pointer p-2 hover:bg-[#1b1010]"
-                  onClick={() =>
-                    setCategorySelected({ id: item.id!, name: item.name })
-                  }
-                >
-                  {item.name}
-                </li>
-              ))}
-          </ul>
+        {/* Categoria */}
+        <div className="relative h-16 basis-1/5">
+          <Label htmlFor="categoryId">Categorias</Label>
+          {loading && (
+            <Select
+              name="categoryId"
+              value={categoryId}
+              onValueChange={setCategoryId}
+            >
+              <SelectTrigger id="categoryId" className="w-full text-black">
+                <SelectValue placeholder="Selecione uma categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="null">Selecione uma categoria</SelectItem>
+                {category.map((item) => (
+                  <SelectItem key={item.id} value={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
-        {/* sub categorias */}
-        <div className={cn('relative w-1/5')}>
-          <input
-            type="hidden"
-            name="subCategoryId"
-            value={subCategorySelected.id}
-          />
-          <Label htmlFor="subCategoryPostId">Sub Categorias</Label>
-          <Input
-            type="search"
-            id="subCategoryPostId"
-            name="subCategoryPostId"
-            placeholder="Pesquise as subcategorias..."
-            value={subCategorySelected.name}
-            onChange={(e) =>
-              setSubCategorySelected({ id: '', name: e.target.value })
-            }
-            className="peer focus:rounded-b-none"
-          />
-          <ul className="opacity-1 absolute top-[92%] z-10 h-0 w-full overflow-y-auto rounded-b-lg border-[1px] border-[#333] bg-[#1b1a1a] opacity-0 outline-2 outline-white transition-all duration-500 ease-in-out peer-focus:h-48 peer-focus:opacity-100">
-            {subCategories
-              ?.filter((item) => {
-                const query = subCategorySelected.name.toLowerCase()
-                return item.name.toLowerCase().includes(query)
-              })
-              ?.map((item) => (
-                <li
-                  key={item.id}
-                  className="z-10 cursor-pointer p-2 hover:bg-[#1b1010]"
-                  onClick={() =>
-                    setSubCategorySelected({ id: item.id!, name: item.name })
-                  }
-                >
-                  {item.name}
-                </li>
-              ))}
-          </ul>
+        {/* Subcategoria */}
+        <div className="relative h-16 basis-1/5">
+          <Label htmlFor="subCategoryId">Sub Categorias</Label>
+          {loading && (
+            <Select
+              name="subCategoryId"
+              value={subCategoryId}
+              onValueChange={setSubCategoryId}
+            >
+              <SelectTrigger id="subCategoryId" className="w-full text-black">
+                <SelectValue placeholder="Selecione uma sub categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="null">
+                  Selecione uma sub categoria
+                </SelectItem>
+                {subCategory.map((item) => (
+                  <SelectItem key={item.id} value={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          )}
         </div>
 
-        {/* local do evento */}
+        {/* Local */}
         <div
           className={cn(
-            'relative w-2/3',
+            'relative basis-full',
             state?.errors?.localeId && errorClass
           )}
         >
-          <input type="hidden" name="localeId" value={localeSelected.id} />
-          <Label htmlFor="localeText">Local Evento</Label>
-          <Input
-            type="search"
-            id="localeText"
-            name="localeText"
-            placeholder="Ex: Itachique"
-            value={localeSelected.name}
-            onChange={(e) =>
-              setLocaleSelected({ id: '', name: e.target.value })
-            }
-            className="peer focus:rounded-b-none"
-          />
-          <ul className="opacity-1 absolute top-[92%] z-10 h-0 w-full overflow-y-auto rounded-b-lg border-[1px] border-[#333] bg-[#1b1a1a] opacity-0 outline-2 outline-white transition-all duration-500 ease-in-out peer-focus:h-48 peer-focus:opacity-100">
-            {locales
-              .filter((item) => {
-                const query = localeSelected.name.toLowerCase()
-                return item.name.toLowerCase().includes(query)
-              })
-              .map((item) => (
-                <li
-                  key={item.id}
-                  className="z-10 cursor-pointer p-2 hover:bg-[#1b1010]"
-                  onClick={() =>
-                    setLocaleSelected({ id: item.id!, name: item.name })
-                  }
-                >
-                  {item.name}
-                </li>
-              ))}
-          </ul>
-          {state?.errors?.localeId && (
-            <small>{state?.errors?.localeId?.[0]}</small>
-          )}
+          <Label htmlFor="localeId">Local Evento</Label>
+          <div className="flex items-center gap-4 [&>input]:text-[#292929]">
+            {loading && (
+              <Select
+                name="localeId"
+                value={localeId}
+                onValueChange={setLocaleId}
+              >
+                <SelectTrigger id="localeId" className="w-full text-black">
+                  <SelectValue placeholder="Selecione o local evento" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="null">Selecione o local evento</SelectItem>
+                  {locale.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            <span>ou</span>
+            <Input
+              id="localeText"
+              type="text"
+              name="localeText"
+              defaultValue={post?.localeText || ''}
+            />
+          </div>
+          {state?.errors?.localeId && <small>{state.errors.localeId[0]}</small>}
         </div>
 
-        {/* cidade do evento */}
+        {/* Cidade */}
         <div
-          className={cn('relative w-1/4', state?.errors?.cityId && errorClass)}
+          className={cn('relative w-full', state?.errors?.cityId && errorClass)}
         >
-          <input type="hidden" name="cityId" value={citySelected.id} />
-          <Label htmlFor="cityText">Cidade/UF Evento</Label>
-          <Input
-            type="search"
-            id="cityText"
-            name="cityText"
-            placeholder="Ex: São Paulo/SP"
-            value={citySelected.city}
-            onChange={(e) => setCitySelected({ id: '', city: e.target.value })}
-            className="peer focus:rounded-b-none"
-          />
-          <ul className="opacity-1 absolute top-[92%] z-10 h-0 w-full overflow-y-auto rounded-b-lg border-[1px] border-[#333] bg-[#1b1a1a] opacity-0 outline-2 outline-white transition-all duration-500 ease-in-out peer-focus:h-48 peer-focus:opacity-100">
-            {cities
-              .filter((item) => {
-                const query = citySelected.city.toLowerCase()
-                return item.city.toLowerCase().includes(query)
-              })
-              .map((item) => (
-                <li
-                  key={item.id}
-                  className="z-10 cursor-pointer p-2 hover:bg-[#1b1010]"
-                  onClick={() =>
-                    setCitySelected({ id: item.id!, city: item.city })
-                  }
-                >
-                  {item.city}
-                </li>
-              ))}
-          </ul>
-          {state?.errors?.cityId && <small>{state?.errors?.cityId?.[0]}</small>}
+          <Label htmlFor="cityId">Cidade/UF Evento</Label>
+          <div className="flex items-center gap-4 [&>input]:text-[#292929]">
+            {loading && (
+              <Select
+                name="cityId"
+                value={String(loading && cityId)}
+                onValueChange={setCityId}
+              >
+                <SelectTrigger id="cityId" className="w-full text-black">
+                  <SelectValue placeholder="Selecione Cidade/UF" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="null">Selecione Cidade/UF</SelectItem>
+                  {city.map((item) => (
+                    <SelectItem key={item.id} value={item.id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            )}
+            {/* <span>ou</span>
+            <Input
+              id="cityText"
+              type="text"
+              name="cityText"
+              defaultValue={post?.cityText || ''}
+            /> */}
+          </div>
+
+          {state?.errors?.cityId && <small>{state.errors.cityId[0]}</small>}
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Imagem */}
+        <div className="flex basis-full items-center gap-4">
           {post?.coverImage && (
             <Image
-              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${post?.coverImage}`}
-              alt={post?.coverImage}
-              width={255}
-              height={255}
+              src={`${process.env.NEXT_PUBLIC_BASE_IMG}${post.coverImage}`}
+              alt={post.coverImage}
+              width={155}
+              height={155}
               className="rounded-lg"
             />
           )}

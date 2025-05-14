@@ -1,23 +1,29 @@
 #!/bin/bash
 
-cd /home/itachiqu/site.itachique.com.br/
+set -e
+cd /home/itachiqu/site.itachique.com.br/ || true
 
-# echo '# Stop project'
-# pm2 stop ecosystem.config.js
+echo '# Stop project'
+pm2 stop ecosystem.config.js
+sleep 1
 
 echo "# Installing dependencies"
 npm install
+sleep 1
 
 echo "# Running migrations"
-npx prisma db push deploy --accept-data-loss --skip-generate
+npx prisma migrate deploy
+sleep 1
 
 echo "# Running generateschema"
 npx prisma generate
+sleep 1
 
 echo "# Running build"
 npm run build
+sleep 1
 
 echo "# Running server PM2"
-pm2 restart ecosystem.config.js --env production
-pm2 save
+pm2 start ecosystem.config.js --env production
 pm2 startup
+pm2 save

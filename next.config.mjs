@@ -7,10 +7,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
     remotePatterns: [
+      { hostname: 'localhost' },
       {
         protocol: 'https',
         hostname: 'cdn.worldweatheronline.com',
-        port: '',
         pathname: '/**',
       },
     ]

@@ -1,27 +1,32 @@
 import 'server-only'
 
 import { getIronSession } from 'iron-session'
-import { decode } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 import { cookies } from 'next/headers'
+
+type SessionUser = any
+
+type SessionData = {
+  token?: string
+}
+
+const sessionOptions = {
+  cookieName: 'auth',
+  password: process.env.NEXT_PUBLIC_KEY!,
+  ttl: Number(process.env.NEXT_PUBLIC_TTL),
+  cookieOptions: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // set this to false in local (non-HTTPS) development
+    sameSite: 'lax', // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#lax
+    maxAge: Number(process.env.NEXT_PUBLIC_TTL) - 60, // Expire cookie before the session expires.
+    path: '/'
+  }
+}
 
 export class Session {
   static async getSession() {
     const cookieStore = cookies()
-    return getIronSession<{ token: string }>(cookieStore, {
-      password: process.env.NEXT_PUBLIC_SECRET_SESSION!,
-      cookieName: 'auth',
-      ttl: process.env.NEXT_PUBLIC_TTL, // 7 days
-      cookieOptions: {
-        httpOnly: true,
-        secure: process.env.NODE_ENV !== 'development', // set this to false in local (non-HTTPS) development
-        sameSite: 'lax', // https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie/SameSite#lax
-        maxAge:
-          (process.env.NEXT_PUBLIC_TTL! === 0
-            ? 2147483647
-            : process.env.NEXT_PUBLIC_TTL!) - 60, // Expire cookie before the session expires.
-        path: '/'
-      }
-    })
+    return await getIronSession<SessionData>(cookieStore, sessionOptions)
   }
 
   static async saveSession(token: string) {
@@ -32,16 +37,17 @@ export class Session {
 
   static async destroySession() {
     const session = await this.getSession()
-    session.destroy()
+    if (session?.token) session.destroy()
   }
 
-  static async getUser(): Promise<any | null> {
+  static async getUser(): Promise<SessionUser | null> {
     const session = await this.getSession()
 
-    if (!session.token) {
+    try {
+      if (!session?.token) return null
+      return jwt.decode(session.token) as any
+    } catch (err) {
       return null
     }
-
-    return decode(session.token) as unknown as {}
   }
 }

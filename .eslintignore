@@ -36,7 +36,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 /.docker
-/public/uploads
-/public/advertisements
-/public/upcoming-events
-/public/uploads.rar
+/public

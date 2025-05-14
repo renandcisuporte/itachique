@@ -1,13 +1,15 @@
 services:
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: itachique-api
-  #   volumes:
-  #     - .:/var/www
-  #   depends_on:
-  #     - db
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: itachique-app
+    volumes:
+      - .:/var/www
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
 
   nginx:
     image: nginx:1.25-alpine
@@ -16,13 +18,14 @@ services:
       - ./public:/var/www/public
     ports:
       - 80:80
+      - 443:443
 
   db:
     image: mysql:5.7
     command: --default-authentication-plugin=mysql_native_password
     container_name: itachiqu_db
     ports:
-      - "3304:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: itachiqu_db
@@ -39,7 +42,7 @@ services:
       - PMA_HOST=host.docker.internal
       - PMA_USER=root
       - PMA_PASSWORD=root
-      - PMA_PORT=3304
+      - PMA_PORT=3306
       - UPLOAD_LIMIT=512M
     depends_on:
       - db

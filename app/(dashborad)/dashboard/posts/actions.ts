@@ -58,7 +58,14 @@ export async function savePostAction(_: any, formData: FormData) {
     return { errors: { message: ['Sessão expirada, faça login novamente.'] } }
   }
 
-  const { coverImage, ...restForm } = Object.fromEntries(formData)
+  const {
+    coverImage,
+    categoryId,
+    subCategoryId,
+    localeId,
+    cityId,
+    ...restForm
+  } = Object.fromEntries(formData)
 
   const file = formData.get('coverImage') as File
   if (file.size > 0) {
@@ -78,20 +85,18 @@ export async function savePostAction(_: any, formData: FormData) {
     title: restForm.title as string,
     date: new Date(restForm.date as string),
     localeId: restForm.localeId ? (restForm.localeId as string) : null,
-    cityId: restForm.cityId ? (restForm.cityId as string) : null,
+    cityId: cityId !== 'null' ? (cityId as string) : null,
+    categoryId: categoryId !== 'null' ? (categoryId as string) : null,
+    subCategoryId: subCategoryId !== 'null' ? (subCategoryId as string) : null,
     localeText: restForm.localeText as string,
-    cityText: restForm.cityText as string,
-    categoryId: restForm.categoryId ? (restForm.categoryId as string) : null,
-    subCategoryId: restForm.subCategoryId
-      ? (restForm.subCategoryId as string)
-      : null
+    cityText: restForm.cityText as string
   })
 
   if (result.errors) {
     return { errors: result.errors }
   }
 
-  const id = result.data?.id
-  revalidatePath(`/(dashboard)/dashboard/posts`, 'page')
+  const id = result.data?.id || restForm.id
+  revalidatePath('/(dashboard)/dashboard/posts', 'page')
   redirect(`/dashboard/posts/${id}/edit?success=true`)
 }
