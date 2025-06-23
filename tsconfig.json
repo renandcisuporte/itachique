@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -24,22 +26,25 @@
     ],
     "paths": {
       "@/context/*": [
-        "./app/_context/*"
+        "./src/app/_context/*"
       ],
       "@/fonts": [
-        "./app/_font/fonts.ts"
+        "./src/app/_font/fonts.ts"
       ],
       "@/core/*": [
-        "./_core/*"
+        "./src/@core/*"
       ],
       "@/components/*": [
-        "./app/_components/*"
+        "./src/app/_components/*"
       ],
       "@/lib/*": [
-        "./app/_lib/*"
+        "./src/app/_lib/*"
+      ],
+      "@/constants/*": [
+        "./src/constants/*"
       ],
       "@/config": [
-        "./app/_config/index.ts"
+        "./src/app/_config/index.ts"
       ]
     }
   },

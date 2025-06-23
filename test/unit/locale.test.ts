@@ -1,5 +1,5 @@
-import { Locale } from '@/core/domain/entity/locale-entity'
-import { LocaleProps } from '@/core/domain/schemas/locale-schema'
+import { Locale } from '../../src/@core/domain/entity/locale-entity'
+import { LocaleProps } from '../../src/@core/domain/schemas/locale-schema'
 
 let input: LocaleProps = {
   name: 'title'
