@@ -1,8 +1,8 @@
 'use client'
 
+import { UpcomingEventProps } from '@/core/domain/entity/upcoming-event-entity'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { UpcomingEventProps } from '../../@core/domain/entity/upcoming-event-entity'
 // import SwiperCore from 'swiper'
 import { isMobile } from '@/lib/utils'
 import 'swiper/css'

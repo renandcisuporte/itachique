@@ -9,13 +9,13 @@ export class AllAdvertisementUseCase {
   constructor(private readonly repository: AdvertisementGateway) {}
 
   async execute(): Promise<{ data: AdvertisementProps[] }> {
-    const data = await this.repository.allAdvertisement()
+    const result = await this.repository.allAdvertisement()
+    const resultArray = result.map(this.present)
 
     return {
       data: ghostArray.map((item, index) => ({
         ...item,
-        ...data[index]
-        // ...this.present(data[index])
+        ...resultArray[index]
       }))
     }
   }

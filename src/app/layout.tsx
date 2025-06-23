@@ -1,6 +1,6 @@
 import React from 'react'
 import '../../polyfills'
-import { helveticaNeue } from './_font/fonts'
+import { helveticaNeue } from '../font/fonts'
 import './globals.css'
 
 export default function RootLayout({

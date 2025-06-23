@@ -1,9 +1,9 @@
 import { AdvertisementClient } from '@/components/advertisement-client'
 import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
+import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
+import { WebSiteProps } from '@/core/domain/entity/website-entity'
 import { slug } from '@/lib/utils'
-import { AdvertisementProps } from '../../../@core/domain/entity/advertisement-entity'
-import { WebSiteProps } from '../../../@core/domain/entity/website-entity'
 
 type Props = {
   posts?: WebSiteProps[]

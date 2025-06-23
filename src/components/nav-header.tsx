@@ -1,12 +1,11 @@
 import { DetailedHTMLProps, HTMLAttributes } from 'react'
-import { Container } from './common/container'
 
+import { Container } from '@/components/common/container'
+import Link from '@/components/common/link'
+import { Nav } from '@/components/nav-client'
+import { webSiteAction } from '@/core/main/config/dependencies'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/lib/utils'
-
-import { webSiteAction } from '../../@core/main/config/dependencies'
-import Link from './common/link'
-import { Nav } from './nav-client'
 
 interface Props
   extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {}

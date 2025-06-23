@@ -1,8 +1,8 @@
 'use client'
 
-import { useDownload } from '@/context/download-context'
 import { cn } from '@/lib/utils'
 import React from 'react'
+import { useDownload } from '../context/download-context'
 import { Icons } from './common/icons'
 
 interface ShareButtonsProps extends React.HTMLAttributes<HTMLDivElement> {

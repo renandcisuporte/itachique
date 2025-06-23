@@ -26,25 +26,25 @@
     ],
     "paths": {
       "@/context/*": [
-        "./src/app/_context/*"
+        "./src/context/*"
       ],
       "@/fonts": [
-        "./src/app/_font/fonts.ts"
+        "./src/font/fonts.ts"
       ],
       "@/core/*": [
         "./src/@core/*"
       ],
       "@/components/*": [
-        "./src/app/_components/*"
+        "./src/components/*"
       ],
       "@/lib/*": [
-        "./src/app/_lib/*"
+        "./src/lib/*"
       ],
       "@/constants/*": [
         "./src/constants/*"
       ],
       "@/config": [
-        "./src/app/_config/index.ts"
+        "./src/config/index.ts"
       ]
     }
   },

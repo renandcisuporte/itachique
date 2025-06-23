@@ -1,8 +1,8 @@
 import { description, title } from '@/config'
+import { webSiteAction } from '@/core/main/config/dependencies'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
-import {} from 'react'
-import { webSiteAction } from '../../../@core/main/config/dependencies'
+
 import { Events } from './_events'
 import { UpcomingEvents } from './_upcoming-events'
 

@@ -2,8 +2,8 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import { NavHeader } from '@/components/nav-header'
 import { WeatherForecast } from '@/components/weather-forecast'
-import { DownloadProvider } from '@/context/download-context'
 import React, { Suspense } from 'react'
+import { DownloadProvider } from '../../context/download-context'
 
 export default function RootLayout({
   children

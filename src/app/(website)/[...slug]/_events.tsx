@@ -4,10 +4,10 @@ import { Container } from '@/components/common/container'
 import { Pagination } from '@/components/pagination'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
+import { WebSiteProps } from '@/core/domain/entity/website-entity'
 import { slug } from '@/lib/utils'
 import Image from 'next/image'
-import { AdvertisementProps } from '../../../@core/domain/entity/advertisement-entity'
-import { WebSiteProps } from '../../../@core/domain/entity/website-entity'
 
 type Props = {
   posts?: WebSiteProps[]

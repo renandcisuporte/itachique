@@ -1,12 +1,12 @@
 'use client'
 
 import { Container } from '@/components/common/container'
-import { useDownload } from '@/context/download-context'
+import { WebSiteGalleryProps } from '@/core/domain/entity/website-entity'
 import { chunkGallery, cn } from '@/lib/utils'
 import { Pause, Play } from 'lucide-react'
 import Image from 'next/image'
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { WebSiteGalleryProps } from '../../../../../@core/domain/entity/website-entity'
+import { useDownload } from '../../../../../context/download-context'
 
 type Props = {
   id: string
