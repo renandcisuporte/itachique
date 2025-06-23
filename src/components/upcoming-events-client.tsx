@@ -9,7 +9,15 @@ import 'swiper/css'
 import 'swiper/css/free-mode'
 import 'swiper/css/navigation'
 import 'swiper/css/thumbs'
-import { A11y, EffectFade, FreeMode, Navigation, Thumbs } from 'swiper/modules'
+import {
+  A11y,
+  Autoplay,
+  EffectFade,
+  FreeMode,
+  Navigation,
+  Pagination,
+  Thumbs
+} from 'swiper/modules'
 import { Swiper, SwiperClass, SwiperSlide } from 'swiper/react'
 
 export function UpcomingEventsClient({
@@ -42,14 +50,20 @@ export function UpcomingEventsClient({
       </h1>
       <div className="block border-t border-t-[#e4e439] md:flex md:flex-row md:space-x-2">
         <Swiper
-          spaceBetween={0}
-          navigation={false}
-          thumbs={{ swiper: thumbsSwiper }}
+          style={{
+            '--swiper-navigation-color': '#e4e439',
+            '--swiper-pagination-color': '#e4e439'
+          }}
           effect="fade"
-          autoplay={{ delay: 5000, disableOnInteraction: true }}
-          modules={[EffectFade, Thumbs, A11y]}
+          spaceBetween={0}
+          navigation={true}
+          pagination={{ type: 'progressbar' }}
+          thumbs={{ swiper: thumbsSwiper }}
+          autoplay={{ delay: 6000, disableOnInteraction: true }}
+          modules={[EffectFade, Thumbs, A11y, Navigation, Pagination, Autoplay]}
           autoHeight={false}
           className="h-36 w-full md:h-[355px]"
+          loop={true}
         >
           {events.map((item) => (
             <SwiperSlide key={item.id}>
@@ -66,19 +80,24 @@ export function UpcomingEventsClient({
         </Swiper>
 
         <Swiper
+          style={{
+            '--swiper-navigation-color': '#e4e439',
+            '--swiper-pagination-color': '#e4e439'
+          }}
+          freeMode={true}
           onSwiper={setThumbsSwiper}
           spaceBetween={8}
           direction={direction}
           slidesPerView={slides}
-          freeMode={true}
           watchSlidesProgress={true}
           modules={[FreeMode, Navigation, Thumbs, A11y]}
           className="w-full flex-shrink md:h-[355px] md:w-56"
           autoHeight={false}
+          navigation={false}
         >
           {events.map((item) => (
             <SwiperSlide key={item.id} className="bg-black">
-              <div className="flex h-full flex-col justify-center p-4">
+              <div className="flex h-full cursor-pointer flex-col justify-center p-4">
                 <strong>{item.title}</strong>
                 <p className="text-xs">
                   Data:{' '}
@@ -95,6 +114,8 @@ export function UpcomingEventsClient({
               </div>
             </SwiperSlide>
           ))}
+          {/* <div className="swiper-button-prev !top-5 rotate-90" />
+          <div className="swiper-button-next !bottom-5 rotate-90" /> */}
         </Swiper>
       </div>
     </div>

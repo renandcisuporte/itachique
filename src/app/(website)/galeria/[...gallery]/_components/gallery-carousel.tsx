@@ -1,4 +1,5 @@
-import { webSiteAction } from '../../../../../@core/main/config/dependencies'
+import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import GalleryCarouselClient from './gallery-carousel-client'
 
 // import dynamic from 'next/dynamic'
@@ -12,12 +13,11 @@ export async function GalleryCarousel({
 }: {
   categoryName: string
 }) {
-  const [{ data: posts }] = await Promise.all([
-    webSiteAction.list({
-      categoryName,
-      limit: 20
-    })
-  ])
+  const useCase = container.get<AllWebSiteUseCase>(Registry.AllWebSiteUseCase)
+  const { data: posts } = await useCase.execute({
+    categoryName,
+    limit: 20
+  })
 
   return (
     <>

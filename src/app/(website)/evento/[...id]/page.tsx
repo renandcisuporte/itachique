@@ -2,7 +2,9 @@ import { AdvertisementClient } from '@/components/advertisement-client'
 import { Container } from '@/components/common/container'
 import { ShareButtons } from '@/components/shared-buttons'
 import { title } from '@/config'
-import { webSiteAction } from '@/core/main/config/dependencies'
+import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/website/all-advertisement-website-use-case'
+import { AllUpcomingSiteUseCase } from '@/core/application/use-cases/website/all-upcomingsite-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/libs/utils'
 import { Metadata } from 'next'
@@ -17,7 +19,10 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
-  const { data } = await webSiteAction.listUpcomingEvents({ id: id[1] })
+  const useCase = container.get<AllUpcomingSiteUseCase>(
+    Registry.AllUpcomingSiteUseCase
+  )
+  const { data } = await useCase.execute({ id: id[1] })
 
   return {
     title: `${data[0]?.postTitle} - ${title}`,
@@ -28,10 +33,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function Page({ params }: Props) {
   const { id } = params
 
+  const allUpcomingSiteUseCase = container.get<AllUpcomingSiteUseCase>(
+    Registry.AllUpcomingSiteUseCase
+  )
+  const allAdvertisementWebSiteUseCase =
+    container.get<AllAdvertisementWebSiteUseCase>(
+      Registry.AllAdvertisementWebSiteUseCase
+    )
+
   const [{ data: upcomingEvents }, { data: advertisements }] =
     await Promise.all([
-      webSiteAction.listUpcomingEvents({ id: id[1] }),
-      webSiteAction.listByAds()
+      allUpcomingSiteUseCase.execute({ id: id[1] }),
+      allAdvertisementWebSiteUseCase.execute()
     ])
 
   if (!upcomingEvents) return notFound()

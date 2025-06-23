@@ -1,9 +1,9 @@
+import { ShareButtons } from '@/components/shared-buttons'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn } from '@/libs/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ReactNode } from 'react'
-import { ShareButtons } from '../share-buttons'
 
 function Card({ children }: { children: ReactNode }) {
   return (

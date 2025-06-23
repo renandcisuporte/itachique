@@ -1,8 +1,11 @@
 import { description, title } from '@/config'
-import { webSiteAction } from '@/core/main/config/dependencies'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
+import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/website/all-advertisement-website-use-case'
+import { AllUpcomingSiteUseCase } from '@/core/application/use-cases/website/all-upcomingsite-use-case'
+import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import { Events } from './_events'
 import { UpcomingEvents } from './_upcoming-events'
 
@@ -34,7 +37,8 @@ export async function generateMetadata({
   if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
-  const posts = await webSiteAction.list(input)
+  const useCase = container.get<AllWebSiteUseCase>(Registry.AllWebSiteUseCase)
+  const posts = await useCase.execute(input)
 
   return {
     title: `${
@@ -51,8 +55,8 @@ export default async function Page({ params, searchParams }: Props) {
   const { page = 1, limit = 16, q = '' } = searchParams
 
   let input = {
-    page,
-    limit,
+    page: +page,
+    limit: +limit,
     categoryName: '',
     subCategoryName: '',
     postTitle: ''
@@ -62,14 +66,25 @@ export default async function Page({ params, searchParams }: Props) {
   if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
+  const allWebSiteUseCase = container.get<AllWebSiteUseCase>(
+    Registry.AllWebSiteUseCase
+  )
+  const allUpcomingSiteUseCase = container.get<AllUpcomingSiteUseCase>(
+    Registry.AllUpcomingSiteUseCase
+  )
+  const allAdvertisementWebSiteUseCase =
+    container.get<AllAdvertisementWebSiteUseCase>(
+      Registry.AllAdvertisementWebSiteUseCase
+    )
+
   const [
     { data: posts, total },
     { data: upcomingEvents },
     { data: advertisements }
   ] = await Promise.all([
-    webSiteAction.list(input),
-    webSiteAction.listUpcomingEvents(input),
-    webSiteAction.listByAds()
+    allWebSiteUseCase.execute(input),
+    allUpcomingSiteUseCase.execute(input),
+    allAdvertisementWebSiteUseCase.execute()
   ])
 
   if (!posts.length && !upcomingEvents.length) return notFound()

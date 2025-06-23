@@ -1,24 +1,10 @@
+import { UPLOAD_DIR_UPLOADS, UPLOAD_URL_UPLOADS } from '@/constants/index'
 import { CreateGalleryUseCase } from '@/core/application/use-cases/gallery/create-gallery-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 import { NextRequest, NextResponse } from 'next/server'
 import path from 'path'
-
-const date = new Date()
-const test = date.toISOString().split('T')[0]
-const [YEAR, MONTH] = test.split('-')
-
-// Diretório onde os arquivos serão armazenados
-const UPLOAD_DIR = path.join(
-  process.cwd(),
-  'public',
-  'uploads',
-  String(YEAR),
-  String(MONTH)
-)
-
-const UPLOAD_URL = ['uploads', String(YEAR), String(MONTH)].join('/')
 
 export async function POST(req: NextRequest) {
   try {
@@ -27,7 +13,7 @@ export async function POST(req: NextRequest) {
     )
 
     // Garante que o diretório de upload existe
-    await fs.mkdir(UPLOAD_DIR, { recursive: true })
+    await fs.mkdir(UPLOAD_DIR_UPLOADS, { recursive: true })
 
     const formData = await req.formData()
     const file = formData.get('image') as File
@@ -43,11 +29,11 @@ export async function POST(req: NextRequest) {
     // Salva o arquivo no diretório local
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     const fileName = `${randomUUID().toString()}-${file.name}`
-    const filePath = path.join(UPLOAD_DIR, fileName)
+    const filePath = path.join(UPLOAD_DIR_UPLOADS, fileName)
 
     await fs.writeFile(filePath, fileBuffer)
 
-    const urlPath = ['', UPLOAD_URL, fileName].join('/')
+    const urlPath = ['', UPLOAD_URL_UPLOADS, fileName].join('/')
 
     await useCase.execute({
       postId,

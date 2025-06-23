@@ -17,4 +17,21 @@ const UPLOAD_DIR_ADVERTISEMENTS = path.join(
   String(MONTH)
 )
 
-export { MONTH, UPLOAD_DIR_ADVERTISEMENTS, UPLOAD_URL_ADVERTISEMENTS, YEAR }
+// Diretório onde os arquivos serão armazenados
+const UPLOAD_DIR_UPLOADS = path.join(
+  process.cwd(),
+  'public',
+  'uploads',
+  String(YEAR),
+  String(MONTH)
+)
+const UPLOAD_URL_UPLOADS = ['uploads', String(YEAR), String(MONTH)].join('/')
+
+export {
+  MONTH,
+  UPLOAD_DIR_ADVERTISEMENTS,
+  UPLOAD_DIR_UPLOADS,
+  UPLOAD_URL_ADVERTISEMENTS,
+  UPLOAD_URL_UPLOADS,
+  YEAR
+}

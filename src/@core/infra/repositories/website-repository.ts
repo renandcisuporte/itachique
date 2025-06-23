@@ -154,9 +154,9 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
       })
     }
 
-    if (input?.date) {
+    if (input?.postDate) {
       Object.assign(where, {
-        date: { lte: input.date }
+        date: { lte: new Date(input.postDate) }
       })
     }
 

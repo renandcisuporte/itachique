@@ -3,7 +3,8 @@ import { DetailedHTMLProps, HTMLAttributes } from 'react'
 import { Container } from '@/components/common/container'
 import Link from '@/components/common/link'
 import { Nav } from '@/components/nav-client'
-import { webSiteAction } from '@/core/main/config/dependencies'
+import { AllMenuSiteUseCase } from '@/core/application/use-cases/website/all-menusite-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import { mrEavesXLModOTBold } from '@/fonts'
 import { cn, slug } from '@/libs/utils'
 
@@ -17,9 +18,10 @@ function Root({ ...rest }: Props) {
 }
 
 async function Links() {
-  const menus = await webSiteAction.findListMenus()
+  const useCase = container.get<AllMenuSiteUseCase>(Registry.AllMenuSiteUseCase)
+  const { data } = await useCase.execute()
 
-  return menus?.data?.map((item) => (
+  return data?.map((item) => (
     <li
       key={item.category}
       className="relative hover:bg-[#e4e439] hover:text-[#1b1a1a] [&>a]:hover:text-[#1b1a1a] [&>div]:hover:block"

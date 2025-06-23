@@ -2,9 +2,11 @@ import { AdvertisementClient } from '@/components/advertisement-client'
 import { Container } from '@/components/common/container'
 import { ShareButtons } from '@/components/shared-buttons'
 import { title } from '@/config'
-import { webSiteAction } from '@/core/main/config/dependencies'
+import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/website/all-advertisement-website-use-case'
+import { FindWebSiteUseCase } from '@/core/application/use-cases/website/find-website-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import { mrEavesXLModOTBold } from '@/fonts'
-import { cn, slug as slugUse } from '@/libs/utils'
+import { cn, slug as fncSlug } from '@/libs/utils'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { Suspense } from 'react'
@@ -20,7 +22,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const [slug, id, page, photo] = params.gallery
   if (params.gallery.length !== 4) return notFound()
 
-  const { data: posts } = await webSiteAction.find(id)
+  const useCase = container.get<FindWebSiteUseCase>(Registry.FindWebSiteUseCase)
+  const { data: posts } = await useCase.execute({ id })
   if (!posts?.galleryImage?.length) return notFound()
 
   return {
@@ -49,9 +52,17 @@ export default async function Page({ params }: Props) {
   const [slug, id, page, photo] = params.gallery
   if (params.gallery.length !== 4) return notFound()
 
+  const findWebSiteUseCase = container.get<FindWebSiteUseCase>(
+    Registry.FindWebSiteUseCase
+  )
+  const allAdvertisementWebSiteUseCase =
+    container.get<AllAdvertisementWebSiteUseCase>(
+      Registry.AllAdvertisementWebSiteUseCase
+    )
+
   const [{ data: posts }, { data: advertisements }] = await Promise.all([
-    webSiteAction.find(id),
-    webSiteAction.listByAds()
+    findWebSiteUseCase.execute({ id }),
+    allAdvertisementWebSiteUseCase.execute()
   ])
   if (!posts?.galleryImage?.length) return notFound()
 
@@ -116,9 +127,9 @@ export default async function Page({ params }: Props) {
               mrEavesXLModOTBold.className
             )}
           >
-            Veja também
+            Vale a pena ver de novo
           </h2>
-          <GalleryCarousel categoryName={slugUse(posts?.categoryName)} />
+          <GalleryCarousel categoryName={fncSlug(posts?.categoryName)} />
         </Suspense>
 
         <AdvertisementClient
@@ -133,10 +144,10 @@ export default async function Page({ params }: Props) {
               mrEavesXLModOTBold.className
             )}
           >
-            Eventos Anteriores
+            Veja também
           </h2>
           <GalleryCarouselPrevious
-            categoryName={slugUse(posts?.categoryName)}
+            categoryName={fncSlug(posts?.categoryName)}
             date={posts?.postDate}
           />
         </Suspense>

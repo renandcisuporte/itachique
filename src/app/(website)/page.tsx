@@ -3,15 +3,13 @@ import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { UpcomingEventsClient } from '@/components/upcoming-events-client'
 import { applicationName, description, keywords, title } from '@/config'
-import {
-  upcomingEventAction,
-  webSiteAction
-} from '@/core/main/config/dependencies'
+import { AllValidatedUpcomingEventUseCase } from '@/core/application/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
+import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/website/all-advertisement-website-use-case'
+import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
+import { container, Registry } from '@/core/infra/container-regisry'
 import { slug } from '@/libs/utils'
 import { Metadata } from 'next'
 
-// deve revalidar a pagina a cada 1 minutos
-// export const revalidate = 60
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
@@ -42,11 +40,21 @@ export const metadata: Metadata = {
 }
 
 export default async function Home() {
+  const useCasePosts = container.get<AllWebSiteUseCase>(
+    Registry.AllWebSiteUseCase
+  )
+  const useCaseAds = container.get<AllAdvertisementWebSiteUseCase>(
+    Registry.AllAdvertisementWebSiteUseCase
+  )
+  const useCaseUpcoming = container.get<AllValidatedUpcomingEventUseCase>(
+    Registry.AllValidatedUpcomingEventUseCase
+  )
+
   const [{ data: posts }, { data: advertisements }, { data: events }] =
     await Promise.all([
-      webSiteAction.list({ page: 1, limit: 12 }),
-      webSiteAction.listByAds(),
-      upcomingEventAction.listValidated()
+      useCasePosts.execute({ page: 1, limit: 12 }),
+      useCaseAds.execute(),
+      useCaseUpcoming.execute()
     ])
 
   // Garantir que as propagandas sejam embaralhadas
