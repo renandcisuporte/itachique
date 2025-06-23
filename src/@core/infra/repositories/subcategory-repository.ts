@@ -1,6 +1,6 @@
 import { SubCategory } from '@/core/domain/entity/subcategory-entity'
 import { SubCategoryGateway } from '@/core/domain/gateway/subcategory-gateway'
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 import { PrismaClient } from '@prisma/client'
 
 export class SubCategoryRepositoryPrisma implements SubCategoryGateway {

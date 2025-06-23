@@ -9,7 +9,7 @@ import { CreateAdvertisementUseCase } from '@/core/application/use-cases/adverti
 import { DeleteAdvertisementUseCase } from '@/core/application/use-cases/advertisement/delete-advertisement-use-case'
 import { UpdateAdvertisementUseCase } from '@/core/application/use-cases/advertisement/update-advertisement-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 import { revalidatePath } from 'next/cache'

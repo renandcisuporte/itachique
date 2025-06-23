@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
 import { WebSiteProps } from '@/core/domain/entity/website-entity'
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 import Image from 'next/image'
 
 type Props = {

@@ -22,7 +22,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { UpcomingEventProps } from '@/core/domain/entity/upcoming-event-entity'
 import { CategoryProps } from '@/core/domain/schemas/category-schema'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/utils'
 import { CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'

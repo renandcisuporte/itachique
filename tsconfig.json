@@ -25,11 +25,11 @@
       }
     ],
     "paths": {
-      "@/context/*": [
-        "./src/context/*"
+      "@/contexts/*": [
+        "./src/contexts/*"
       ],
       "@/fonts": [
-        "./src/font/fonts.ts"
+        "./src/fonts/fonts.ts"
       ],
       "@/core/*": [
         "./src/@core/*"
@@ -37,8 +37,8 @@
       "@/components/*": [
         "./src/components/*"
       ],
-      "@/lib/*": [
-        "./src/lib/*"
+      "@/libs/*": [
+        "./src/libs/*"
       ],
       "@/constants/*": [
         "./src/constants/*"

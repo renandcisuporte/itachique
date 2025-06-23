@@ -1,4 +1,4 @@
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { redirect, RedirectType } from 'next/navigation'
 import React from 'react'
 import { Nav } from './_components/nav-left'

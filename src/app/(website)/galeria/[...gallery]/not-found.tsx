@@ -1,7 +1,7 @@
 import { Container } from '@/components/common/container'
-import { cn } from '@/lib/utils'
+import { mrEavesXLModOTBold } from '@/fonts'
+import { cn } from '@/libs/utils'
 import Link from 'next/link'
-import { mrEavesXLModOTBold } from '../../../../font/fonts'
 
 export default function NotFound() {
   return (

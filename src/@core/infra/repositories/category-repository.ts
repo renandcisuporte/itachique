@@ -1,6 +1,6 @@
 import { Category } from '@/core/domain/entity/category-entity'
 import { CategoryGateway } from '@/core/domain/gateway/category-gateway'
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 import { PrismaClient } from '@prisma/client'
 
 export class CategoryRepositoryPrisma implements CategoryGateway {

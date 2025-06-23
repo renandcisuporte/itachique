@@ -3,7 +3,7 @@ import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { AdvertisementProps } from '@/core/domain/entity/advertisement-entity'
 import { WebSiteProps } from '@/core/domain/entity/website-entity'
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 
 type Props = {
   posts?: WebSiteProps[]

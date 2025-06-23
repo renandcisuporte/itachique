@@ -3,7 +3,7 @@
 import { ValidationError } from '@/core/application/errors/validation-error'
 import { AuthenticationUseCase } from '@/core/application/use-cases/authentication/authentication-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 
 export async function authAction(_: any, formData: FormData) {
   try {

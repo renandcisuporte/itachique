@@ -1,6 +1,6 @@
 'use client'
 
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 

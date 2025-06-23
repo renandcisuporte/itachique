@@ -5,7 +5,7 @@ import { CreateCityUseCase } from '@/core/application/use-cases/city/create-city
 import { DeleteCityUseCase } from '@/core/application/use-cases/city/delete-city-use-case'
 import { UpdateCityUseCase } from '@/core/application/use-cases/city/update-city-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteCityAction(_: any, formData: FormData) {

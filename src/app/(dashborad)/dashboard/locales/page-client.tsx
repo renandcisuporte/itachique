@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/utils'
 import { CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'

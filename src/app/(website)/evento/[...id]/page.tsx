@@ -3,11 +3,11 @@ import { Container } from '@/components/common/container'
 import { ShareButtons } from '@/components/shared-buttons'
 import { title } from '@/config'
 import { webSiteAction } from '@/core/main/config/dependencies'
-import { cn, slug } from '@/lib/utils'
+import { mrEavesXLModOTBold } from '@/fonts'
+import { cn, slug } from '@/libs/utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
 import { notFound } from 'next/navigation'
-import { mrEavesXLModOTBold } from '../../../../font/fonts'
 
 type Props = {
   params: {

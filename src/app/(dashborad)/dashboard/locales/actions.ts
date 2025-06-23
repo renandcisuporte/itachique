@@ -5,7 +5,7 @@ import { CreateLocaleUseCase } from '@/core/application/use-cases/locale/create-
 import { DeleteLocaleUseCase } from '@/core/application/use-cases/locale/delete-city-use-case'
 import { UpdateLocaleUseCase } from '@/core/application/use-cases/locale/update-city-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteLocaleAction(_: any, formData: FormData) {

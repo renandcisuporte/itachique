@@ -13,7 +13,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { PostProps } from '@/core/domain/schemas/post-schema'
-import { cn } from '@/lib/utils'
+import { cn } from '@/libs/utils'
 import { Undo, Upload, X } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'

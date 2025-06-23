@@ -5,7 +5,7 @@ import { CreateSubCategoryUseCase } from '@/core/application/use-cases/subcatego
 import { DeleteSubCategoryUseCase } from '@/core/application/use-cases/subcategory/delete-subcategory-use-case'
 import { UpdateSubCategoryUseCase } from '@/core/application/use-cases/subcategory/update-subcategory-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteCategoryAction(_: any, formData: FormData) {

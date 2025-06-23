@@ -3,7 +3,7 @@ import { Post } from '@/core/domain/entity/post-entity'
 import { GalleryGateway } from '@/core/domain/gateway/gallery-gateway'
 import { PostGateway } from '@/core/domain/gateway/post-gateway'
 import { PostProps } from '@/core/domain/schemas/post-schema'
-import { getImageNumber } from '@/lib/utils'
+import { getImageNumber } from '@/libs/utils'
 
 export class FindPostUseCase {
   constructor(

@@ -2,13 +2,13 @@ import { AdvertisementClient } from '@/components/advertisement-client'
 import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
 import { UpcomingEventsClient } from '@/components/upcoming-events-client'
+import { applicationName, description, keywords, title } from '@/config'
 import {
   upcomingEventAction,
   webSiteAction
 } from '@/core/main/config/dependencies'
-import { slug } from '@/lib/utils'
+import { slug } from '@/libs/utils'
 import { Metadata } from 'next'
-import { applicationName, description, keywords, title } from '../../config'
 
 // deve revalidar a pagina a cada 1 minutos
 // export const revalidate = 60

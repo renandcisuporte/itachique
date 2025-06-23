@@ -6,7 +6,7 @@ import { CreatePostUseCase } from '@/core/application/use-cases/post/create-post
 import { DeletePostUseCase } from '@/core/application/use-cases/post/delete-post-use-case'
 import { UpdatePostUseCase } from '@/core/application/use-cases/post/update-post-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 import { revalidatePath } from 'next/cache'

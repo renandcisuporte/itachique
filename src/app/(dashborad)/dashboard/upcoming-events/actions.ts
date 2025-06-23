@@ -5,7 +5,7 @@ import { CreateUpcomingEventUseCase } from '@/core/application/use-cases/upcomin
 import { DeleteUpcomingEventUseCase } from '@/core/application/use-cases/upcoming-event/delete-upcoming-event-use-case'
 import { UpdateUpcomingEventUseCase } from '@/core/application/use-cases/upcoming-event/update-upcoming-event-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
 import { revalidatePath } from 'next/cache'
