@@ -32,10 +32,15 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         }
       }
     })
+
+    const date = new Date(new Date().toISOString().split('T')[0])
     const upcomings = await this.prisma.upcomingEvent.findMany({
       distinct: ['category_id'],
       where: {
         deleted_at: null,
+        date: {
+          gte: date
+        },
         category: {
           deleted_at: null
         }
