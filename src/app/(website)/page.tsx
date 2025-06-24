@@ -1,6 +1,7 @@
 import { AdvertisementClient } from '@/components/advertisement-client'
 import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
+import { buttonVariants } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { UpcomingEventsClient } from '@/components/upcoming-events-client'
@@ -9,9 +10,10 @@ import { AllValidatedUpcomingEventUseCase } from '@/core/application/use-cases/u
 import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/website/all-advertisement-website-use-case'
 import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
-import { slug } from '@/libs/utils'
+import { cn, slug } from '@/libs/utils'
 import { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export const dynamic = 'force-dynamic'
 
@@ -85,6 +87,18 @@ export default async function Home() {
 
       {shuffledAds?.map((item, i) => (
         <Container key={item.id}>
+          {i === 3 && (
+            <div className="mt-4 flex items-center justify-center">
+              <Link
+                href="/search"
+                className={cn(
+                  buttonVariants({ variant: 'itachique', size: 'lg' })
+                )}
+              >
+                Veja mais Eventos
+              </Link>
+            </div>
+          )}
           {item.galleryImagesJson && (
             <AdvertisementClient
               images={item.galleryImagesJson}
@@ -92,11 +106,7 @@ export default async function Home() {
             />
           )}
 
-          {i === 0 && (
-            <>
-              <UpcomingEventsClient events={events} />
-            </>
-          )}
+          {i === 0 && <UpcomingEventsClient events={events} />}
 
           <CardEvent.content>
             {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
