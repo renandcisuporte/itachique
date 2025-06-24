@@ -120,7 +120,7 @@ export function Gallery({
     const handleTouchEnd = () => {
       const deltaX = startX - endX
 
-      if (deltaX > 100) {
+      if (deltaX > 70) {
         // ⬅️ Deslizar para esquerda (próxima foto)
         setCurrentPhoto((prev) => {
           const nextPhoto = prev + 1
@@ -130,7 +130,7 @@ export function Gallery({
           }
           return nextPhoto
         })
-      } else if (deltaX < 100) {
+      } else if (deltaX < 70) {
         // ➡️ Deslizar para direita (foto anterior)
         setCurrentPhoto((prev) => {
           if (prev === 0) {
@@ -178,7 +178,7 @@ export function Gallery({
           )}
         </div>
       </div>
-      <div className="flex flex-row items-center justify-center gap-2 overflow-x-auto">
+      <div className="flex flex-row items-center gap-2 overflow-x-auto md:justify-center">
         {chunkedArray?.[currentPage]?.map((item, index) => (
           <span
             key={item.id}

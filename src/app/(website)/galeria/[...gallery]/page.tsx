@@ -121,15 +121,10 @@ export default async function Page({ params }: Props) {
         />
 
         <Suspense fallback={<>Carregando...</>}>
-          <h2
-            className={cn(
-              'uppercase text-[#e4e439] md:text-2xl',
-              mrEavesXLModOTBold.className
-            )}
-          >
-            Vale a pena ver de novo
-          </h2>
-          <GalleryCarousel categoryName={fncSlug(posts?.categoryName)} />
+          <GalleryCarousel
+            categoryName={fncSlug(posts?.categoryName)}
+            label="Vale a pena ver de novo"
+          />
         </Suspense>
 
         <AdvertisementClient
@@ -138,17 +133,10 @@ export default async function Page({ params }: Props) {
         />
 
         <Suspense fallback={<>Carregando...</>}>
-          <h2
-            className={cn(
-              'uppercase text-[#e4e439] md:text-2xl',
-              mrEavesXLModOTBold.className
-            )}
-          >
-            Veja também
-          </h2>
           <GalleryCarouselPrevious
             categoryName={fncSlug(posts?.categoryName)}
             date={posts?.postDate}
+            label="Veja também"
           />
         </Suspense>
       </Container>

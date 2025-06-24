@@ -4,6 +4,8 @@ import { slug } from '@/libs/utils'
 import Image from 'next/image'
 import Link from 'next/link'
 
+import { ChevronLeft, ChevronRight } from 'lucide-react'
+
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -19,23 +21,28 @@ export default function GalleryCarouselClient({
   posts: any[]
   perView: number
 }) {
+  const id = new Date().getTime()
   if (!posts) return null
 
   return (
-    <div>
+    <div className="relative">
+      <ChevronLeft
+        className={`chrevron-button-prev-${id} absolute -top-7 right-12 z-50 h-5 w-5 cursor-pointer text-[#e4e439] md:-top-10 md:h-8 md:w-8`}
+      />
+      <ChevronRight
+        className={`chrevron-button-next-${id} absolute -top-7 right-0 z-50 h-5 w-5 cursor-pointer text-[#e4e439] md:-top-10 md:h-8 md:w-8`}
+      />
+
       <Swiper
+        loop={true}
         spaceBetween={12}
         slidesPerView={perView}
-        navigation={true}
         modules={[Navigation, Pagination, Scrollbar, A11y]}
-        pagination={{
-          clickable: true,
-          el: 'pagination',
-          type: 'bullets',
-          bulletClass:
-            'py-0.5 cursor-pointer bg-gray-500 flex-1 shrink w-full h-0.5 transition hover:bg-teal-400 transition ease-in-out shadow-lg',
-          bulletActiveClass: '!bg-amber-300 active'
+        navigation={{
+          nextEl: `.chrevron-button-next-${id}`,
+          prevEl: `.chrevron-button-prev-${id}`
         }}
+        pagination={false}
       >
         {posts.map((item, index) => (
           <SwiperSlide

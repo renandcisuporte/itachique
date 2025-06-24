@@ -48,11 +48,11 @@ export function UpcomingEventsClient({
       <h1 className="p-4 text-lg font-extrabold uppercase text-[#e4e439] md:text-2xl">
         Próximos Eventos
       </h1>
-      <div className="block border-t border-t-[#e4e439] md:flex md:flex-row md:space-x-2">
+      <div className="relative block border-t border-t-[#e4e439] md:flex md:flex-row md:space-x-2">
         <Swiper
           style={{
-            '--swiper-navigation-color': '#e4e439',
-            '--swiper-pagination-color': '#e4e439'
+            ['--swiper-navigation-color' as string]: '#e4e439',
+            ['--swiper-pagination-color' as string]: '#e4e439'
           }}
           effect="fade"
           spaceBetween={0}
@@ -80,10 +80,6 @@ export function UpcomingEventsClient({
         </Swiper>
 
         <Swiper
-          style={{
-            '--swiper-navigation-color': '#e4e439',
-            '--swiper-pagination-color': '#e4e439'
-          }}
           freeMode={true}
           onSwiper={setThumbsSwiper}
           spaceBetween={8}
@@ -94,6 +90,8 @@ export function UpcomingEventsClient({
           className="w-full flex-shrink md:h-[355px] md:w-56"
           autoHeight={false}
           navigation={false}
+          pagination={false}
+          loop={true}
         >
           {events.map((item) => (
             <SwiperSlide key={item.id} className="bg-black">
@@ -114,9 +112,17 @@ export function UpcomingEventsClient({
               </div>
             </SwiperSlide>
           ))}
-          {/* <div className="swiper-button-prev !top-5 rotate-90" />
-          <div className="swiper-button-next !bottom-5 rotate-90" /> */}
         </Swiper>
+        {/* <div
+          style={{
+            ['--swiper-theme-color' as string]: '#e4e439'
+          }}
+          className="swiper-button-prev !top-0 !mr-10 rotate-90 "
+        />
+        <div
+          className="swiper-button-next !-mr-10 !mb-0 rotate-90"
+          style={{ ['--swiper-theme-color' as string]: '#e4e439' }}
+        /> */}
       </div>
     </div>
   )

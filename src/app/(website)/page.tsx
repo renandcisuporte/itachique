@@ -1,6 +1,8 @@
 import { AdvertisementClient } from '@/components/advertisement-client'
 import { CardEvent } from '@/components/common/card'
 import { Container } from '@/components/common/container'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { UpcomingEventsClient } from '@/components/upcoming-events-client'
 import { applicationName, description, keywords, title } from '@/config'
 import { AllValidatedUpcomingEventUseCase } from '@/core/application/use-cases/upcoming-event/all-validated-upcoming-event-use-case'
@@ -9,6 +11,7 @@ import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-webs
 import { container, Registry } from '@/core/infra/container-regisry'
 import { slug } from '@/libs/utils'
 import { Metadata } from 'next'
+import Image from 'next/image'
 
 export const dynamic = 'force-dynamic'
 
@@ -71,7 +74,36 @@ export default async function Home() {
             />
           )}
 
-          {i === 0 && <UpcomingEventsClient events={events} />}
+          {i === 0 && (
+            <>
+              <UpcomingEventsClient events={events} />
+              <form
+                className="mx-auto w-full items-center justify-end px-4 text-neutral-900 md:w-1/2"
+                action="/search"
+              >
+                <Label
+                  htmlFor="q"
+                  className="text-left text-lg text-white md:text-center"
+                >
+                  Pesquisar eventos
+                </Label>
+                <div className="relative mb-6 flex flex-1 items-center justify-end">
+                  <Input name="q" placeholder="Buscar" className="flex-1" />
+                  <button
+                    type="submit"
+                    className="absolute right-0 top-0 h-full w-8"
+                  >
+                    <Image
+                      src="/search.png"
+                      width={20}
+                      height={20}
+                      alt="Search"
+                    />
+                  </button>
+                </div>
+              </form>
+            </>
+          )}
 
           <CardEvent.content>
             {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (

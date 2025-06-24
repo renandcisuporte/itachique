@@ -33,7 +33,7 @@ export async function generateMetadata({
     postTitle: ''
   }
 
-  if (slug[0]) input.categoryName = slug[0]
+  if (slug[0] && slug[0] !== 'search') input.categoryName = slug[0]
   if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
@@ -62,7 +62,7 @@ export default async function Page({ params, searchParams }: Props) {
     postTitle: ''
   }
 
-  if (slug[0]) input.categoryName = slug[0]
+  if (slug[0] && slug[0] !== 'search') input.categoryName = slug[0]
   if (slug[1]) input.subCategoryName = slug[1]
   if (q) input.postTitle = q
 
@@ -92,7 +92,7 @@ export default async function Page({ params, searchParams }: Props) {
   // Garantir que as propagandas sejam embaralhadas
   const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
 
-  if (upcomingEvents.length) {
+  if (upcomingEvents.length && slug[0] !== 'search') {
     const ads = Math.ceil(upcomingEvents.length / 4)
 
     return (

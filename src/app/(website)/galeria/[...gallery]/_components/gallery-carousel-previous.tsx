@@ -1,12 +1,16 @@
 import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { mrEavesXLModOTBold } from '@/fonts'
+import { cn } from '@/libs/utils'
 import GalleryCarouselClient from './gallery-carousel-client'
 
 export async function GalleryCarouselPrevious({
   categoryName,
+  label = 'Vale a pena ver de novo',
   date
 }: {
   categoryName: string
+  label?: string
   date: string
 }) {
   let [day, month, year] = date.split('/').map(Number)
@@ -21,13 +25,21 @@ export async function GalleryCarouselPrevious({
   })
 
   return (
-    <>
+    <div>
+      <h2
+        className={cn(
+          'uppercase text-[#e4e439] md:text-2xl',
+          mrEavesXLModOTBold.className
+        )}
+      >
+        {label}
+      </h2>
       <div className="hidden md:block">
         <GalleryCarouselClient posts={posts} perView={5} />
       </div>
       <div className="block md:hidden">
         <GalleryCarouselClient posts={posts} perView={2} />
       </div>
-    </>
+    </div>
   )
 }

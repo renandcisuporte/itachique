@@ -5,8 +5,10 @@ export class AllWebSiteUseCase {
   constructor(private readonly websiteRepository: WebSiteGateway) {}
 
   async execute(input: Input): Promise<Output> {
-    const total = await this.websiteRepository.countWebSite(input)
-    const result = await this.websiteRepository.allWebSite(input)
+    const [total, result] = await Promise.all([
+      this.websiteRepository.countWebSite(input),
+      this.websiteRepository.allWebSite(input)
+    ])
 
     return { data: result.map(this.present), total }
   }

@@ -23,10 +23,10 @@ function CardItem({
   children: ReactNode
 }) {
   return (
-    <div className="relative">
+    <div className="relative bg-black">
       <Link
         href={`${process.env.NEXT_PUBLIC_BASE_URL}${url}`}
-        className="block bg-black pb-6"
+        className="block pb-6"
       >
         {children}
       </Link>
