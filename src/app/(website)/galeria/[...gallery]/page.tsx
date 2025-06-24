@@ -123,7 +123,7 @@ export default async function Page({ params }: Props) {
         <Suspense fallback={<>Carregando...</>}>
           <GalleryCarousel
             categoryName={fncSlug(posts?.categoryName)}
-            label="Vale a pena ver de novo"
+            label="Últimos Eventos"
           />
         </Suspense>
 
@@ -136,7 +136,7 @@ export default async function Page({ params }: Props) {
           <GalleryCarouselPrevious
             categoryName={fncSlug(posts?.categoryName)}
             date={posts?.postDate}
-            label="Veja também"
+            label="Vale a pena ver de novo"
           />
         </Suspense>
       </Container>
