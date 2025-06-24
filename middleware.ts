@@ -1,4 +1,4 @@
-import { Session } from '@/lib/session'
+import { Session } from '@/libs/session'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
