@@ -65,6 +65,24 @@ export default async function Home() {
 
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
+      <form
+        className="mx-auto w-full items-center justify-end px-4 text-neutral-900 md:w-1/2"
+        action="/search"
+      >
+        <Label
+          htmlFor="q"
+          className="text-left text-lg text-white md:text-center"
+        >
+          Pesquisar eventos
+        </Label>
+        <div className="relative mb-6 flex flex-1 items-center justify-end">
+          <Input name="q" placeholder="Buscar" className="flex-1" />
+          <button type="submit" className="absolute right-0 top-0 h-full w-8">
+            <Image src="/search.png" width={20} height={20} alt="Search" />
+          </button>
+        </div>
+      </form>
+
       {shuffledAds?.map((item, i) => (
         <Container key={item.id}>
           {item.galleryImagesJson && (
@@ -77,31 +95,6 @@ export default async function Home() {
           {i === 0 && (
             <>
               <UpcomingEventsClient events={events} />
-              <form
-                className="mx-auto w-full items-center justify-end px-4 text-neutral-900 md:w-1/2"
-                action="/search"
-              >
-                <Label
-                  htmlFor="q"
-                  className="text-left text-lg text-white md:text-center"
-                >
-                  Pesquisar eventos
-                </Label>
-                <div className="relative mb-6 flex flex-1 items-center justify-end">
-                  <Input name="q" placeholder="Buscar" className="flex-1" />
-                  <button
-                    type="submit"
-                    className="absolute right-0 top-0 h-full w-8"
-                  >
-                    <Image
-                      src="/search.png"
-                      width={20}
-                      height={20}
-                      alt="Search"
-                    />
-                  </button>
-                </div>
-              </form>
             </>
           )}
 

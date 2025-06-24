@@ -28,14 +28,24 @@ export class AllAdvertisementWebSiteUseCase {
 
     const data = (await this.repository.allWebSiteAds()).map(this.present)
 
+    const lengthArray =
+      ghostAds.length < data.length ? data.length : ghostAds.length
+
     return {
-      data: ghostAds.map(this.present).map((item, index) => {
-        return {
-          ...item,
-          ...data[index]
-        }
-      })
+      data: Array.from({ length: lengthArray }, (_, index) => ({
+        ...data[index],
+        ...ghostAds[index]
+      }))
     }
+
+    // return {
+    //   data: ghostAds.map(this.present).map((item, index) => {
+    //     return {
+    //       ...item,
+    //       ...data[index]
+    //     }
+    //   })
+    // }
   }
 
   private present(props: Advertisement): AdvertisementProps {

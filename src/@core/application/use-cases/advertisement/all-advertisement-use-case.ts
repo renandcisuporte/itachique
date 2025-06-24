@@ -3,7 +3,6 @@ import {
   AdvertisementProps
 } from '@/core/domain/entity/advertisement-entity'
 import { AdvertisementGateway } from '@/core/domain/gateway/advertisement-gateway'
-import { ghostArray } from './constants'
 
 export class AllAdvertisementUseCase {
   constructor(private readonly repository: AdvertisementGateway) {}
@@ -13,11 +12,20 @@ export class AllAdvertisementUseCase {
     const resultArray = result.map(this.present)
 
     return {
-      data: ghostArray.map((item, index) => ({
-        ...item,
-        ...resultArray[index]
-      }))
+      data: resultArray
     }
+
+    // const lengthArray =
+    //   resultArray.length < ghostArray.length
+    //     ? ghostArray.length
+    //     : resultArray.length
+
+    // return {
+    //   data: Array.from({ length: lengthArray }, (_, index) => ({
+    //     ...ghostArray[index],
+    //     ...resultArray[index]
+    //   }))
+    // }
   }
 
   private present(props: Advertisement): AdvertisementProps {

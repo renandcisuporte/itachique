@@ -189,7 +189,7 @@ export function PageClientDelete({ data }: Form) {
         <DialogHeader className="mb-1">
           <DialogTitle>Deseja realmente remover</DialogTitle>
           <DialogDescription>
-            Após a remoção, não será possível recuperar {data.title}.
+            Após a remoção, não será possível recuperar {data?.title}.
           </DialogDescription>
         </DialogHeader>
         <form

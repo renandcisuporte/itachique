@@ -224,7 +224,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
     if (!result) return null
 
-    const { category, subcategory, gallery, city, locale, ...rest } = result
+    const { gallery, category, subcategory, city, locale, ...rest } = result
     const galleryImage = gallery
       ?.map((item) => ({
         id: item.id!,
@@ -232,8 +232,12 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         image: item.image!
       }))
       ?.sort((a, b) => {
-        const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
-        const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+        const matchA = a.image?.match(/\((\d+)\)/)
+        const matchB = b.image?.match(/\((\d+)\)/)
+
+        const numA = matchA ? parseInt(matchA[1], 10) : 0
+        const numB = matchB ? parseInt(matchB[1], 10) : 0
+
         return numA - numB
       })
 
@@ -290,8 +294,12 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
             image: item.image!
           }))
           ?.sort((a, b) => {
-            const numA = parseInt(a.image.match(/\((\d+)\)/)![1], 10)
-            const numB = parseInt(b.image.match(/\((\d+)\)/)![1], 10)
+            const matchA = a.image?.match(/\((\d+)\)/)
+            const matchB = b.image?.match(/\((\d+)\)/)
+
+            const numA = matchA ? parseInt(matchA[1], 10) : 0
+            const numB = matchB ? parseInt(matchB[1], 10) : 0
+
             return numA - numB
           })
 

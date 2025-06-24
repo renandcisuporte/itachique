@@ -83,7 +83,7 @@ export function WeatherForecast() {
             `${process.env.NEXT_PUBLIC_WEATHERSTACK_URL}?access_key=${process.env.NEXT_PUBLIC_WEATHERSTACK_KEY}&query=${location.latitude},${location.longitude}`,
             {
               cache: 'force-cache',
-              next: { revalidate: 14400 } // deve revalidar a cada 4 horas
+              next: { revalidate: 25920 } // ≈ 7 horas e 12 minutos
             }
           )
           if (!response.ok) {
