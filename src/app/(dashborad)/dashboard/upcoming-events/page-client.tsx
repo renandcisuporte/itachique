@@ -22,6 +22,7 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { UpcomingEventProps } from '@/core/domain/entity/upcoming-event-entity'
 import { CategoryProps } from '@/core/domain/schemas/category-schema'
+import { CityProps } from '@/core/domain/schemas/city-schema'
 import { cn } from '@/libs/utils'
 import { CircleX } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -35,10 +36,12 @@ import { deleteUpcomingEventAction, saveUpcomingEventAction } from './actions'
 type Form = {
   data: UpcomingEventProps
   categories: CategoryProps[]
+  cities: CityProps[]
 }
 
-export function PageClientForm({ data, categories }: Form) {
+export function PageClientForm({ data, categories, cities }: Form) {
   const { back } = useRouter()
+  const [cityOption, setCityOption] = useState('')
   const [selectedOption, setSelectedOption] = useState('')
 
   const [state, formAction] = useFormState(saveUpcomingEventAction, {})
@@ -72,9 +75,26 @@ export function PageClientForm({ data, categories }: Form) {
         </DialogHeader>
         <form action={formAction} className="flex flex-row flex-wrap">
           <input type="hidden" name="id" value={data?.id} />
+
           <div
             className={cn(
-              'mb-4 w-full [&>input]:text-black',
+              'mb-4 w-1/5 [&>input]:text-black',
+              state?.errors?.date && errorClass
+            )}
+          >
+            <Label htmlFor="date">Data</Label>
+            <Input
+              id="date"
+              type="date"
+              name="date"
+              defaultValue={`${data?.date && new Date(data?.date!).toISOString().split('T')[0]}`}
+            />
+            {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
+          </div>
+
+          <div
+            className={cn(
+              'mb-4 w-1/2 pl-4 [&>input]:text-black',
               state?.errors?.title && errorClass
             )}
           >
@@ -87,9 +107,35 @@ export function PageClientForm({ data, categories }: Form) {
             />
             {state?.errors?.title && <small>{state?.errors?.title?.[0]}</small>}
           </div>
+
           <div
             className={cn(
-              'mb-4 w-full [&>input]:text-black',
+              'mb-4 w-1/4 pl-4 [&>input]:text-black',
+              state?.errors?.categoryId && errorClass
+            )}
+          >
+            <Label htmlFor="categoryId">Categoria</Label>
+            <Select
+              name="categoryId"
+              value={selectedOption}
+              onValueChange={(value) => setSelectedOption(value)}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione uma categoria" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories?.map((item) => (
+                  <SelectItem value={item.id!} key={item.id}>
+                    {item.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div
+            className={cn(
+              'mb-4 w-1/2 [&>input]:text-black',
               state?.errors?.locale && errorClass
             )}
           >
@@ -107,43 +153,29 @@ export function PageClientForm({ data, categories }: Form) {
 
           <div
             className={cn(
-              'mb-4 w-1/5 [&>input]:text-black',
-              state?.errors?.date && errorClass
+              'mb-4 w-1/4 pl-4 [&>input]:text-black',
+              state?.errors?.cityId && errorClass
             )}
           >
-            <Label htmlFor="date">Data</Label>
-            <Input
-              id="date"
-              type="date"
-              name="date"
-              defaultValue={`${data?.date && new Date(data?.date!).toISOString().split('T')[0]}`}
-            />
-            {state?.errors?.date && <small>{state?.errors?.date?.[0]}</small>}
-          </div>
-          <div
-            className={cn(
-              'mb-4 ml-4 w-1/2 [&>input]:text-black',
-              state?.errors?.categoryId && errorClass
-            )}
-          >
-            <Label htmlFor="categoryId">Categoria</Label>
+            <Label htmlFor="categoryId">Cidade/UF</Label>
             <Select
-              name="categoryId"
-              value={selectedOption}
-              onValueChange={(value) => setSelectedOption(value)}
+              name="cityId"
+              value={cityOption}
+              onValueChange={(value) => setCityOption(value)}
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Selecione uma categoria" />
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Selecione uma Cidade" />
               </SelectTrigger>
               <SelectContent>
-                {categories?.map((item) => (
+                {cities?.map((item) => (
                   <SelectItem value={item.id!} key={item.id}>
-                    {item.name}
+                    {item.city}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
+
           <div
             className={cn(
               'mb-4 w-full [&>input]:text-black',

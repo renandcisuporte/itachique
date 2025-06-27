@@ -38,12 +38,16 @@ export function UpcomingEvents({ ads, posts, shuffledAds }: Props) {
                 <CardEvent.description>
                   Data: {item.postDate}
                 </CardEvent.description>
-                <CardEvent.description>
-                  Local: {item.postLocale}
-                </CardEvent.description>
-                <CardEvent.description>
-                  Cidade: {item.postCity}
-                </CardEvent.description>
+                {item.postLocale && (
+                  <CardEvent.description>
+                    Local: {item.postLocale}
+                  </CardEvent.description>
+                )}
+                {item.postCity && (
+                  <CardEvent.description>
+                    Cidade: {item.postCity}
+                  </CardEvent.description>
+                )}
               </CardEvent.item>
             ))}
           </CardEvent.content>

@@ -70,12 +70,13 @@ model Locale {
 }
 
 model City {
-  id         String    @id @db.Char(36)
-  city       String
-  created_at DateTime
-  updated_at DateTime
-  deleted_at DateTime?
-  posts      Post[]
+  id            String          @id @db.Char(36)
+  city          String
+  created_at    DateTime
+  updated_at    DateTime
+  deleted_at    DateTime?
+  posts         Post[]
+  upcomingEvent UpcomingEvent[]
 
   @@map("cities")
 }
@@ -153,6 +154,7 @@ model UpcomingEvent {
   id             String    @id @db.Char(36)
   title          String
   category_id    String?   @db.Char(36)
+  city_id        String?   @db.Char(36)
   gallery_images String    @db.Text
   date           DateTime? @db.Date
   locale         String
@@ -162,6 +164,7 @@ model UpcomingEvent {
   deleted_at     DateTime?
 
   category Category? @relation(fields: [category_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  city     City?     @relation(fields: [city_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   // upcoming-event
   @@map("upcoming_events")

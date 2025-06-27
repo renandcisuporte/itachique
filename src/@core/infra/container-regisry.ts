@@ -44,6 +44,9 @@ import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-webs
 import { FindByTagsSiteUseCase } from '@/core/application/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/application/use-cases/website/find-website-use-case'
 
+// import { QueueProviderImpl } from '@/core/infra/provider/queue/bullmq.queue'
+import { UploadImageProviderImpl } from '@/core/infra/provider/upload-image'
+
 import { AdvertisementRepositoryPrisma } from '@/core/infra/repositories/advertisement-repository'
 import { CategoryPostRepositoryPrisma } from '@/core/infra/repositories/category-post-repository'
 import { CategoryRepositoryPrisma } from '@/core/infra/repositories/category-repository'
@@ -57,12 +60,12 @@ import { UserRepositoryPrisma } from '@/core/infra/repositories/user-repository'
 import { WebSiteRepositoryPrisma } from '@/core/infra/repositories/website-repository'
 
 import { prisma } from '@/core/package/prisma'
-import { UploadImageProviderImpl } from './provider/upload-image'
 
 export const Registry = {
   PrismaAdapter: Symbol.for('PrismaAdapter'),
 
-  // Repositories
+  // Repositories or Gateways
+
   AdvertisementCategoryGateway: Symbol.for('AdvertisementCategoryGateway'),
   CategoryPostCategoryGateway: Symbol.for('CategoryPostCategoryGateway'),
   CategoryCategoryGateway: Symbol.for('CategoryCategoryGateway'),
@@ -133,7 +136,9 @@ export const Registry = {
   FindWebSiteUseCase: Symbol.for('FindWebSiteUseCase'),
 
   // Provider
-  UploadImageProvider: Symbol.for('UploadImageProvider')
+  UploadImageProvider: Symbol.for('UploadImageProvider'),
+  QueueProvider: Symbol.for('QueueProvider')
+  // QueueProviderImpl: Symbol.for('QueueProviderImpl')
 }
 
 export const container = new Container()
@@ -144,7 +149,10 @@ container.bind(Registry.PrismaAdapter).toConstantValue(prisma)
 // Provider
 container
   .bind(Registry.UploadImageProvider)
-  .toConstantValue(new UploadImageProviderImpl())
+  .toDynamicValue(() => new UploadImageProviderImpl())
+// container
+//   .bind(Registry.QueueProvider)
+//   .toDynamicValue(() => new QueueProviderImpl())
 
 // repository
 container.bind(Registry.AdvertisementCategoryGateway).toDynamicValue(() => {

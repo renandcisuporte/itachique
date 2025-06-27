@@ -8,6 +8,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { AllCategoryUseCase } from '@/core/application/use-cases/category/all-category-use-case'
+import { AllCityUseCase } from '@/core/application/use-cases/city/all-city-use-case'
 import { AllUpcomingEventUseCase } from '@/core/application/use-cases/upcoming-event/all-upcoming-event-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
 import { Edit, Newspaper, Trash } from 'lucide-react'
@@ -38,10 +39,12 @@ export default async function Page({ searchParams }: Props) {
   const categoryUseCase = container.get<AllCategoryUseCase>(
     Registry.AllCategoryUseCase
   )
+  const citiesUseCase = container.get<AllCityUseCase>(Registry.AllCityUseCase)
 
-  const [{ data }, { data: category }] = await Promise.all([
+  const [{ data }, { data: category }, { data: cities }] = await Promise.all([
     upcomingEventUseCase.execute(),
-    categoryUseCase.execute()
+    categoryUseCase.execute(),
+    citiesUseCase.execute()
   ])
 
   return (
@@ -50,6 +53,7 @@ export default async function Page({ searchParams }: Props) {
         <PageClientDelete
           data={data?.find((item) => item.id === id)!}
           categories={[]}
+          cities={[]}
         />
       )}
 
@@ -57,6 +61,7 @@ export default async function Page({ searchParams }: Props) {
         <PageClientForm
           data={data?.find((item) => item.id === id) || ({} as any)}
           categories={category}
+          cities={cities}
         />
       )}
 

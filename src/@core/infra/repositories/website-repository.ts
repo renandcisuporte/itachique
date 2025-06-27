@@ -352,6 +352,10 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
 
     const result = await this.prisma.upcomingEvent.findMany({
       where,
+      include: {
+        category: true,
+        city: true
+      },
       orderBy: {
         date: 'asc'
       }
@@ -365,6 +369,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         galleryImages: item.gallery_images,
         description: item.description!,
         locale: item.locale,
+        city: item.city?.city,
         createdAt: item.created_at,
         updatedAt: item.updated_at,
         deletedAt: item.deleted_at

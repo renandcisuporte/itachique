@@ -4,6 +4,8 @@ export type UpcomingEventProps = {
   id?: string
   title: string
   categoryId?: string
+  cityId?: string
+  city?: string
   galleryImages?: string
   description?: string
   date: Date | string | null
@@ -23,6 +25,7 @@ export class UpcomingEvent {
     categoryId,
     galleryImages,
     locale,
+    cityId,
     description
   }: UpcomingEventProps) {
     return new UpcomingEvent({
@@ -30,6 +33,7 @@ export class UpcomingEvent {
       title,
       date,
       locale,
+      cityId,
       categoryId,
       galleryImages,
       description,
@@ -65,6 +69,14 @@ export class UpcomingEvent {
 
   get locale() {
     return this.props.locale
+  }
+
+  get cityId() {
+    return this.props.cityId
+  }
+
+  get city() {
+    return this.props.city
   }
 
   get date() {
