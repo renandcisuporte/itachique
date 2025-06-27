@@ -3,6 +3,7 @@ import Header from '@/components/header'
 import { NavHeader } from '@/components/nav-header'
 import { WeatherForecast } from '@/components/weather-forecast'
 import { DownloadProvider } from '@/contexts/download-context'
+import Script from 'next/script'
 import React, { Suspense } from 'react'
 
 export default function RootLayout({
@@ -42,6 +43,18 @@ export default function RootLayout({
           <Footer.copyright />
         </Footer.content>
       </Footer.root>
+
+      {/* <Script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-ZDL9384FQ8"
+      />
+      <Script id="google-analytics">
+        {`window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-ZDL9384FQ8');`}
+      </Script> */}
     </DownloadProvider>
   )
 }

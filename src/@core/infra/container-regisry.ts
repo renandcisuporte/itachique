@@ -44,7 +44,7 @@ import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-webs
 import { FindByTagsSiteUseCase } from '@/core/application/use-cases/website/find-by-tags-website-use-case'
 import { FindWebSiteUseCase } from '@/core/application/use-cases/website/find-website-use-case'
 
-import { QueueProviderImpl } from '@/core/infra/provider/queue/bullmq.queue'
+// import { QueueProviderImpl } from '@/core/infra/provider/queue/bullmq.queue'
 import { UploadImageProviderImpl } from '@/core/infra/provider/upload-image'
 
 import { AdvertisementRepositoryPrisma } from '@/core/infra/repositories/advertisement-repository'
@@ -137,8 +137,8 @@ export const Registry = {
 
   // Provider
   UploadImageProvider: Symbol.for('UploadImageProvider'),
-  QueueProvider: Symbol.for('QueueProvider'),
-  QueueProviderImpl: Symbol.for('QueueProviderImpl')
+  QueueProvider: Symbol.for('QueueProvider')
+  // QueueProviderImpl: Symbol.for('QueueProviderImpl')
 }
 
 export const container = new Container()
@@ -150,9 +150,9 @@ container.bind(Registry.PrismaAdapter).toConstantValue(prisma)
 container
   .bind(Registry.UploadImageProvider)
   .toDynamicValue(() => new UploadImageProviderImpl())
-container
-  .bind(Registry.QueueProvider)
-  .toDynamicValue(() => new QueueProviderImpl())
+// container
+//   .bind(Registry.QueueProvider)
+//   .toDynamicValue(() => new QueueProviderImpl())
 
 // repository
 container.bind(Registry.AdvertisementCategoryGateway).toDynamicValue(() => {

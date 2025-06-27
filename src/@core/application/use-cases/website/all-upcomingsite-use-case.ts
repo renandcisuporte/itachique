@@ -22,7 +22,7 @@ export class AllUpcomingSiteUseCase {
         .reverse()
         .join('/')!,
       postLocale: props.locale,
-      postCity: '',
+      postCity: props?.city || '',
       subCategoryName: props.description!, // usado para descrição
       postCoverImage: props.galleryImages!,
       galleryImage: [],
