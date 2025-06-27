@@ -15,5 +15,6 @@ declare namespace NodeJS {
     NEXT_PUBLIC_SMTP_USER: string
     NEXT_PUBLIC_SMTP_PASSWORD: string
     NODE_OPTIONS: string
+    NEXT_PUBLIC_GOOGLE_ANALYTICS: string
   }
 }
