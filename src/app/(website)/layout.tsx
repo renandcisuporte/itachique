@@ -44,17 +44,21 @@ export default function RootLayout({
         </Footer.content>
       </Footer.root>
 
-      {/* <Script
-        async
-        src="https://www.googletagmanager.com/gtag/js?id=G-ZDL9384FQ8"
-      />
-      <Script id="google-analytics">
-        {`window.dataLayer = window.dataLayer || [];
+      {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && (
+        <>
+          <Script
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
+          />
+          <Script id="google-analytics">
+            {`window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-ZDL9384FQ8');`}
-      </Script> */}
+  gtag('config', '${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}');`}
+          </Script>
+        </>
+      )}
     </DownloadProvider>
   )
 }
