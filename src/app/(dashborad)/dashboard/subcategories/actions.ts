@@ -5,8 +5,8 @@ import { CreateSubCategoryUseCase } from '@/core/application/use-cases/subcatego
 import { DeleteSubCategoryUseCase } from '@/core/application/use-cases/subcategory/delete-subcategory-use-case'
 import { UpdateSubCategoryUseCase } from '@/core/application/use-cases/subcategory/update-subcategory-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
-import { revalidatePath } from 'next/cache'
 
 export async function deleteCategoryAction(_: any, formData: FormData) {
   const session = await Session.getSession()
@@ -21,6 +21,8 @@ export async function deleteCategoryAction(_: any, formData: FormData) {
     Registry.DeleteSubCategoryUseCase
   )
   await useCase.execute(id)
+
+  revalidatePaths()
 
   return {
     success: true
@@ -39,16 +41,16 @@ export async function saveCategoryAction(_: any, formData: FormData) {
     position: 0
   }
 
-  let result = null
-  const createUseCase = container.get<CreateSubCategoryUseCase>(
-    Registry.CreateSubCategoryUseCase
-  )
-  const updateUseCase = container.get<UpdateSubCategoryUseCase>(
-    Registry.UpdateSubCategoryUseCase
-  )
-
   try {
-    revalidatePath(`/(dashboard)/dashboard/subcategories`, 'page')
+    const createUseCase = container.get<CreateSubCategoryUseCase>(
+      Registry.CreateSubCategoryUseCase
+    )
+    const updateUseCase = container.get<UpdateSubCategoryUseCase>(
+      Registry.UpdateSubCategoryUseCase
+    )
+
+    revalidatePaths()
+
     if (input.id) {
       const result = await updateUseCase.execute(input)
       return {
@@ -58,7 +60,7 @@ export async function saveCategoryAction(_: any, formData: FormData) {
       }
     }
 
-    result = await createUseCase.execute(input)
+    const result = await createUseCase.execute(input)
     return {
       success: true,
       message: ['Atualizado com sucesso!'],

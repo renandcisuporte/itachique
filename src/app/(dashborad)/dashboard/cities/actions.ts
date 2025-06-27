@@ -5,8 +5,8 @@ import { CreateCityUseCase } from '@/core/application/use-cases/city/create-city
 import { DeleteCityUseCase } from '@/core/application/use-cases/city/delete-city-use-case'
 import { UpdateCityUseCase } from '@/core/application/use-cases/city/update-city-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
-import { revalidatePath } from 'next/cache'
 
 export async function deleteCityAction(_: any, formData: FormData) {
   const session = await Session.getSession()
@@ -19,7 +19,9 @@ export async function deleteCityAction(_: any, formData: FormData) {
   const id = formData.get('id') as string
   const useCase = container.get<DeleteCityUseCase>(Registry.DeleteCityUseCase)
   await useCase.execute(id)
-  revalidatePath(`/(dashboard)/dashboard/cities`, 'page')
+
+  revalidatePaths()
+
   return {
     success: true
   }
@@ -36,15 +38,16 @@ export async function saveCityAction(_: any, formData: FormData) {
     city: formData.get('city') as string
   }
 
-  const createUseCase = container.get<CreateCityUseCase>(
-    Registry.CreateCityUseCase
-  )
-  const updateUseCase = container.get<UpdateCityUseCase>(
-    Registry.UpdateCityUseCase
-  )
-
   try {
-    revalidatePath(`/(dashboard)/dashboard/cities`, 'page')
+    const createUseCase = container.get<CreateCityUseCase>(
+      Registry.CreateCityUseCase
+    )
+    const updateUseCase = container.get<UpdateCityUseCase>(
+      Registry.UpdateCityUseCase
+    )
+
+    revalidatePaths()
+
     if (input.id) {
       const result = await updateUseCase.execute(input)
       return {

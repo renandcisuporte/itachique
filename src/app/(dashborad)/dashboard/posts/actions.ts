@@ -1,29 +1,30 @@
 'use server'
 
+import { UPLOAD_DIR_UPLOADS, UPLOAD_URL_UPLOADS } from '@/constants/index'
 import { ValidationError } from '@/core/application/errors/validation-error'
 import { DeleteGalleryUseCase } from '@/core/application/use-cases/gallery/delete-gallery-use-case'
 import { CreatePostUseCase } from '@/core/application/use-cases/post/create-post-use-case'
 import { DeletePostUseCase } from '@/core/application/use-cases/post/delete-post-use-case'
 import { UpdatePostUseCase } from '@/core/application/use-cases/post/update-post-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
-import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import path from 'path'
 
-const date = new Date()
-const test = date.toISOString().split('T')[0]
-const [YEAR, MONTH] = test.split('-')
-const UPLOAD_URL = ['uploads', String(YEAR), String(MONTH)].join('/')
-const UPLOAD_DIR = path.join(
-  process.cwd(),
-  'public',
-  'uploads',
-  String(YEAR),
-  String(MONTH)
-)
+// const date = new Date()
+// const test = date.toISOString().split('T')[0]
+// const [YEAR, MONTH] = test.split('-')
+// const UPLOAD_URL = ['uploads', String(YEAR), String(MONTH)].join('/')
+// const UPLOAD_DIR = path.join(
+//   process.cwd(),
+//   'public',
+//   'uploads',
+//   String(YEAR),
+//   String(MONTH)
+// )
 
 export async function galleryActionRemove(_: any, formData: FormData) {
   const session = await Session.getSession()
@@ -39,7 +40,7 @@ export async function galleryActionRemove(_: any, formData: FormData) {
   )
   await useCase.execute({ id })
 
-  revalidatePath(`/(dashboard)/dashboard/posts/[form]/upload`)
+  revalidatePaths()
 
   return {
     success: true
@@ -58,7 +59,8 @@ export async function postActionRemove(_: any, formData: FormData) {
   const useCase = container.get<DeletePostUseCase>(Registry.DeletePostUseCase)
   await useCase.execute(id)
 
-  revalidatePath(`/(dashboard)/dashboard/posts`)
+  revalidatePaths()
+
   return {
     success: true
   }
@@ -82,13 +84,13 @@ export async function savePostAction(_: any, formData: FormData) {
   const file = formData.get('coverImage') as File
   if (file.size > 0) {
     // Garante que o diretório de upload existe
-    await fs.mkdir(UPLOAD_DIR, { recursive: true })
+    await fs.mkdir(UPLOAD_DIR_UPLOADS, { recursive: true })
 
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     const fileName = `${randomUUID().toString()}-${file.name}`
-    const filePath = path.join(UPLOAD_DIR, fileName)
+    const filePath = path.join(UPLOAD_DIR_UPLOADS, fileName)
     await fs.writeFile(filePath, fileBuffer)
-    const urlPath = ['', UPLOAD_URL, fileName].join('/')
+    const urlPath = ['', UPLOAD_URL_UPLOADS, fileName].join('/')
     restForm.coverImage = urlPath
   }
 
@@ -133,6 +135,6 @@ export async function savePostAction(_: any, formData: FormData) {
     return { message: ['Erro ao criar post!'] }
   }
 
-  revalidatePath('/(dashboard)/dashboard/posts', 'page')
+  revalidatePaths()
   redirect(`/dashboard/posts/${input.id}/edit?success=true`)
 }

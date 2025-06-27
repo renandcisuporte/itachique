@@ -5,8 +5,8 @@ import { CreateLocaleUseCase } from '@/core/application/use-cases/locale/create-
 import { DeleteLocaleUseCase } from '@/core/application/use-cases/locale/delete-city-use-case'
 import { UpdateLocaleUseCase } from '@/core/application/use-cases/locale/update-city-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
-import { revalidatePath } from 'next/cache'
 
 export async function deleteLocaleAction(_: any, formData: FormData) {
   const session = await Session.getSession()
@@ -22,6 +22,8 @@ export async function deleteLocaleAction(_: any, formData: FormData) {
   )
   await useCase.execute(id)
 
+  revalidatePaths()
+
   return {
     success: true
   }
@@ -33,30 +35,29 @@ export async function saveLocaleAction(_: any, formData: FormData) {
     return { errors: { message: ['Sessão expirada, faça login novamente.'] } }
   }
 
-  let result = null
   const input = {
     id: formData.get('id') as string,
     name: formData.get('name') as string
   }
 
-  const createUseCase = container.get<CreateLocaleUseCase>(
-    Registry.CreateLocaleUseCase
-  )
-  const updateUseCase = container.get<UpdateLocaleUseCase>(
-    Registry.UpdateLocaleUseCase
-  )
-
   try {
-    revalidatePath(`/(dashboard)/dashboard/cities`, 'page')
+    const createUseCase = container.get<CreateLocaleUseCase>(
+      Registry.CreateLocaleUseCase
+    )
+    const updateUseCase = container.get<UpdateLocaleUseCase>(
+      Registry.UpdateLocaleUseCase
+    )
+    revalidatePaths()
+
     if (input.id) {
-      result = await updateUseCase.execute(input)
+      const result = await updateUseCase.execute(input)
       return {
         success: true,
         message: ['Post atualizado com sucesso!'],
         data: { id: result.data.id }
       }
     }
-    result = await createUseCase.execute(input)
+    const result = await createUseCase.execute(input)
     return {
       success: true,
       message: ['Cidade criada com sucesso!'],

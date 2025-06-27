@@ -5,6 +5,8 @@ import { AllSubCategoryUseCase } from '@/core/application/use-cases/subcategory/
 import { container, Registry } from '@/core/infra/container-regisry'
 import { NextResponse } from 'next/server'
 
+export const dynamic = 'force-dynamic'
+
 export async function GET() {
   const useCaseCity = container.get<AllCityUseCase>(Registry.AllCityUseCase)
   const useCaseCategory = container.get<AllCategoryUseCase>(
