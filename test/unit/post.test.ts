@@ -1,5 +1,5 @@
-import { Post } from '../../src/@core/domain/entity/post-entity'
-import { PostProps } from '../../src/@core/domain/schemas/post-schema'
+import { Post } from '@/core/domain/entity/post-entity'
+import { PostProps } from '@/core/domain/schemas/post-schema'
 
 let input: PostProps = {
   title: 'title',

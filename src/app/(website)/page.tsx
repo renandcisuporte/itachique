@@ -63,7 +63,9 @@ export default async function Home() {
     ])
 
   // Garantir que as propagandas sejam embaralhadas
-  const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
+  const shuffledAds = [...(advertisements || [])].sort(
+    () => Math.random() - 0.5
+  )
 
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
@@ -85,7 +87,7 @@ export default async function Home() {
         </div>
       </form>
 
-      {shuffledAds?.map((item, i) => (
+      {shuffledAds.map((item, i) => (
         <Container key={item.id}>
           {i === 3 && (
             <div className="mt-4 flex items-center justify-center">

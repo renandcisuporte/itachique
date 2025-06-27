@@ -45,3 +45,16 @@ export function getImageNumber(image: string) {
   }
   return 0
 }
+
+export function buildSearchInput(
+  slug: string[],
+  searchParams: { q?: string; page?: string; limit?: string }
+) {
+  return {
+    page: Number(searchParams.page ?? 1),
+    limit: Number(searchParams.limit ?? 16),
+    categoryName: slug[0] !== 'search' ? slug[0] : '',
+    subCategoryName: slug[1] ?? '',
+    postTitle: searchParams.q ?? ''
+  }
+}

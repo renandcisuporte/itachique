@@ -1,5 +1,5 @@
-import { City } from '../../src/@core/domain/entity/city-entity'
-import { CityProps } from '../../src/@core/domain/schemas/city-schema'
+import { City } from '@/core/domain/entity/city-entity'
+import { CityProps } from '@/core/domain/schemas/city-schema'
 
 let input: CityProps = {
   city: 'title'
