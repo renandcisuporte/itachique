@@ -23,7 +23,7 @@ function Info() {
   return (
     <div className="flex basis-1/3 flex-col space-y-2 text-center text-[10px] md:text-xs">
       <h2 className="text-lg text-[#e4e439] md:text-2xl">Institucional</h2>
-      <Link href="/">Quem Somos</Link>
+      <Link href="/quem-somos">Quem Somos</Link>
       <Link href="/contato">Anuncie Aqui</Link>
       <Link href="/contato">Contato</Link>
     </div>
