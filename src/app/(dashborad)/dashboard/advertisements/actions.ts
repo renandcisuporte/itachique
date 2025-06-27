@@ -9,10 +9,10 @@ import { CreateAdvertisementUseCase } from '@/core/application/use-cases/adverti
 import { DeleteAdvertisementUseCase } from '@/core/application/use-cases/advertisement/delete-advertisement-use-case'
 import { UpdateAdvertisementUseCase } from '@/core/application/use-cases/advertisement/update-advertisement-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
 import { randomUUID } from 'crypto'
 import fs from 'fs/promises'
-import { revalidatePath } from 'next/cache'
 import path from 'path'
 
 export async function deleteAdvertisementAction(_: any, formData: FormData) {
@@ -29,7 +29,7 @@ export async function deleteAdvertisementAction(_: any, formData: FormData) {
   )
   await useCase.execute(id)
 
-  revalidatePath(`/(dashboard)/dashboard/advertisements`, 'page')
+  revalidatePaths()
 
   return {
     success: true
@@ -73,15 +73,16 @@ export async function saveAdvertisementAction(_: any, formData: FormData) {
     validatedAt: new Date(restForm.validatedAt as string)
   }
 
-  const updateUseCase = container.get<UpdateAdvertisementUseCase>(
-    Registry.UpdateAdvertisementUseCase
-  )
-  const createUseCase = container.get<CreateAdvertisementUseCase>(
-    Registry.CreateAdvertisementUseCase
-  )
-
   try {
-    revalidatePath(`/(dashboard)/dashboard/advertisements`, 'page')
+    const updateUseCase = container.get<UpdateAdvertisementUseCase>(
+      Registry.UpdateAdvertisementUseCase
+    )
+    const createUseCase = container.get<CreateAdvertisementUseCase>(
+      Registry.CreateAdvertisementUseCase
+    )
+
+    revalidatePaths()
+
     if (input.id) {
       const result = await updateUseCase.execute(input)
       return {
@@ -90,6 +91,7 @@ export async function saveAdvertisementAction(_: any, formData: FormData) {
         data: { id: result.data.id }
       }
     }
+
     const result = await createUseCase.execute(input)
     return {
       success: true,

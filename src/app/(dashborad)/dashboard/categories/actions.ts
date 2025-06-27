@@ -5,8 +5,8 @@ import { CreateCategoryUseCase } from '@/core/application/use-cases/category/cre
 import { DeleteCategoryUseCase } from '@/core/application/use-cases/category/delete-category-use-case'
 import { UpdateCategoryUseCase } from '@/core/application/use-cases/category/update-category-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { revalidatePaths } from '@/libs/revalidate-paths'
 import { Session } from '@/libs/session'
-import { revalidatePath } from 'next/cache'
 
 export async function deleteCategoryAction(_: any, formData: FormData) {
   const session = await Session.getSession()
@@ -22,7 +22,7 @@ export async function deleteCategoryAction(_: any, formData: FormData) {
   )
   await useCase.execute(id)
 
-  revalidatePath(`/(dashboard)/dashboard/categories`, 'page')
+  revalidatePaths()
   return {
     success: true
   }
@@ -40,15 +40,16 @@ export async function saveCategoryAction(_: any, formData: FormData) {
     position: Number(formData.get('position'))
   }
 
-  const updateUseCase = container.get<UpdateCategoryUseCase>(
-    Registry.UpdateCategoryUseCase
-  )
-  const createUseCase = container.get<CreateCategoryUseCase>(
-    Registry.CreateCategoryUseCase
-  )
-
   try {
-    revalidatePath(`/(dashboard)/dashboard/categories`, 'page')
+    const updateUseCase = container.get<UpdateCategoryUseCase>(
+      Registry.UpdateCategoryUseCase
+    )
+    const createUseCase = container.get<CreateCategoryUseCase>(
+      Registry.CreateCategoryUseCase
+    )
+
+    revalidatePaths()
+
     if (input.id) {
       const result = await updateUseCase.execute(input)
       return {

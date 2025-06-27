@@ -27,11 +27,26 @@ const UPLOAD_DIR_UPLOADS = path.join(
 )
 const UPLOAD_URL_UPLOADS = ['uploads', String(YEAR), String(MONTH)].join('/')
 
+const UPLOAD_URL_UPCOMING_EVENTS = [
+  'upcoming-events',
+  String(YEAR),
+  String(MONTH)
+].join('/')
+const UPLOAD_DIR_UPCOMING_EVENTS = path.join(
+  process.cwd(),
+  'public',
+  'upcoming-events',
+  String(YEAR),
+  String(MONTH)
+)
+
 export {
   MONTH,
   UPLOAD_DIR_ADVERTISEMENTS,
+  UPLOAD_DIR_UPCOMING_EVENTS,
   UPLOAD_DIR_UPLOADS,
   UPLOAD_URL_ADVERTISEMENTS,
+  UPLOAD_URL_UPCOMING_EVENTS,
   UPLOAD_URL_UPLOADS,
   YEAR
 }
