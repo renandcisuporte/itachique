@@ -11,41 +11,49 @@ type Props = {
   ads: number
 }
 
-export function UpcomingEvents({ ads, posts, shuffledAds }: Props) {
+export function UpcomingEvents({ ads, posts = [], shuffledAds = [] }: Props) {
+  const chunks: { ads: AdvertisementProps; events: WebSiteProps[] }[] = []
+
+  for (let i = 0; i < ads; i++) {
+    const ads = shuffledAds[i]
+    const events = posts.slice(i * 4, i * 4 + 4)
+    if (events.length > 0) chunks.push({ ads, events })
+  }
+
   return (
     <>
-      {shuffledAds?.slice(0, ads).map((item, i) => (
-        <Container key={item.id}>
-          {item.galleryImagesJson && (
+      {chunks.map(({ ads: ad, events }, i) => (
+        <Container key={ad?.id ?? `ad-${i}`}>
+          {ad?.galleryImagesJson && (
             <AdvertisementClient
-              images={item.galleryImagesJson}
-              link={item.link}
+              images={ad.galleryImagesJson ?? []}
+              link={ad.link ?? '#'}
             />
           )}
 
           <CardEvent.content>
-            {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
+            {events.map((event) => (
               <CardEvent.item
-                key={item.id}
-                title={item.postTitle}
-                url={`/evento/${slug(item.postTitle)}/${item.id}`}
+                key={event.id}
+                title={event.postTitle}
+                url={`/evento/${slug(event.postTitle)}/${event.id}`}
               >
                 <CardEvent.image
-                  src={item.postCoverImage}
-                  alt={item.postTitle}
+                  src={event.postCoverImage}
+                  alt={event.postTitle}
                 />
-                <CardEvent.title>{item.postTitle}</CardEvent.title>
+                <CardEvent.title>{event.postTitle}</CardEvent.title>
                 <CardEvent.description>
-                  Data: {item.postDate}
+                  Data: {event.postDate}
                 </CardEvent.description>
-                {item.postLocale && (
+                {event.postLocale && (
                   <CardEvent.description>
-                    Local: {item.postLocale}
+                    Local: {event.postLocale}
                   </CardEvent.description>
                 )}
-                {item.postCity && (
+                {event.postCity && (
                   <CardEvent.description>
-                    Cidade: {item.postCity}
+                    Cidade: {event.postCity}
                   </CardEvent.description>
                 )}
               </CardEvent.item>

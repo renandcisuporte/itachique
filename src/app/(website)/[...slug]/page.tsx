@@ -6,6 +6,7 @@ import { AllAdvertisementWebSiteUseCase } from '@/core/application/use-cases/web
 import { AllUpcomingSiteUseCase } from '@/core/application/use-cases/website/all-upcomingsite-use-case'
 import { AllWebSiteUseCase } from '@/core/application/use-cases/website/all-website-use-case'
 import { container, Registry } from '@/core/infra/container-regisry'
+import { buildSearchInput } from '@/libs/utils'
 import { Events } from './_events'
 import { UpcomingEvents } from './_upcoming-events'
 
@@ -24,47 +25,22 @@ export async function generateMetadata({
   params,
   searchParams
 }: Props): Promise<Metadata> {
-  const { q = '' } = searchParams
-  const { slug } = params
-
-  let input = {
-    categoryName: '',
-    subCategoryName: '',
-    postTitle: ''
-  }
-
-  if (slug[0] && slug[0] !== 'search') input.categoryName = slug[0]
-  if (slug[1]) input.subCategoryName = slug[1]
-  if (q) input.postTitle = q
+  let input = buildSearchInput(params.slug, searchParams)
 
   const useCase = container.get<AllWebSiteUseCase>(Registry.AllWebSiteUseCase)
-  const posts = await useCase.execute(input)
+  const { data } = await useCase.execute(input)
+  const site = data[0]
 
   return {
-    title: `${
-      posts.data.length > 0
-        ? `${[posts.data[0].categoryName, posts.data[0].subCategoryName].join(' - ')}: `
-        : ''
-    } ${title}`,
+    title: site
+      ? `${site.categoryName} - ${site.subCategoryName} - ${title}`
+      : title,
     description
   }
 }
 
 export default async function Page({ params, searchParams }: Props) {
-  const { slug } = params
-  const { page = 1, limit = 16, q = '' } = searchParams
-
-  let input = {
-    page: +page,
-    limit: +limit,
-    categoryName: '',
-    subCategoryName: '',
-    postTitle: ''
-  }
-
-  if (slug[0] && slug[0] !== 'search') input.categoryName = slug[0]
-  if (slug[1]) input.subCategoryName = slug[1]
-  if (q) input.postTitle = q
+  let input = buildSearchInput(params.slug, searchParams)
 
   const allWebSiteUseCase = container.get<AllWebSiteUseCase>(
     Registry.AllWebSiteUseCase
@@ -87,37 +63,30 @@ export default async function Page({ params, searchParams }: Props) {
     allAdvertisementWebSiteUseCase.execute()
   ])
 
-  if (!posts.length && !upcomingEvents.length) return notFound()
+  if (!(posts?.length || upcomingEvents?.length)) return notFound()
 
-  // Garantir que as propagandas sejam embaralhadas
-  const shuffledAds = advertisements?.sort(() => Math.random() - 0.5)
+  const shuffledAds = [...advertisements].sort(() => Math.random() - 0.5)
+  const adsCount = Math.ceil((posts?.length || upcomingEvents?.length) / 4)
 
-  if (upcomingEvents.length && slug[0] !== 'search') {
-    const ads = Math.ceil(upcomingEvents.length / 4)
+  const Component =
+    upcomingEvents?.length && params.slug[0] !== 'search'
+      ? UpcomingEvents
+      : Events
 
-    return (
-      <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
-        <UpcomingEvents
-          ads={ads}
-          posts={upcomingEvents}
-          shuffledAds={shuffledAds}
-        />
-      </div>
-    )
-  }
-
-  // montar a lista de propagandas
-  const ads = Math.ceil(posts.length / 4)
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
-      <Events
-        ads={ads}
-        events={slug}
-        posts={posts}
+      <Component
+        ads={adsCount}
+        posts={
+          upcomingEvents.length && params.slug[0] !== 'search'
+            ? upcomingEvents
+            : posts
+        }
         shuffledAds={shuffledAds}
+        events={params.slug}
         total={total}
-        page={+page}
-        search={q}
+        page={Number(searchParams.page ?? 1)}
+        search={searchParams.q ?? ''}
       />
     </div>
   )

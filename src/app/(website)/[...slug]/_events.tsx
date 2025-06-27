@@ -22,16 +22,22 @@ type Props = {
 export function Events({
   ads,
   events,
-  posts,
-  shuffledAds,
+  posts = [],
+  shuffledAds = [],
   total,
   page,
   search
 }: Props) {
+  const blocks = Array.from({ length: ads }).map((_, i) => {
+    const ad = shuffledAds[i]
+    const items = posts.slice(i * 4, i * 4 + 4)
+    return { ad, items }
+  })
+
   return (
     <>
-      {shuffledAds?.slice(0, ads).map((item, i) => (
-        <Container key={item.id}>
+      {blocks.map(({ ad, items }, i) => (
+        <Container key={ad?.id ?? `block-${i}`}>
           {i === 0 && (
             <>
               <form
@@ -45,9 +51,16 @@ export function Events({
                   Pesquisar eventos
                 </Label>
                 <div className="relative flex flex-1 items-center justify-end">
-                  <Input name="q" placeholder="Buscar" className="flex-1" />
+                  <Input
+                    id="q"
+                    name="q"
+                    defaultValue={search}
+                    placeholder="Buscar"
+                    className="flex-1"
+                  />
                   <button
                     type="submit"
+                    aria-label="Buscar eventos"
                     className="absolute right-0 top-0 h-full w-8"
                   >
                     <Image
@@ -59,9 +72,10 @@ export function Events({
                   </button>
                 </div>
               </form>
+
               <Pagination
                 q={search}
-                page={+page}
+                page={page}
                 totalPage={total}
                 perPage={16}
                 pathname={`/${events.join('/')}`}
@@ -69,44 +83,49 @@ export function Events({
             </>
           )}
 
-          {item.galleryImagesJson && (
+          {ad?.galleryImagesJson && (
             <AdvertisementClient
-              images={item.galleryImagesJson}
-              link={item.link}
+              images={ad.galleryImagesJson ?? []}
+              link={ad.link ?? '#'}
             />
           )}
 
           <CardEvent.content>
-            {posts?.slice(i * 4, i * 4 + 4)?.map((item) => (
+            {items.map((event) => (
               <CardEvent.item
-                key={item.id}
-                title={item.postTitle}
-                url={`/galeria/${slug(item.postTitle)}/${item.id}/0/0`}
+                key={event.id}
+                title={event.postTitle}
+                url={`/galeria/${slug(event.postTitle)}/${event.id}/0/0`}
               >
                 <CardEvent.image
-                  src={item.postCoverImage}
-                  alt={item.postTitle}
+                  src={event.postCoverImage}
+                  alt={event.postTitle}
                 />
-                <CardEvent.title>{item.postTitle}</CardEvent.title>
+                <CardEvent.title>{event.postTitle}</CardEvent.title>
                 <CardEvent.description>
-                  Data: {item.postDate}
+                  Data: {event.postDate}
                 </CardEvent.description>
-                <CardEvent.description>
-                  Local: {item.postLocale}
-                </CardEvent.description>
-                <CardEvent.description>
-                  Cidade: {item.postCity}
-                </CardEvent.description>
+                {event.postLocale && (
+                  <CardEvent.description>
+                    Local: {event.postLocale}
+                  </CardEvent.description>
+                )}
+                {event.postCity && (
+                  <CardEvent.description>
+                    Cidade: {event.postCity}
+                  </CardEvent.description>
+                )}
               </CardEvent.item>
             ))}
           </CardEvent.content>
         </Container>
       ))}
 
-      {total > 0 && (
+      {/* Paginação extra opcional */}
+      {total > 16 && (
         <Pagination
           q={search}
-          page={+page}
+          page={page}
           totalPage={total}
           perPage={16}
           pathname={`/${events.join('/')}`}

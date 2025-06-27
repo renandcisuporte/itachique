@@ -19,6 +19,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = params
+
   const useCase = container.get<AllUpcomingSiteUseCase>(
     Registry.AllUpcomingSiteUseCase
   )
@@ -47,10 +48,13 @@ export default async function Page({ params }: Props) {
       allAdvertisementWebSiteUseCase.execute()
     ])
 
-  if (!upcomingEvents) return notFound()
+  if (!upcomingEvents?.length) return notFound()
+  const event = upcomingEvents[0]
 
-  const shuffleAdsHeader = advertisements?.sort(() => Math.random() - 0.5)?.[0]
-  const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[1]
+  const shufflesAds = [...(advertisements || [])].sort(
+    () => Math.random() - 0.5
+  )
+  const [shuffleAdsHeader, shuffleAdsFooter] = shufflesAds
 
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
@@ -65,27 +69,25 @@ export default async function Page({ params }: Props) {
             mrEavesXLModOTBold.className
           )}
         >
-          {upcomingEvents[0]?.postTitle}
+          {event.postTitle}
         </h1>
         <div className="flex items-center justify-between">
           <div>
-            <p className="p-0">Data: {upcomingEvents[0]?.postDate}</p>
-            {upcomingEvents[0]?.postLocale && (
-              <p className="p-0">Local: {upcomingEvents[0]?.postLocale}</p>
+            <p className="p-0">Data: {event.postDate}</p>
+            {event.postLocale && (
+              <p className="p-0">Local: {event.postLocale}</p>
             )}
-            {upcomingEvents[0]?.postCity && (
-              <p className="p-0">Cidade: {upcomingEvents[0]?.postCity}</p>
-            )}
+            {event.postCity && <p className="p-0">Cidade: {event.postCity}</p>}
           </div>
           <ShareButtons
-            text={upcomingEvents[0]?.postTitle}
-            url={`${process.env.NEXT_PUBLIC_BASE_URL}/evento/${slug(upcomingEvents[0]?.postTitle)}/${id}`}
+            text={event.postTitle}
+            url={`${process.env.NEXT_PUBLIC_BASE_URL}/evento/${slug(event.postTitle)}/${id}`}
             className="justify-end"
           />
         </div>
 
         <Image
-          src={`${process.env.NEXT_PUBLIC_BASE_IMG}${upcomingEvents[0]?.postCoverImage}`}
+          src={`${process.env.NEXT_PUBLIC_BASE_IMG}${event.postCoverImage}`}
           width={600}
           height={600}
           className="mx-auto my-6 w-full max-w-[600px]"
@@ -95,7 +97,7 @@ export default async function Page({ params }: Props) {
         <div
           className="flex flex-col items-center justify-end"
           dangerouslySetInnerHTML={{
-            __html: upcomingEvents[0]?.subCategoryName
+            __html: event.subCategoryName || ''
           }}
         />
 

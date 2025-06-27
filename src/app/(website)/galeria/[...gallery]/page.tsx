@@ -19,29 +19,29 @@ type Props = {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  if (!params.gallery || params.gallery.length !== 4) return notFound()
   const [slug, id, page, photo] = params.gallery
-  if (params.gallery.length !== 4) return notFound()
 
   const useCase = container.get<FindWebSiteUseCase>(Registry.FindWebSiteUseCase)
   const { data: posts } = await useCase.execute({ id })
-  if (!posts?.galleryImage?.length) return notFound()
+  if (!posts || !posts?.galleryImage?.length) return notFound()
 
   return {
-    title: `${posts?.postTitle} - ${title}`,
-    description: posts?.postTitle,
-    keywords: `${posts?.categoryName}, ${title}`,
+    title: `${posts.postTitle} - ${title}`,
+    description: posts.postTitle,
+    keywords: `${posts.categoryName}, ${title}`,
     url: `${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/${page}/${photo}`,
     metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL!),
     openGraph: {
-      title: `${posts?.postTitle} - ${title}`,
-      description: posts?.postTitle,
-      keywords: `${posts?.categoryName}, ${title}`,
+      title: `${posts.postTitle} - ${title}`,
+      description: posts.postTitle,
+      keywords: `${posts.categoryName}, ${title}`,
       images: [
         {
-          url: `${process.env.NEXT_PUBLIC_BASE_IMG}${posts?.postCoverImage}`,
+          url: `${process.env.NEXT_PUBLIC_BASE_IMG}${posts.postCoverImage}`,
           width: 1200,
           height: 630,
-          alt: posts?.postTitle
+          alt: posts.postTitle
         }
       ]
     }
@@ -49,12 +49,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
+  if (!params.gallery || params.gallery.length !== 4) return notFound()
   const [slug, id, page, photo] = params.gallery
-  if (params.gallery.length !== 4) return notFound()
 
   const findWebSiteUseCase = container.get<FindWebSiteUseCase>(
     Registry.FindWebSiteUseCase
   )
+
   const allAdvertisementWebSiteUseCase =
     container.get<AllAdvertisementWebSiteUseCase>(
       Registry.AllAdvertisementWebSiteUseCase
@@ -64,20 +65,32 @@ export default async function Page({ params }: Props) {
     findWebSiteUseCase.execute({ id }),
     allAdvertisementWebSiteUseCase.execute()
   ])
+
   if (!posts?.galleryImage?.length) return notFound()
 
+  const {
+    postTitle,
+    postDate,
+    postLocale,
+    postCity,
+    categoryName,
+    galleryImage
+  } = posts
+
   // Garantir que as propagandas sejam embaralhadas
-  const shuffleAdsHeader = advertisements?.sort(() => Math.random() - 0.5)?.[0]
-  const shuffleAdsMiddle = advertisements?.sort(() => Math.random() - 0.5)?.[1]
-  const shuffleAdsFooter = advertisements?.sort(() => Math.random() - 0.5)?.[2]
+  const shuffledAds = [...advertisements].sort(() => Math.random() - 0.5)
+  const [shuffleAdsHeader, shuffleAdsMiddle, shuffleAdsFooter] = shuffledAds
 
   return (
     <div className="bg-neutral-900 py-8 [&>div:first-child]:-mt-8">
       <Container className="flex flex-col space-y-8">
-        <AdvertisementClient
-          images={shuffleAdsHeader.galleryImagesJson!}
-          link={shuffleAdsHeader.link!}
-        />
+        {shuffleAdsHeader && (
+          <AdvertisementClient
+            images={shuffleAdsHeader.galleryImagesJson ?? []}
+            link={shuffleAdsHeader.link ?? '#'}
+          />
+        )}
+
         <div>
           <h1
             className={cn(
@@ -85,20 +98,16 @@ export default async function Page({ params }: Props) {
               mrEavesXLModOTBold.className
             )}
           >
-            {posts?.postTitle}
+            {postTitle}
           </h1>
           <div className="flex items-center justify-between">
             <div>
-              <p className="p-0">Data: {posts?.postDate}</p>
-              {posts?.postLocale && (
-                <p className="p-0">Local: {posts?.postLocale}</p>
-              )}
-              {posts?.postCity && (
-                <p className="p-0">Cidade: {posts?.postCity}</p>
-              )}
+              <p className="p-0">Data: {postDate}</p>
+              {postLocale && <p className="p-0">Local: {postLocale}</p>}
+              {postCity && <p className="p-0">Cidade: {postCity}</p>}
             </div>
             <ShareButtons
-              text={posts?.postTitle}
+              text={postTitle}
               url={`${process.env.NEXT_PUBLIC_BASE_URL}/galeria/${slug}/${id}/0/0`}
               className="justify-end"
             />
@@ -108,7 +117,7 @@ export default async function Page({ params }: Props) {
             <Gallery
               id={id}
               postTitle={slug}
-              galleryImage={posts?.galleryImage}
+              galleryImage={galleryImage}
               page={+page}
               photo={+photo}
             />
@@ -122,7 +131,7 @@ export default async function Page({ params }: Props) {
 
         <Suspense fallback={<>Carregando...</>}>
           <GalleryCarousel
-            categoryName={fncSlug(posts?.categoryName)}
+            categoryName={fncSlug(categoryName)}
             label="Últimos Eventos"
           />
         </Suspense>
@@ -134,8 +143,8 @@ export default async function Page({ params }: Props) {
 
         <Suspense fallback={<>Carregando...</>}>
           <GalleryCarouselPrevious
-            categoryName={fncSlug(posts?.categoryName)}
-            date={posts?.postDate}
+            categoryName={fncSlug(categoryName)}
+            date={postDate}
             label="Vale a pena ver de novo"
           />
         </Suspense>
