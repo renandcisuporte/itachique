@@ -83,7 +83,7 @@ export class UpcomingEventRepositoryPrisma implements UpcomingEventGateway {
       updated_at: input.updatedAt!,
       title: input.title,
       category_id: input.categoryId!,
-      cityId: input.cityId!,
+      city_id: input.cityId!,
       gallery_images: input.galleryImages || '',
       description: input.description!,
       locale: input.locale!,
