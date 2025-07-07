@@ -1,24 +1,24 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: itachique-app
-    volumes:
-      - .:/var/www
-    ports:
-      - 3000:3000
-    depends_on:
-      - db
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: itachique-app
+  #   volumes:
+  #     - .:/var/www
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
 
-  nginx:
-    image: nginx:1.25-alpine
-    volumes:
-      - ./.docker/nginx:/etc/nginx/conf.d
-      - ./public:/var/www/public
-    ports:
-      - 80:80
-      - 443:443
+  # nginx:
+  #   image: nginx:1.25-alpine
+  #   volumes:
+  #     - ./.docker/nginx:/etc/nginx/conf.d
+  #     - ./public:/var/www/public
+  #   ports:
+  #     - 80:80
+  #     - 443:443
 
   db:
     image: mysql:5.7
