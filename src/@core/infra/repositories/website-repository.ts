@@ -257,7 +257,7 @@ export class WebSiteRepositoryPrisma implements WebSiteGateway {
         .split('-')
         .reverse()
         .join('/')!,
-      postLocale: rest.locale_text ?? locale?.name!,
+      postLocale: rest.locale_text ? rest.locale_text : locale?.name!,
       postTitle: rest.title!,
       postCoverImage: rest.cover_image!,
       galleryImage: galleryImage!,
